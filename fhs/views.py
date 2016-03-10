@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import UserProfileForm, UserForm
+from models import Category
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -13,7 +14,9 @@ def user_logout(request):
     return HttpResponseRedirect('/fhs/')
 
 def index(request):
-    return render(request, 'fhs/index.html', {})
+    public_categories = Category.objects.all()
+
+    return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
 def register(request):
 
