@@ -1,0 +1,45 @@
+.register-form {
+    border-radius: 4px;
+    border: 2px solid #ddd;
+    padding: 40px;
+    background-color: #FFF;
+    display: inline-block;
+    float: none;
+    margin-top: 50px;
+}
+
+.formWrapper {
+    text-align: center;
+}
+
+.register-form h1 {
+    font-weight: 200;
+    color: #000;
+    margin: 0 auto 40px auto;
+}
+
+.login-form-wrapper {
+    text-align: center;
+}
+
+.login-form-fields {
+    max-width: 400px;
+    float: none;
+    margin: 20px auto 20px auto;
+}
+
+.sign-in-btn {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.sign-up-btn {
+
+}
+
+.no-account {
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 200;
+    font-size: 18px;
+}

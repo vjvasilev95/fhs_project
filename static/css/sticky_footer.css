@@ -1,0 +1,26 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+.content-trademark {
+    float: right;
+    margin: 20px 20px 0 0;
+}
+
+.content-about {
+    float: left;
+    margin: 20px 10px 0 20px;
+}
