@@ -43,3 +43,7 @@
     font-weight: 200;
     font-size: 18px;
 }
+
+.search-from-wrapper {
+    max-width: 500px;
+}
