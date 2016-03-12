@@ -35,12 +35,28 @@
 
             </div>
             {% else %}
-            {% if categories %}
-                    <ul class="list-group">
-                        {% for category in categories %}
-                         <li class="list-group-item"><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+            {% if public_categories %}
+                <table class="table" valign="baseline">
+                <tbody>
+                        {% for category in public_categories %}
+                            <tr>
+                            <td class="category-info">
+                                <p class="category-name"><strong>{{ category.name }}</strong></p>
+                            </td>
+                            <td>
+                                <span class="recipients-number"><strong>Shared by:</strong>{{ category.user }}</span>
+                            </td>
+                            <td class="category-sharer" valign="bottom" align="left">
+                                <p class="cat-descr"><strong>Description:</strong>{{ category.description }}</p>
+                            </td>
+                            <td class="text-right" valign="bottom">
+                       	        <a>See more</a>
+                            </td>
+                            </tr>
                         {% endfor %}
-                    </ul>
+                </tbody>
+                </table>
+                </li>
                 {% else %}
                     <strong>There are no categories present.</strong>
                 {% endif %}
