@@ -14,10 +14,11 @@ class Category(models.Model):
 class Page(models.Model):
     category=models.ForeignKey(Category)
     title = models.CharField(max_length=200)
-    summary=models.TextField()
-    flesch_score = models.FloatField()
-    sentiment_score = models.FloatField()
-    subjectivity_score = models.FloatField()
+    summary=models.TextField(default="test")
+    flesch_score = models.FloatField(default=0)
+    sentiment_score = models.FloatField(default=0)
+    subjectivity_score = models.FloatField(default=0)
+    url = models.URLField(default="http://medlineplus.com")
 
     def __unicode__(self):
         return self.title
