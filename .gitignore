@@ -113,4 +113,4 @@ fabric.properties
 #Custom files
 
 keys.py
-db.sqlite3
+*.sqlite3
