@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import UserProfileForm, UserForm
+from forms import UserProfileForm, UserForm, PageForm
 from models import Category
 
 from django.contrib.auth import authenticate, login, logout
@@ -81,6 +81,7 @@ def user_login(request):
 def search(request):
 
     result_list = []
+    categories = Category.objects.filter(user=request.user)
 
     if request.method == 'POST':
         query = request.POST['query'].strip()
@@ -89,7 +90,38 @@ def search(request):
             # Run our Bing function to get the results list!
             result_list = run_query(query)
 
-    return render(request, 'fhs/search.html', {'result_list': result_list})
+    return render(request, 'fhs/search.html', {'result_list': result_list, 'categories': categories})
+
+def save_page(request):
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if form.is_valid():
+            try:
+                category = Category.objects.get(name=form.cleaned_data.get('category'))
+            except Category.DoesNotExist:
+                cat = None
+
+            page = form.save(commit=False)
+            page.category = category
+            page.save()
+            # Save the new category to the database.
+            form.save(commit=True)
+
+            # Now call the index() view.
+            # The user will be shown the homepage.
+            return index(request)
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        return HttpResponseRedirect('/fhs/')
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return HttpResponseRedirect('/fhs/')
 
 def about(request):
     return render(request, 'fhs/about.html', {})
