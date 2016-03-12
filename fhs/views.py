@@ -5,7 +5,8 @@ from models import Category
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-from fhs.bing_search import run_query
+import bing_search
+import healthfinder_search
 
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
@@ -80,16 +81,21 @@ def user_login(request):
 
 def search(request):
 
-    result_list = []
+    results_from_bing = []
+    results_from_healthgov = []
+    results_from_medline = []
 
     if request.method == 'POST':
+        print request.POST['query'].strip()
         query = request.POST['query'].strip()
-
         if query:
             # Run our Bing function to get the results list!
-            result_list = run_query(query)
-
-    return render(request, 'fhs/search.html', {'result_list': result_list})
+            results_from_bing = bing_search.run_query(query)
+            results_from_healthgov = healthfinder_search.run_query(query)
+    print results_from_bing
+    return render(request, 'fhs/search.html', {'results_from_bing': results_from_bing,
+                                               'results_from_healthgov':results_from_healthgov,
+                                               'results_from_medline' : results_from_medline})
 
 def about(request):
     return render(request, 'fhs/about.html', {})

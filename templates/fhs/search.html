@@ -55,7 +55,7 @@
 
 
                 <div class="panel">
-                    {% if result_list %}
+                    {% if results_from_bing or results_from_healthgov or results_from_medline %}
 
                         <ul class="nav nav-tabs">
                           <li class="active"><a data-toggle="tab" href="#all">All Results</a></li>
@@ -71,7 +71,7 @@
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
-                                        {% for result in result_list %}
+                                        {% for result in results_from_bing %}
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
@@ -82,16 +82,47 @@
                             </div>
                           </div>
                           <div id="medline" class="tab-pane fade">
-                            <h3>Medline Plus</h3>
-                            <p>Some content in menu 1.</p>
+                              <!--from here start results from Medline Plus-->
+                              <div class="panel-heading">
+                                <h3 class="panel-title">Medline Plus</h3>
+                            <!-- Display search results in an ordered list -->
+                                <div class="panel-body">
+                                    <div class="list-group">
+                                        Still in development
+                                    </div>
+                                </div>
+                            </div>
                           </div>
+                            <!--Till here results from Medline Plus-->
                           <div id="healthgov" class="tab-pane fade">
-                            <h3>Healthgov</h3>
-                            <p>Some content in menu 2.</p>
+                              <!--from here start results from healthgov-->
+                              <div class="panel-heading">
+                                <h3 class="panel-title">Healthfinder Gov</h3>
+                            <!-- Display search results in an ordered list -->
+                                <div class="panel-body">
+                                    <div class="list-group">
+                                        {% for result in results_from_healthgov %}
+                                            <div class="list-group-item">
+                                                <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                              <!--Till here results from healthgov-->
                           </div>
                           <div id="bing" class="tab-pane fade">
-                            <h3>Bing</h3>
-                            <p>Some content in menu 2.</p>
+                              <!--from here start results from Bing-->
+                              <div class="panel-heading">
+                                <h3 class="panel-title">Bing</h3>
+                            <!-- Display search results in an ordered list -->
+                                <div class="panel-body">
+                                    <div class="list-group">
+                                        Still in development
+                                    </div>
+                                </div>
+                            </div>
+                              <!--Till here results from Bing-->
                           </div>
                         </div>
                     {% endif %}
