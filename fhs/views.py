@@ -104,17 +104,24 @@ def search(request):
 
 
     if request.method == 'POST':
-        print request.POST['query'].strip()
+        #print request.POST['query'].strip()
         query = request.POST['query'].strip()
+        age = request.POST['age']
+        gender = request.POST['gender']
+
         if query:
             # Run our Bing function to get the results list!
 
             results_from_bing = bing_search.run_query(query)
-            results_from_healthgov = healthfinder_search.run_query(query)
-    print results_from_bing
+            results_from_healthgov = healthfinder_search.run_query(query, age, gender)
+
+    #print results_from_bing
+
     return render(request, 'fhs/search.html', {'results_from_bing': results_from_bing,
                                                'results_from_healthgov':results_from_healthgov,
-                                               'results_from_medline' : results_from_medline, 'categories':categories})
+                                               'results_from_medline' : results_from_medline,
+                                               'categories': categories,
+                                               })
 
     #         result_list = run_query(query)
     #

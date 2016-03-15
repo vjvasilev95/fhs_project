@@ -24,31 +24,22 @@
                         {% csrf_token %}
                         <!-- Display the search form elements here -->
                          <div class="form-group">
-                            <input class="form-control" type="text" name="query" value="test" id="query" />
+                             <label for="query">Your search</label>
+                            <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" />
                          </div>
                         <div class="form-group">
+                             <label for="age">Your age</label>
+                            <input class="form-control" type="text" name="age" id="query" />
+                         </div>
+                        <div class="form-group">
+                            <label for="gender">Your gender</label>
+                            <select name="gender" class="page-choice" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <input class="btn btn-primary" type="submit" name="submit" value="Search" />
-                        </div>
-
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="18" name="teen"/> 0-18
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="40" name="adult"/> 19-40
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="65" name="midlife"/> 41-65
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="100" name="old"/> 65+
-                            </label>
                         </div>
                     </form>
                 </div>
@@ -144,23 +135,5 @@
         </div>
     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Save Page</h4>
-      </div>
-      <div class="modal-body">
-        Choose Category
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
     <script src="js/ajax.js"></script>
 {% endblock %}

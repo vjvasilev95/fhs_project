@@ -20,12 +20,12 @@ def run_query(search_terms, age=30, gender="male"):
         age,
         gender
     )
-    print search_url
+    #print search_url
     try:
         response = urllib2.urlopen(search_url).read()
         json_response = json.loads(response)
 
-        #if that's not the case => no results, so an empty list will be retunrd
+        #if that's not the case => no results, so an empty list will be returned
         if json_response['Result'].has_key('Topics'):
             #This check is because when there is only one topic, Topics is a single dictionary
             #While if there are more than one topics, Topics is a LIST of dictionaries
