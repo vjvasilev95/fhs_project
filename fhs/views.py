@@ -114,7 +114,7 @@ def search(request):
     print results_from_bing
     return render(request, 'fhs/search.html', {'results_from_bing': results_from_bing,
                                                'results_from_healthgov':results_from_healthgov,
-                                               'results_from_medline' : results_from_medline})
+                                               'results_from_medline' : results_from_medline, 'categories':categories})
 
     #         result_list = run_query(query)
     #
