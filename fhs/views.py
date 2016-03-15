@@ -1,12 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from forms import UserProfileForm, UserForm, PageForm
+from forms import UserProfileForm, UserForm, PageForm, CategoryForm
 from models import Category
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search
+
+def add_category(request):
+    if request.method == "POST":
+        category_form = CategoryForm(data = request.POST)
+        if category_form.is_valid():
+            category = category_form.save(commit=False)
+            category.user = request.user
+            category.save()
+            return HttpResponseRedirect('/fhs/')
+        else:
+            print category_form.errors
+    category_form = CategoryForm()
+    print "return that form"
+    return render(request, "fhs/add_category.html", {'category_form': category_form})
 
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
