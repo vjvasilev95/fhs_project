@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import UserProfileForm, UserForm, PageForm, CategoryForm
-from models import Category
+from models import Category, Page
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -18,6 +18,7 @@ def add_category(request):
             return HttpResponseRedirect('/fhs/')
         else:
             print category_form.errors
+
     category_form = CategoryForm()
     print "return that form"
     return render(request, "fhs/add_category.html", {'category_form': category_form})
@@ -98,10 +99,11 @@ def search(request):
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
-
+    context_dict = {}
     result_list = []
     categories = Category.objects.filter(user=request.user)
-
+    query = None
+    age = None
 
     if request.method == 'POST':
         #print request.POST['query'].strip()
@@ -109,19 +111,21 @@ def search(request):
         age = request.POST['age']
         gender = request.POST['gender']
 
-        if query:
+        if query and age and gender:
             # Run our Bing function to get the results list!
 
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
 
     #print results_from_bing
+    context_dict['query'] = query
+    context_dict['age'] = age
+    context_dict['results_from_bing'] = results_from_bing
+    context_dict['results_from_healthgov'] = results_from_healthgov
+    context_dict['results_from_medline'] = results_from_medline
+    context_dict['categories'] = categories
 
-    return render(request, 'fhs/search.html', {'results_from_bing': results_from_bing,
-                                               'results_from_healthgov':results_from_healthgov,
-                                               'results_from_medline' : results_from_medline,
-                                               'categories': categories,
-                                               })
+    return render(request, 'fhs/search.html', context_dict)
 
     #         result_list = run_query(query)
     #
@@ -129,34 +133,20 @@ def search(request):
 
 def save_page(request):
     if request.method == 'POST':
-        form = PageForm(request.POST)
 
-        # Have we been provided with a valid form?
-        if form.is_valid():
-            try:
-                category = Category.objects.get(name=form.cleaned_data.get('category'))
-            except Category.DoesNotExist:
-                cat = None
-
-            page = form.save(commit=False)
-            page.category = category
-            page.save()
-            # Save the new category to the database.
-            form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
-        else:
-            # The supplied form contained errors - just print them to the terminal.
-            print form.errors
+        url = request.POST['url']
+        title = request.POST['title']
+        summary = request.POST['summary']
+        category = Category.objects.get(name=request.POST['category'])
+        page = Page(category = category, title = title, summary = summary, url = url)
+        page.save()
     else:
         # If the request was not a POST, display the form to enter details.
         return HttpResponseRedirect('/fhs/')
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return HttpResponseRedirect('/fhs/')
+    return HttpResponse("")
 
 
 def about(request):

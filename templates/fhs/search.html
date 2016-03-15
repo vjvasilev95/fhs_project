@@ -68,16 +68,15 @@
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
                                                 <form id="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
-                                                    <input type="hidden" value="{{ result.link }}" name="url"/>
-                                                    <input type="hidden" value="{{ result.title }}" name="title"/>
-                                                    <input type="hidden" value="{{ result.summary }}" name="summary"/>
-                                                    <select name="category" class="page-choice" required>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.link }}" name="url"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
+                                                    <select name="category" class="category-choice" required>
                                                         {% for category in categories %}
                                                             <option value={{ category.name }}>{{ category.name }}</option>
                                                         {% endfor %}
                                                     </select>
-
-                                                    <input type="submit" class="btn btn-primary" value="Save page"/>
+                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
                                                 </form>
                                             </div>
                                         {% endfor %}
@@ -135,5 +134,6 @@
         </div>
     </div>
 
-    <script src="js/ajax.js"></script>
+    <script src="{% static "js/search_ajax.js" %}"></script>
+    <script src="{% static "js/js.cookie.js" %}"></script>
 {% endblock %}
