@@ -16,7 +16,7 @@ def user_logout(request):
     return HttpResponseRedirect('/fhs/')
 
 def index(request):
-    public_categories = Category.objects.all()
+    public_categories = Category.objects.filter(shared=True)
 
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
@@ -81,31 +81,30 @@ def user_login(request):
 
 def search(request):
 
-<<<<<<< HEAD
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
-=======
+
     result_list = []
     categories = Category.objects.filter(user=request.user)
->>>>>>> e53262d6818a06ed7b2693383ce8a0b9486ff31b
+
 
     if request.method == 'POST':
         print request.POST['query'].strip()
         query = request.POST['query'].strip()
         if query:
             # Run our Bing function to get the results list!
-<<<<<<< HEAD
+
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query)
     print results_from_bing
     return render(request, 'fhs/search.html', {'results_from_bing': results_from_bing,
                                                'results_from_healthgov':results_from_healthgov,
                                                'results_from_medline' : results_from_medline})
-=======
-            result_list = run_query(query)
 
-    return render(request, 'fhs/search.html', {'result_list': result_list, 'categories': categories})
+    #         result_list = run_query(query)
+    #
+    # return render(request, 'fhs/search.html', {'result_list': result_list, 'categories': categories})
 
 def save_page(request):
     if request.method == 'POST':
@@ -137,7 +136,7 @@ def save_page(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return HttpResponseRedirect('/fhs/')
->>>>>>> e53262d6818a06ed7b2693383ce8a0b9486ff31b
+
 
 def about(request):
     return render(request, 'fhs/about.html', {})
