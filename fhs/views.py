@@ -8,7 +8,7 @@ from models import Category, Page
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
-import healthfinder_search
+import healthfinder_search, medlinePlus
 from save_page_helper import  *
 
 def add_category(request):
@@ -120,6 +120,7 @@ def search(request):
 
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
+            results_from_medline = medlinePlus.run_query(query)
 
     context_dict['query'] = query
     context_dict['age'] = age

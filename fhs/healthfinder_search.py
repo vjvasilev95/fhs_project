@@ -8,7 +8,7 @@ HEALHFINDER_API = key.HEALHFINDER_API
 #http://healthfinder.gov/developer/
 # Search.xml?api_key=demo_api_key&keyword=*&lang=es
 #http://healthfinder.gov/developer/Search.xml?api_key=demo_api_key&keyword=%22type%202%20diabetes%22
-def run_query(search_terms, age=30, gender="male"):
+def run_query(search_terms, age, gender):
     results = []
     keywords = "%22" + search_terms.replace(" ", "%20") + "%22"
 

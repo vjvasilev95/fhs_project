@@ -112,7 +112,28 @@
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
-                                        Still in development
+{#                                        Still in development#}
+
+                                        {% for result in results_from_medline %}
+                                            <div class="list-group-item">
+                                                <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
+                                                <p class="list-group-item-text">{{ result.summary }}</p>
+                                                <form id="save_page_form" method="post" action="{% url 'save_page' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
+                                                    <input type="hidden" class="hidden-info" value="No provided summary" name="summary"/>
+                                                    <input type="hidden" class="hidden-info" value="medline" name="source"/>
+                                                    <select name="category" class="category-choice" required>
+                                                        {% for category in categories %}
+                                                            <option value={{ category.name }}>{{ category.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                </form>
+                                            </div>
+                                        {% endfor %}
+{#                                        #}
                                     </div>
                                 </div>
                             </div>
