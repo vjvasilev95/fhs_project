@@ -16,7 +16,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="search-from-wrapper">
@@ -85,13 +84,14 @@
                                     <div class="list-group">
                                         {% for result in results_from_bing %}
                                             <div class="list-group-item">
-                                                <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                                                <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
                                                 <form id="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
-                                                    <input type="hidden" class="hidden-info" value="{{ result.link }}" name="url"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
+                                                    <input type="hidden" class="hidden-info" value="bing" name="source"/>
                                                     <select name="category" class="category-choice" required>
                                                         {% for category in categories %}
                                                             <option value={{ category.name }}>{{ category.name }}</option>
@@ -127,7 +127,19 @@
                                     <div class="list-group">
                                         {% for result in results_from_healthgov %}
                                             <div class="list-group-item">
-                                                <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                                                <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
+                                                <form id="save_page_form" method="post" action="{% url 'save_page' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
+                                                    <input type="hidden" class="hidden-info" value="healthgov" name="source"/>
+                                                    <select name="category" class="category-choice" required>
+                                                        {% for category in categories %}
+                                                            <option value={{ category.name }}>{{ category.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                </form>
                                             </div>
                                         {% endfor %}
                                     </div>

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from forms import UserProfileForm, UserForm, PageForm, CategoryForm
@@ -7,6 +9,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search
+from bs4 import BeautifulSoup
+import urllib2
+from textstat.textstat import textstat
+from textblob import TextBlob
+import html_parser
 
 def add_category(request):
     if request.method == "POST":
@@ -96,6 +103,7 @@ def user_login(request):
 
 def search(request):
 
+
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
@@ -107,7 +115,6 @@ def search(request):
     gender = "male"
 
     if request.method == 'POST':
-        #print request.POST['query'].strip()
         query = request.POST['query'].strip()
         age = request.POST['age']
         gender = request.POST['gender']
@@ -118,7 +125,6 @@ def search(request):
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
 
-    #print results_from_bing
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -140,8 +146,46 @@ def save_page(request):
         title = request.POST['title']
         summary = request.POST['summary']
         category = Category.objects.get(name=request.POST['category'])
-        page = Page(category = category, title = title, summary = summary, url = url)
-        page.save()
+
+
+        html_file = urllib2.urlopen(url)
+        html_doc = html_file.read()
+        html_file.close()
+        soup = BeautifulSoup(html_doc, 'html.parser')
+
+        if request.POST['source'] == 'healthgov':
+
+
+            content = soup.select(".entry-content-top")
+            content.append(soup.select(".entry-content-main"))
+            content.append(soup.select(".page"))
+            content_string = ""
+
+            for div in content:
+                content_string += str(div)
+
+            content_string = html_parser.strip_tags(content_string)
+            content_string = unicode(content_string, "utf-8")
+
+            testimonial = TextBlob(content_string)
+
+            polarity = testimonial.sentiment.polarity
+            subjectivity = testimonial.sentiment.subjectivity
+
+            flesh_score = textstat.flesch_reading_ease(content_string)
+
+            page = Page(category = category, title = title, summary = summary, url = url, flesch_score = flesh_score, sentiment_score = polarity, subjectivity_score = subjectivity)
+            page.save()
+
+        elif request.POST['source'] == 'bing':
+            soup = html_parser.strip_tags(soup)
+            soup = unicode(soup, "utf-8")
+            page = Page(category = category, title = title, summary = summary, url = url)
+            page.save()
+
+        else:
+            page = Page(category = category, title = title, summary = summary, url = url)
+            page.save()
     else:
         # If the request was not a POST, display the form to enter details.
         return HttpResponseRedirect('/fhs/')

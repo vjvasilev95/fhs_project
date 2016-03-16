@@ -7,7 +7,8 @@ $(document).ready(function(){
         var info = $(this).siblings('.hidden-info');
         url = info[0].value;
         title = info[1].value;
-        summary = info[2].value;
+        //summary = info[2].value;
+        summary = "test";
         category = $(this).siblings('.category-choice').find(":selected").text();
 
         $.post('/fhs/save-page/', {'url': url, 'title': title, 'summary': summary,

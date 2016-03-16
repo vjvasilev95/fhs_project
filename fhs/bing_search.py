@@ -54,12 +54,11 @@ def run_query(search_terms):
 
         # Convert the string response to a Python dictionary object.
         json_response = json.loads(response)
-        print json_response.keys()
         # Loop through each page returned, populating out results list.
         for result in json_response['d']['results']:
             results.append({
             'title': result['Title'],
-            'link': result['Url'],
+            'url': result['Url'],
             'summary': result['Description']})
 
     # Catch a URLError exception - something went wrong when connecting!
