@@ -132,6 +132,7 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
+                                                    <input type="hidden" class="hidden-info" value="No provided summary" name="summary"/>
                                                     <input type="hidden" class="hidden-info" value="healthgov" name="source"/>
                                                     <select name="category" class="category-choice" required>
                                                         {% for category in categories %}
