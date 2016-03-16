@@ -23,19 +23,40 @@
                     <form id="user_form" method="post" action="{% url 'search' %}">
                         {% csrf_token %}
                         <!-- Display the search form elements here -->
-                         <div class="form-group">
-                             <label for="query">Your search</label>
-                            <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" />
-                         </div>
-                        <div class="form-group">
+                        {% if query %}
+                            <div class="form-group">
+                                 <label for="query">Your search</label>
+                                 <input class="form-control" type="text" name="query" value="{{ query }}" id="query" />
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                 <label for="query">Your search</label>
+                                 <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" />
+                            </div>
+                        {% endif %}
+
+                        {% if age %}
+                            <div class="form-group">
                              <label for="age">Your age</label>
-                            <input class="form-control" type="text" name="age" id="query" />
-                         </div>
+                             <input class="form-control" type="text" name="age" value="{{ age }}" id="query" />
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                             <label for="age">Your age</label>
+                             <input class="form-control" type="text" name="age" id="query" />
+                            </div>
+                        {% endif %}
+
                         <div class="form-group">
                             <label for="gender">Your gender</label>
                             <select name="gender" class="page-choice" required>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                {% if gender == "male" %}
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                {% else %}
+                                    <option value="male">Male</option>
+                                    <option value="female" selected>Female</option>
+                                {% endif %}
                             </select>
                         </div>
                         <div class="form-group">

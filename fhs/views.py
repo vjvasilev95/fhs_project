@@ -104,6 +104,7 @@ def search(request):
     categories = Category.objects.filter(user=request.user)
     query = None
     age = None
+    gender = "male"
 
     if request.method == 'POST':
         #print request.POST['query'].strip()
@@ -120,6 +121,7 @@ def search(request):
     #print results_from_bing
     context_dict['query'] = query
     context_dict['age'] = age
+    context_dict['gender'] = gender
     context_dict['results_from_bing'] = results_from_bing
     context_dict['results_from_healthgov'] = results_from_healthgov
     context_dict['results_from_medline'] = results_from_medline
