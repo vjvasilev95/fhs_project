@@ -1,0 +1,17 @@
+.save-msg-existent {
+    margin-left: 10px;
+    font-weight: 600;
+    color: crimson;
+}
+
+.save-msg-error {
+    margin-left: 10px;
+    font-weight: 600;
+    color: crimson;
+}
+
+.save-msg-success {
+    margin-left: 10px;
+    font-weight: 600;
+    color: #4da6ff;
+}

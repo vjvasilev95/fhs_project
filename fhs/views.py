@@ -183,7 +183,10 @@ def save_page(request):
         if not existent_page:
 
             #Strips the page out of unnecessary html tags and content
-            content = filter_content(request.POST['source'], url)
+            try:
+                content = filter_content(request.POST['source'], url)
+            except ValueError as e:
+                return HttpResponse("Problem while fetching the resource")
 
             #Calculates the flesh score, sentiment score and subjectivity score of the content
             stats = calculate_stats(content)

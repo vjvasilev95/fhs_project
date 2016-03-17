@@ -3,6 +3,7 @@
 from textstat.textstat import textstat
 from textblob import TextBlob
 from bs4 import BeautifulSoup
+import urllib
 import urllib2
 import html_parser
 
@@ -22,13 +23,15 @@ def calculate_stats(content):
 
 def filter_content(source, url):
 
-    html_file = urllib2.urlopen(url)
-    html_doc = html_file.read()
-    html_file.close()
-    soup = BeautifulSoup(html_doc, 'html.parser')
+    try:
+        html_file = urllib2.urlopen(url)
+        html_doc = html_file.read()
+        html_file.close()
+        soup = BeautifulSoup(html_doc, 'html.parser')
+    except:
+        raise ValueError("Unable to load the page")
 
     if source == 'healthgov':
-
         content = soup.select(".entry-content-top")
         content.append(soup.select(".entry-content-main"))
         content.append(soup.select(".page"))
@@ -50,6 +53,7 @@ def filter_content(source, url):
         return content_string
 
     else:
+
         soup = str(soup.body)
 
         try:
