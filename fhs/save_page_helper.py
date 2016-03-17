@@ -10,10 +10,10 @@ def calculate_stats(content):
 
     try:
         testimonial = TextBlob(content)
-        polarity = testimonial.sentiment.polarity
-        subjectivity = testimonial.sentiment.subjectivity
+        polarity = '%.3f'%(testimonial.sentiment.polarity)
+        subjectivity = '%.3f'%(testimonial.sentiment.subjectivity)
 
-        flesh_score = textstat.flesch_reading_ease(content)
+        flesh_score = '%.3f'%(textstat.flesch_reading_ease(content))
 
         return {'polarity': polarity, 'subjectivity': subjectivity, 'flesh_score': flesh_score}
     except:
@@ -43,10 +43,10 @@ def filter_content(source, url):
         return content_string
 
     elif source == 'bing':
-        soup = soup.body
+        soup = str(soup.body)
 
         try:
-            content_string = str(html_parser.strip_tags(soup))
+            content_string = html_parser.strip_tags(soup)
 
             content_string = unicode(content_string, "utf-8")
 
@@ -55,12 +55,16 @@ def filter_content(source, url):
             return soup
 
     else:
-        soup = soup.body
-        try:
-            content_string = str(html_parser.strip_tags(soup))
 
-            content_string = unicode(content_string, "utf-8")
-
-            return content_string
-        except:
-            return soup
+        content = str(soup.select("#topic-summary"))
+        content_string = html_parser.strip_tags(content)
+        content_string = unicode(content_string, "utf-8")
+        return content_string
+        # try:
+        #     content_string = str(html_parser.strip_tags(content))
+        #
+        #     content_string = unicode(content_string, "utf-8")
+        #
+        #     return content_string
+        # except:
+        #     return content
