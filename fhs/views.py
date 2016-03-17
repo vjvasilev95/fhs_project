@@ -144,18 +144,29 @@ def save_page(request):
         summary = request.POST['summary']
         category = Category.objects.get(name=request.POST['category'])
 
-        #Strips the page out of unnecessary html tags and content
+        #Strips the page out of unnecessary html tags and contenta
         content = filter_content(request.POST['source'], url)
 
         #Calculates the flesh score, sentiment score and subjectivity score of the content
         stats = calculate_stats(content)
 
-        #Creates a new page
-        page = Page(category = category, title = title, summary = summary, url = url,
+        #Checks if we already have the same page in the category
+        try:
+            existent_page = Page.objects.filter(title=title, category=category)
+        except:
+            existent_page = None
+        print existent_page
+
+        if not existent_page:
+            #Creates a new page
+            page = Page(category = category, title = title, summary = summary, url = url,
                     flesch_score = stats['flesh_score'], sentiment_score = stats['polarity'], subjectivity_score = stats['subjectivity'])
 
-        #Saves it
-        page.save()
+            #Saves it
+            page.save()
+        else:
+            return HttpResponse("Existent page")
+
 
     else:
         # If the request was not a POST, display the form to enter details.
