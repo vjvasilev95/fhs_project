@@ -114,3 +114,5 @@ fabric.properties
 
 keys.py
 *.sqlite3
+entry_index.html
+entry_index_page.html
