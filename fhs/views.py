@@ -134,6 +134,7 @@ def search(request):
     context_dict = {}
     result_list = []
     categories = Category.objects.filter(user=request.user)
+    public_categories = Category.objects.filter(shared=True)
     query = None
     age = None
     gender = "male"
@@ -157,6 +158,7 @@ def search(request):
     context_dict['results_from_healthgov'] = results_from_healthgov
     context_dict['results_from_medline'] = results_from_medline
     context_dict['categories'] = categories
+    context_dict['public_categories'] = public_categories
 
     return render(request, 'fhs/search.html', context_dict)
 

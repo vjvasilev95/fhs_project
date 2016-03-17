@@ -42,7 +42,14 @@ def filter_content(source, url):
 
         return content_string
 
-    elif source == 'bing':
+    elif source == 'medline':
+
+        content = str(soup.select("#topic-summary"))
+        content_string = html_parser.strip_tags(content)
+        content_string = unicode(content_string, "utf-8")
+        return content_string
+
+    else:
         soup = str(soup.body)
 
         try:
@@ -54,17 +61,3 @@ def filter_content(source, url):
         except:
             return soup
 
-    else:
-
-        content = str(soup.select("#topic-summary"))
-        content_string = html_parser.strip_tags(content)
-        content_string = unicode(content_string, "utf-8")
-        return content_string
-        # try:
-        #     content_string = str(html_parser.strip_tags(content))
-        #
-        #     content_string = unicode(content_string, "utf-8")
-        #
-        #     return content_string
-        # except:
-        #     return content
