@@ -1,5 +1,5 @@
 from xml.dom.minidom import parseString
-import html_stripper
+import html_parser
 import  urllib2
 
 
@@ -27,9 +27,9 @@ def run_query(term):
         summary = ""
         for child in children:
             if child.getAttribute("name") == "title":
-                title = html_stripper.strip_tags(child.childNodes[0].data)
+                title = html_parser.strip_tags(child.childNodes[0].data)
             elif child.getAttribute("name") == "snippet":
-                summary = html_stripper.strip_tags(child.childNodes[0].data)
+                summary = html_parser.strip_tags(child.childNodes[0].data)
                 break
         results.append({'url':document.getAttribute("url"),
                         "title":title,
