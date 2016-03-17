@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from django.http import HttpResponse
-from forms import UserProfileForm, UserForm, PageForm, CategoryForm
+from forms import UserProfileForm, UserForm, CategoryForm
 from models import Category, Page
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search, medlinePlus
-from save_page_helper import  *
+from save_page_helper import *
+
 
 def add_category(request):
     if request.method == "POST":
-        category_form = CategoryForm(data = request.POST)
+        category_form = CategoryForm(data=request.POST)
         if category_form.is_valid():
             category = category_form.save(commit=False)
             category.user = request.user
@@ -26,6 +26,35 @@ def add_category(request):
     print "return that form"
     return render(request, "fhs/add_category.html", {'category_form': category_form})
 
+
+def category(request, category_name_slug):
+    # Create a context dictionary which we can pass to the template rendering engine.
+    context_dict = {}
+
+    try:
+        # Can we find a category name slug with the given name?
+        # If we can't, the .get() method raises a DoesNotExist exception.
+        # So the .get() method returns one model instance or raises an exception.
+        category = Category.objects.get(slug=category_name_slug)
+        context_dict['category_name'] = category.name
+
+        # Retrieve all of the associated pages.
+        # Note that filter returns >= 1 model instance.
+        pages = Page.objects.filter(category=category)
+
+        # Adds our results list to the template context under name pages.
+        context_dict['pages'] = pages
+        # We also add the category object from the database to the context dictionary.
+        # We'll use this in the template to verify that the category exists.
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        # We get here if we didn't find the specified category.
+        # Don't do anything - the template displays the "no category" message for us.
+        pass
+
+    # Go render the response and return it to the client.
+    return render(request, 'fhs/category.html', context_dict)
+
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
@@ -35,7 +64,6 @@ def user_logout(request):
 
 def index(request):
     public_categories = Category.objects.filter(shared=True)
-
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
 def register(request):

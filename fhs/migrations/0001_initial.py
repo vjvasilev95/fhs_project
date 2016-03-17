@@ -17,6 +17,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('description', models.CharField(max_length=500, null=True)),
+                ('shared', models.BooleanField(default=False)),
+                ('slug', models.SlugField()),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -28,10 +31,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=200)),
-                ('summary', models.TextField()),
-                ('flesch_score', models.FloatField()),
-                ('sentiment_score', models.FloatField()),
-                ('subjectivity_score', models.FloatField()),
+                ('summary', models.TextField(default=b'test')),
+                ('flesch_score', models.FloatField(default=0)),
+                ('sentiment_score', models.FloatField(default=0)),
+                ('subjectivity_score', models.FloatField(default=0)),
+                ('url', models.URLField(default=b'http://medlineplus.com')),
                 ('category', models.ForeignKey(to='fhs.Category')),
             ],
             options={
