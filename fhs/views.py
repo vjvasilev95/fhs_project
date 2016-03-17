@@ -9,7 +9,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search, medlinePlus
 from save_page_helper import *
-
+from django.template import RequestContext
+from endless_pagination.decorators import page_template
 
 def add_category(request):
     if request.method == "POST":
@@ -127,7 +128,6 @@ def user_login(request):
 
 def search(request):
 
-
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
@@ -218,3 +218,13 @@ def privacy(request):
 
 def terms(request):
     return render(request, 'fhs/terms.html', {})
+
+# @page_template('fhs/entry_index_page.html')  # just add this decorator
+# def entry_index(
+#         request, template='fhs/entry_index.html', extra_context=None):
+#     context = {
+#         'entries': Page.objects.all(),
+#     }
+#     if extra_context is not None:
+#         context.update(extra_context)
+#     return render(request, template, context, context_instance=RequestContext(request))

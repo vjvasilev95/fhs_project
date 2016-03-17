@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -37,6 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #3rd Parties
+    'endless_pagination',
+
     #MY APPS
     'fhs',
 )
@@ -50,6 +54,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
+
 
 ROOT_URLCONF = 'fhs_project.urls'
 
