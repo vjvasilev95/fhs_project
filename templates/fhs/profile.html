@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+
+{{ profileuser.username }}
+{{ profileuser.email }}
+<div class="container">
+    <div class="span3 well">
+        <center>
+        <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="" name="aboutme" width="140" height="140" class="img-circle"></a>
+        <h3>{{ profileuser.username }}</h3>
+        <em>{{ profileuser.email  }}</em>
+		</center>
+    </div>
+
+                <table class="table" valign="baseline">
+                <tbody>
+                        {% for category in public_categories %}
+                                <tr>
+                                <td class="category-info">
+                                    <p class="category-name"><strong>{{ category.name }}</strong></p>
+                                </td>
+                                <td>
+                                    <span class="recipients-number"><strong>Shared by:</strong>{{ category.user }}</span>
+                                </td>
+                                <td class="category-sharer" valign="bottom" align="left">
+                                    <p class="cat-descr"><strong>Description:</strong>{{ category.description }}</p>
+                                </td>
+                                <td class="category-visibility" valign="bottom" align="left">
+                                    <p class="cat-descr"><strong>Shared</strong>{{ category.shared }}</p>
+                                </td>
+                                <td class="text-right" valign="bottom">
+                                    <a>See more</a>
+                                </td>
+
+                                <td>
+                                    <a href="#"><span class="glyphicon glyphicon-bin"></span></a>
+                                </td>
+                                </tr>
+                        {% endfor %}
+                </tbody>
+                </table>
+    </li>
+</div>
+{% endblock %}
