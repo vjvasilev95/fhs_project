@@ -33,7 +33,8 @@ def run_query(term):
                 break
         results.append({'url':document.getAttribute("url"),
                         "title":title,
-                        "summary":summary})
+                        "summary":summary,
+                        "source": "medline"})
 
     return results
 

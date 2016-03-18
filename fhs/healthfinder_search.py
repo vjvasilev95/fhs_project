@@ -39,9 +39,9 @@ def run_query(search_terms, age, gender):
 
         if json_response['Result'].has_key('Topics'):
             for topic in json_response['Result']['Topics']:
-                results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], })
+                results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], "source": "healthgov" })
             for topic in json_response['Result']['Tools']:
-                results.append({"title": topic['Title'], "url": topic["AccessibleVersion"] })
+                results.append({"title": topic['Title'], "url": topic["AccessibleVersion"], "source": "healthgov" })
 
 
     except urllib2.URLError as e:

@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search, medlinePlus
 from save_page_helper import *
+from random import shuffle
 
 
 def add_category(request):
@@ -155,7 +156,7 @@ def search(request):
     results_from_healthgov = []
     results_from_medline = []
     context_dict = {}
-    result_list = []
+    results_mashup = []
     categories = Category.objects.filter(user=request.user)
     public_categories = Category.objects.filter(shared=True)
     query = None
@@ -174,6 +175,9 @@ def search(request):
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
 
+            results_mashup = results_from_bing + results_from_medline + results_from_healthgov
+            shuffle(results_mashup)
+
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -182,6 +186,7 @@ def search(request):
     context_dict['results_from_medline'] = results_from_medline
     context_dict['categories'] = categories
     context_dict['public_categories'] = public_categories
+    context_dict['results_mashup'] = results_mashup
 
     return render(request, 'fhs/search.html', context_dict)
 

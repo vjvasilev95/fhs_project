@@ -82,7 +82,7 @@
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
-                                        {% for result in results_from_bing %}
+                                        {% for result in results_mashup %}
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
@@ -91,7 +91,7 @@
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="bing" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     {% if categories %}
                                                         <select name="category" class="category-choice" required>
 
@@ -139,8 +139,8 @@
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
-                                                    <input type="hidden" class="hidden-info" value={{ result.summary }} name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="medline" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     <select name="category" class="category-choice" required>
                                                         {% for category in categories %}
                                                             <option value={{ category.name }}>{{ category.name }}</option>
@@ -171,7 +171,7 @@
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="No provided summary" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="healthgov" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     <select name="category" class="category-choice" required>
                                                         {% for category in categories %}
                                                             <option value={{ category.name }}>{{ category.name }}</option>
@@ -202,7 +202,7 @@
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="bing" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
                                                     {% if categories %}
                                                         <select name="category" class="category-choice" required>
 
