@@ -12,7 +12,6 @@ import healthfinder_search, medlinePlus
 from save_page_helper import *
 from random import shuffle
 
-
 def add_category(request):
 
     if request.is_ajax():
@@ -246,7 +245,30 @@ def privacy(request):
 
 def terms(request):
     return render(request, 'fhs/terms.html', {})
+
 def profile(request):
     user = User.objects.get(username=request.user)
     public_categories = Category.objects.filter(user=request.user)
     return render(request, 'fhs/profile.html', {"profileuser":user, 'public_categories': public_categories})
+
+def get_category_list(max_results=0, starts_with=''):
+        cat_list = []
+        if starts_with:
+            cat_list = Category.objects.filter(name__istartswith=starts_with)
+
+        if max_results > 0:
+            if cat_list.count() > max_results:
+                cat_list = cat_list[:max_results]
+
+        return cat_list
+
+def suggest_category(request):
+
+        cat_list = []
+        starts_with = ''
+        if request.method == 'GET':
+            starts_with = request.GET['suggestion']
+
+        cat_list = get_category_list(8, starts_with)
+
+        return render(request, 'fhs/cats.html', {'cats': cat_list })

@@ -73,4 +73,22 @@ $(document).ready(function(){
                 });
 
     });
+
+
+    $('#suggestion').keyup(function(){
+        var query;
+        query = $(this).val();
+        if (!query) {
+            $('.public-cats').show();
+            $('#cats').hide();
+        }
+        $.get('/fhs/suggest_category/', {suggestion: query}, function(data){
+
+            $('.public-cats').hide();
+            $('#cats').show();
+
+            $('#cats').html(data);
+        });
+    });
+
 }); 
