@@ -23,3 +23,7 @@
 .public-cats-heading {
     margin: 0px;
 }
+
+.create-new-category-wrapper {
+    display:none;
+}

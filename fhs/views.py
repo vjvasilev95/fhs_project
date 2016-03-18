@@ -13,6 +13,29 @@ from save_page_helper import *
 
 
 def add_category(request):
+
+    if request.is_ajax():
+        name = request.POST['name']
+        description = request.POST['description']
+        shared = request.POST['shared']
+        if (shared == "false"):
+            shared = False
+        else:
+            shared = True
+
+        existent_category = Category.objects.filter(name = name)
+
+        if not existent_category:
+            #Create a new category
+            category = Category(user = request.user, name=name, description=description, shared=shared)
+
+            #Saves it
+            category.save()
+
+            return HttpResponse("Success")
+        else:
+            return HttpResponse("Existent category")
+
     if request.method == "POST":
         category_form = CategoryForm(data=request.POST)
         if category_form.is_valid():
@@ -127,7 +150,6 @@ def user_login(request):
         return render(request, 'fhs/login.html', {})
 
 def search(request):
-
 
     results_from_bing = []
     results_from_healthgov = []
