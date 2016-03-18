@@ -7,68 +7,81 @@
 
 {% block body_block %}
     <div class="container">
-        <div class="row">
-            {% if not user.is_authenticated %}
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <h1>Popular categories</h1>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 login-form-wrapper">
-                <h1>Welcome to the Federated Health Search Application</h1>
-                <div class="login-form-fields">
-                    <form id="login_form" method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_username">Username</label>
-                        <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_password">Password</label>
-                        <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required />
-                    </div>
-                    <div class="login"><button class="btn btn-primary sign-in-btn" type="submit" value="Submit">Sign in</button></div>
+        {% if not user.is_authenticated %}
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <h1>Popular categories</h1>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 login-form-wrapper">
+                    <h1>Welcome to the Federated Health Search Application</h1>
+                    <div class="login-form-fields">
+                        <form id="login_form" method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">Username</label>
+                            <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Password</label>
+                            <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"  required />
+                        </div>
+                        <div class="login"><button class="btn btn-primary sign-in-btn" type="submit" value="Submit">Sign in</button></div>
 
-                    </form>
-                    <div class="no-account">
-                        <span class="no-account">Do not have an account?</span>
-                        <a class="btn btn-primary sign-up-btn" href="{% url 'register' %}">Sign Up</a>
+                        </form>
+                        <div class="no-account">
+                            <span class="no-account">Do not have an account?</span>
+                            <a class="btn btn-primary sign-up-btn" href="{% url 'register' %}">Sign Up</a>
+                        </div>
                     </div>
                 </div>
-
             </div>
-            {% else %}
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <form id="user_form" method="post" action="{% url 'search' %}">
+                        <div class="form-group">
+                             <label for="query">Search for a category</label>
+                             <input class="form-control" type="text" name="suggestion" data-page="index" id="suggestion" />
+                        </div>
+                    </form>
+                </div>
+
+                <div id="cats">
+
+                </div>
+
                 {% if public_categories %}
-                <table class="table" valign="baseline">
-                <tbody>
-                    {% autopaginate public_categories 5 %}
-                    {% for category in public_categories %}
-                        <tr>
-                        <td class="category-info">
-                            <p class="category-name"><strong>{{ category.name }}</strong></p>
-                        </td>
-                        <td>
-                            <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
-                        </td>
-                        <td class="category-sharer" valign="bottom" align="left">
-                            <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
-                        </td>
-                        <td class="text-right" valign="bottom">
-                            <li><a href="/fhs/category/{{ category.slug }}">{{ category.name }}</a></li>
-                        </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
-                    {% paginate %}
+                <div class="public-cats">
+                    <table class="table" valign="baseline">
+                    <tbody>
+                        {% autopaginate public_categories 5 %}
+                        {% for category in public_categories %}
+                            <tr>
+                            <td class="category-info">
+                                <p class="category-name"><strong>{{ category.name }}</strong></p>
+                            </td>
+                            <td>
+                                <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
+                            </td>
+                            <td class="category-sharer" valign="bottom" align="left">
+                                <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
+                            </td>
+                            <td class="text-right" valign="bottom">
+                                <li><a href="/fhs/category/{{ category.slug }}">{{ category.name }}</a></li>
+                            </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                        {% paginate %}
+                </div>
                 {% else %}
-                    <strong>There are no categories present.</strong>
+                    <strong>There are no public categories present.</strong>
                 {% endif %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 
-
-
+<script src="{% static "js/search_ajax.js" %}"></script>
 {% endblock %}
-
-<!DOCTYPE html>
 

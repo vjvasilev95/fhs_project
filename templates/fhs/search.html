@@ -223,68 +223,28 @@
                     {% endif %}
                 </div>
             </div>
-            <!--<div class="col-xs-12 col-sm-6 col-md-6">
-                {% if public_categories %}
-                <table class="table" valign="baseline">
-                <tbody>
-                        {% for category in public_categories %}
-                            <tr>
-                            <td class="category-info">
-                                <p class="category-name"><strong>{{ category.name }}</strong></p>
-                            </td>
-                            <td>
-                                <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
-                            </td>
-                            <td class="category-sharer" valign="bottom" align="left">
-                                <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
-                            </td>
-                            <td class="text-right" valign="bottom">
-                                <li><a href="/fhs/category/{{ category.slug }}">{{ category.name }}</a></li>
-                            </td>
-                            </tr>
-                        {% endfor %}
-                </tbody>
-                </table>
-                {% else %}
-                    <strong>There are no categories present.</strong>
-                {% endif %}
 
-            </div>-->
-            <!--<div class="col-xs-2 col-sm-2 col-md-2 sidebar">
-                <h4 class="public-cats-heading">Public categories</h4>
-                 {% if public_categories %}
-                    <ul class="nav nav-sidebar">
-                    {% for c in public_categories %}
-                        <li><a href="{% url 'category'  c.slug %}">{{ c.name }}</a></li>
-                    {% endfor %}
-                {% else %}
-                    <li> <strong >There are no category present.</strong></li>
-                    </ul>
-                {% endif %}
-
-            </div>-->
-        <div class="col-sm-2 col-md-2 sidebar">
+            <div class="col-sm-2 col-md-2 sidebar">
 
                 <ul class="nav nav-list">
 			        <li class="nav-header">Find a Category</li>
                     <form>
                         <label></label>
-                        <li><input class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
+                        <li><input class="search-query span10" type="text" name="suggestion" value="" data-page="search" id="suggestion" /></li>
                     </form>
                 </ul>
 
                 <div id="cats">
 
                 </div>
-                <!--<h4 class="public-cats-heading">Public categories</h4>-->
                  {% if public_categories %}
                     <ul class="nav nav-sidebar public-cats">
                     {% for c in public_categories %}
                         <li><a href="{% url 'category'  c.slug %}">{{ c.name }}</a></li>
                     {% endfor %}
-                {% else %}
-                    <li> <strong >There are no public categories present.</strong></li>
                     </ul>
+                {% else %}
+                    <strong >There are no public categories present.</strong>
                 {% endif %}
             </div>
         </div>
@@ -292,4 +252,5 @@
 
     <script src="{% static "js/search_ajax.js" %}"></script>
     <script src="{% static "js/js.cookie.js" %}"></script>
+    <script src="{% static "js/jquery.suggest.js" %}"></script>
 {% endblock %}

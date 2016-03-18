@@ -29,7 +29,6 @@ $(document).ready(function(){
         } else {
             $(this).siblings('.create-new-category-wrapper').show();
         }
-
     });
 
     $('.submit-new').click(function(e){
@@ -74,15 +73,15 @@ $(document).ready(function(){
 
     });
 
-
     $('#suggestion').keyup(function(){
         var query;
+        var data = $(this).data('page');
         query = $(this).val();
         if (!query) {
             $('.public-cats').show();
             $('#cats').hide();
         }
-        $.get('/fhs/suggest_category/', {suggestion: query}, function(data){
+        $.get('/fhs/suggest_category/', {suggestion: query, page: data}, function(data){
 
             $('.public-cats').hide();
             $('#cats').show();
@@ -90,5 +89,20 @@ $(document).ready(function(){
             $('#cats').html(data);
         });
     });
-
+    //
+    //$('#query').keyup(function(){
+    //    var query;
+    //    query = $(this).val();
+    //    if (!query) {
+    //        $('.cat-table').show();
+    //        $('#cats').hide();
+    //    }
+    //    $.get('/fhs/suggest_category/', {suggestion: query}, function(data){
+    //
+    //        $('.public-cats').hide();
+    //        $('#cats').show();
+    //
+    //        $('#cats').html(data);
+    //    });
+    //});
 }); 
