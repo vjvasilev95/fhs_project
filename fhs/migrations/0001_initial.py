@@ -16,10 +16,11 @@ class Migration(migrations.Migration):
             name='Category',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200)),
+                ('name', models.CharField(unique=True, max_length=200)),
                 ('description', models.CharField(max_length=500, null=True)),
                 ('shared', models.BooleanField(default=False)),
                 ('slug', models.SlugField()),
+                ('views', models.IntegerField(default=0)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={

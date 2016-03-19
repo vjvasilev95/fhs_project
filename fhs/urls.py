@@ -21,4 +21,5 @@ urlpatterns = patterns('',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
         url(r'^password-change/$', auth_views.password_change, {'template_name': 'fhs/changepassword.html'},name='userauth_password_change'),
         url(r'^password-change-done/$', auth_views.password_change_done, {'template_name': 'fhs/changepassworddone.html'}, name='password_change_done'),
+        url(r'^goto/$', views.track_category, name='goto'),
         )
