@@ -26,16 +26,16 @@
                                     <p class="category-name"><strong>{{ category.name }}</strong></p>
                                 </td>
                                 <td>
-                                    <span class="recipients-number"><strong>Shared by:</strong>{{ category.user }}</span>
+                                    <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
                                 </td>
                                 <td class="category-sharer" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Description:</strong>{{ category.description }}</p>
+                                    <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
                                 <td class="category-visibility" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Shared</strong>{{ category.shared }}</p>
+                                    <p class="cat-descr"><strong>Shared </strong>{{ category.shared }}</p>
                                 </td>
                                 <td class="text-right" valign="bottom">
-                                    <a>See more</a>
+                                    <a href="{% url 'goto' %}?cat_id={{ category.id }}">See more</a>
                                 </td>
 
                                 <td>
