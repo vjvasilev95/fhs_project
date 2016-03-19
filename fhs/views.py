@@ -148,9 +148,7 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-
         user = authenticate(username=username, password=password)
-
 
         if user:
             # Is the account active? It could have been disabled.
