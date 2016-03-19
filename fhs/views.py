@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
 import healthfinder_search, medlinePlus
 from save_page_helper import *
-from random import shuffle
+from django.http import JsonResponse
 import merge_by_relevance
 
 def add_category(request):
@@ -213,7 +213,8 @@ def save_page(request):
             try:
                 content = filter_content(request.POST['source'], url)
             except ValueError as e:
-                return HttpResponse("Problem while fetching the resource")
+                json_response = {"response": "Problem while fetching the resource"}
+                return JsonResponse(json_response)
 
             #Calculates the flesh score, sentiment score and subjectivity score of the content
             stats = calculate_stats(content)
@@ -224,17 +225,18 @@ def save_page(request):
 
             #Saves it
             page.save()
+
+            json_response = {"response": "Success", "category": category.slug}
+            return JsonResponse(json_response)
+
         else:
-            return HttpResponse("Existent page")
+            json_response = {"response": "Existent page", "category": category.slug}
+            return JsonResponse(json_response)
 
 
     else:
         # If the request was not a POST, display the form to enter details.
         return HttpResponseRedirect('/fhs/')
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
-    return HttpResponse("")
 
 
 def about(request):

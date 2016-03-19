@@ -140,12 +140,16 @@
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
-                                                    <select name="category" class="category-choice" required>
-                                                        {% for category in categories %}
-                                                            <option value={{ category.name }}>{{ category.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
+                                                    {% if categories %}
+                                                        <select name="category" class="category-choice" required>
+
+                                                            {% for category in categories %}
+                                                                <option value={{ category.name }}>{{ category.name }}</option>
+                                                            {% endfor %}
+
+                                                        </select>
+                                                    {% endif %}
                                                     <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
                                                 </form>
                                             </div>
@@ -164,17 +168,22 @@
                                         {% for result in results_from_healthgov %}
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
+                                                <p class="list-group-item-text">{{ result.summary }}</p>
                                                 <form id="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
-                                                    <input type="hidden" class="hidden-info" value="No provided summary" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
-                                                    <select name="category" class="category-choice" required>
-                                                        {% for category in categories %}
-                                                            <option value={{ category.name }}>{{ category.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
+                                                    {% if categories %}
+                                                        <select name="category" class="category-choice" required>
+
+                                                            {% for category in categories %}
+                                                                <option value={{ category.name }}>{{ category.name }}</option>
+                                                            {% endfor %}
+
+                                                        </select>
+                                                    {% endif %}
                                                     <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
                                                 </form>
                                             </div>
@@ -251,5 +260,4 @@
 
     <script src="{% static "js/search_ajax.js" %}"></script>
     <script src="{% static "js/js.cookie.js" %}"></script>
-    <script src="{% static "js/jquery.suggest.js" %}"></script>
 {% endblock %}
