@@ -5,7 +5,7 @@
     background-color: #FFF;
     display: inline-block;
     float: none;
-    margin-top: 50px;
+    margin: 30px 0 50px 0;
 }
 
 .formWrapper {
@@ -34,7 +34,9 @@
 }
 
 .sign-up-btn {
-
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .no-account {
@@ -51,4 +53,21 @@
 
 .register-formWrapper {
     text-align: center;
+}
+
+#id_picture {
+    display: inline-block;
+}
+
+#pic-label {
+    display: block;
+}
+
+.register-input {
+    padding: 10px 20px;
+    min-width: 400px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-weight: 500;
+    font-size: 16px;
 }

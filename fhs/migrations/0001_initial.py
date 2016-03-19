@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
                 ('description', models.CharField(max_length=500, null=True)),
                 ('shared', models.BooleanField(default=False)),
                 ('slug', models.SlugField()),
+                ('views', models.IntegerField(default=0)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={

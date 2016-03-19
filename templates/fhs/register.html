@@ -10,35 +10,31 @@
                 <a href="{% url 'index' %}">Return to the homepage.</a><br />
             {% else %}
                 <div class="register-formWrapper">
-                    <div class="col-xs-5 register-form">
+                    <div class="col-xs-5 register-form register-formWrapper">
 
                         <form id="user_form" method="post" action="/fhs/register/"
                             enctype="multipart/form-data">
                             <h1>Register</h1>
                             {% csrf_token %}
                             <div class="form-group">
-                                <label for="id_username">Username</label>
-                                <input id="id_username" maxlength="30" name="username" type="text">
+                                <input class="register-input" id="id_username" maxlength="50" name="username" placeholder="Account name" type="text">
                             </div>
                             <div class="form-group">
-                                <label for="id_email">Email</label>
-                                <input id="id_email" maxlength="75" name="email" type="email">
+                                <input class="register-input" id="id_email" maxlength="75" name="email" placeholder="Email" type="email">
                             </div>
                             <div class="form-group">
-                                <label for="id_password">Password</label>
-                                <input id="id_password" name="password" type="password">
+                                <input class="register-input" id="id_password" name="password" maxlength="50" placeholder="Password" type="password">
                             </div>
                             <div class="form-group">
-                                <label for="id_picture">Profile Picture</label>
+                                <label id="pic-label" for="id_picture">Profile Picture</label>
                                 <input id="id_picture" name="picture" type="file">
                             </div>
-                            <div class="login"><input type="submit" name="submit" value="Register" /></div>
+                            <div class="login"><input class="btn btn-primary sign-up-btn" type="submit" name="submit" value="Sign Up" /></div>
                         </form>
                     </div>
                 </div>
             {% endif %}
         </div>
     </div>
-
 
 {% endblock %}
