@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 
     #3rd Parties
     'endless_pagination',
+    'pagination_bootstrap',
 
     #MY APPS
     'fhs',
@@ -53,6 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pagination_bootstrap.middleware.PaginationMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
