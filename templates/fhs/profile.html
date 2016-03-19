@@ -1,19 +1,22 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block title %}Profile{% endblock %}
 
 {% block body_block %}
-
-{{ profileuser.username }}
-{{ profileuser.email }}
 <div class="container">
-    <div class="span3 well">
+    <div class="span6 well well-lg">
         <center>
-        <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="" name="aboutme" width="140" height="140" class="img-circle"></a>
+            {% if profieluser.picture %}
+        <img src="{{ profieluser.picture }}" name="aboutme" width="140" height="140" class="img-circle col-sm-2">
+            {% else %}
+           <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
+            {%  endif %}
         <h3>{{ profileuser.username }}</h3>
-        <em>{{ profileuser.email  }}</em>
+        <em class="center-block">{{ profileuser.email  }}</em>
+
 		</center>
-    </div>
+    </div><a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a>
+
 
                 <table class="table" valign="baseline">
                 <tbody>

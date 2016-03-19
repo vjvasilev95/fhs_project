@@ -5,6 +5,11 @@
 
     <head>
         <title>{% block title %}FHS{% endblock %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script
+          src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+          integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+          crossorigin="anonymous"></script>
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -17,8 +22,7 @@
         <link rel="stylesheet" href='{% static "css/base.css" %}'>
         <link rel="stylesheet" href='{% static "css/sticky_footer.css" %}'>
         {% block css %} {% endblock %}
-        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
     </head>
 
     <body>
@@ -33,8 +37,8 @@
                             <li><a href='{% url 'register' %}'>Register</a></li>
                             <li><a href='{% url 'login' %}'>Login</a></li>
                         {% else %}
-                            <li><a href="{% url 'add_category' %}">Add Category</a></li>
                             <li><a href="{% url 'search' %}">Search</a></li>
+                            <li><a href="{% url 'profile' %}">My Profile</a></li>
                             <li><a href="{% url 'logout' %}">Logout</a></li>
                         {% endif %}
                     </ul>
@@ -54,7 +58,6 @@
     </body>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>

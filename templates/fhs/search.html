@@ -23,7 +23,6 @@
                 <div class="search-from-wrapper">
                     <form id="user_form" method="post" action="{% url 'search' %}">
                         {% csrf_token %}
-                        <!-- Display the search form elements here -->
                         {% if query %}
                             <div class="form-group">
                                  <label for="query">Your search</label>
@@ -78,7 +77,6 @@
                         <div class="tab-content">
                           <div id="all" class="tab-pane fade in active">
                             <div class="panel-heading">
-                            <h3 class="panel-title">Results</h3>
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
@@ -126,7 +124,6 @@
                           <div id="medline" class="tab-pane fade">
                               <!--from here start results from Medline Plus-->
                               <div class="panel-heading">
-                                <h3 class="panel-title">Medline Plus</h3>
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
@@ -157,7 +154,6 @@
                           <div id="healthgov" class="tab-pane fade">
                               <!--from here start results from healthgov-->
                               <div class="panel-heading">
-                                <h3 class="panel-title">Healthfinder Gov</h3>
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
@@ -187,7 +183,6 @@
                           <div id="bing" class="tab-pane fade">
                               <!--from here start results from Bing-->
                               <div class="panel-heading">
-                                <h3 class="panel-title">Bing</h3>
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
