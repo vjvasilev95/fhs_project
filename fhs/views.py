@@ -251,6 +251,9 @@ def profile(request):
     public_categories = Category.objects.filter(user=request.user)
     return render(request, 'fhs/profile.html', {"profileuser":user, 'public_categories': public_categories})
 
+def editprofile(request):
+    user = User.objects.get(username=request.user)
+    return render(request, 'fhs/editprofile.html', {"profileuser":user})
 def get_category_list(max_results=0, starts_with=''):
     cat_list = []
     if starts_with:
@@ -276,3 +279,4 @@ def suggest_category(request):
     else:
         print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
+
