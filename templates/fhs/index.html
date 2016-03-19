@@ -11,6 +11,32 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <h1>Popular categories</h1>
+                    {% if public_categories %}
+                    <table class="table" valign="baseline">
+                    <tbody>
+                        {% autopaginate public_categories 5 %}
+                        {% for category in public_categories %}
+                            <tr>
+                            <td class="category-info">
+                                <p class="category-name"><strong>{{ category.name }}</strong></p>
+                            </td>
+                            <td>
+                                <span class="recipients-number"><strong>Shared by:</strong>{{ category.user }}</span>
+                            </td>
+                            <td class="category-sharer" valign="bottom" align="left">
+                                <p class="cat-descr"><strong>Description:</strong>{{ category.description }}</p>
+                            </td>
+                            <td class="text-right" valign="bottom">
+                                <li><a href="/fhs/category/{{ category.slug }}">{{ category.name }}</a></li>
+                            </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                        {% paginate %}
+                    {% else %}
+                        <strong>There are no public categories present.</strong>
+                    {% endif %}
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 login-form-wrapper">
                     <h1>Welcome to the Federated Health Search Application</h1>

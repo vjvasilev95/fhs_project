@@ -9,33 +9,33 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 public-cats">
-                <table class="table" valign="baseline">
-                    <tbody>
                         {% if category %}
                             <h1>{{ category_name }}</h1>
                             {% if pages %}
-                                {% autopaginate pages 10 %}
-                                {% for page in pages %}
-                                <tr>
-                                <td class="text-left" valign="bottom">
-                                    <a href="{{ page.url }}">{{ page.title }}</a>
-                                </td>
-                                <td>
-                                    <span class="recipients-number"><strong>Summary:</strong>{{ page.summary }}</span>
-                                </td>
-                                <td class="category-sharer" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Readability score:</strong>{{ page.flesch_score }}</p>
-                                </td>
-                                <td class="category-sharer" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Sentiment score:</strong>{{ page.sentiment_score }}</p>
-                                </td>
-                                <td class="category-sharer" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
-                                </td>
-                                </tr>
-                                {% endfor %}
-                    </tbody>
-                </table>
+                                <table class="table" valign="baseline">
+                                <tbody>
+                                    {% autopaginate pages 10 %}
+                                    {% for page in pages %}
+                                    <tr>
+                                    <td class="text-left" valign="bottom">
+                                        <a href="{{ page.url }}">{{ page.title }}</a>
+                                    </td>
+                                    <td>
+                                        <span class="recipients-number"><strong>Summary:</strong>{{ page.summary }}</span>
+                                    </td>
+                                    <td class="category-sharer" valign="bottom" align="left">
+                                        <p class="cat-descr"><strong>Readability score:</strong>{{ page.flesch_score }}</p>
+                                    </td>
+                                    <td class="category-sharer" valign="bottom" align="left">
+                                        <p class="cat-descr"><strong>Sentiment score:</strong>{{ page.sentiment_score }}</p>
+                                    </td>
+                                    <td class="category-sharer" valign="bottom" align="left">
+                                        <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
+                                    </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                </table>
                 {% paginate %}
                             {% else %}
                                 <strong>No pages currently in category.</strong>
