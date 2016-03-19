@@ -11,6 +11,7 @@ import bing_search
 import healthfinder_search, medlinePlus
 from save_page_helper import *
 from random import shuffle
+import merge_by_relevance
 
 def add_category(request):
 
@@ -174,8 +175,7 @@ def search(request):
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
 
-            results_mashup = results_from_bing + results_from_medline + results_from_healthgov
-            shuffle(results_mashup)
+            results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
 
     context_dict['query'] = query
     context_dict['age'] = age
