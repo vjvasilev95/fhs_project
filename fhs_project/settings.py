@@ -117,6 +117,9 @@ STATICFILES_DIRS = (
     STATIC_PATH,
 )
 
+#Session cookies will last for half an hour
+SESSION_COOKIE_AGE = 1800
+
 
 
 
