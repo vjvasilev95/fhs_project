@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import json
 from django.shortcuts import render
 from forms import UserProfileForm, UserForm, CategoryForm
 from models import Category, Page
@@ -113,29 +113,45 @@ def index(request):
 
 def register(request):
 
+    email_in_db = False
     registered = False
+    username_taken = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            #we will log in the user with the non-hashed password
-            non_hashed_password = user.password
-            user.set_password(non_hashed_password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
+            user = user_form.save(commit=False)
+            #check if email is in the database
+            email_to_be_checked = user.email
+            #if no user has this email, the query will result in an error, then
+            #the except statement will be executed, resulting in a successful registration
+            try:
+                test_user = User.objects.get(email=email_to_be_checked)
+                email_in_db = True
+            except User.DoesNotExist:
+                #save user and user_profile, and sign in the user with the non-hashed password
+                non_hashed_password = user.password
+                user.set_password(non_hashed_password)
+                user.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
-            #In the end, log the user into the system
-            theUser = authenticate(username=user.username, password=non_hashed_password)
-            login(request, theUser)
+                if 'picture' in request.FILES:
+                    profile.picture = request.FILES['picture']
+                profile.save()
+                registered = True
+                #In the end, log the user into the system
+                theUser = authenticate(username=user.username, password=non_hashed_password)
+                login(request, theUser)
         else:
+            #convert the errors into a json format
+            user_form_errors = json.loads(user_form.errors.as_json())
+            #check if the user_form error was raised because someone tried to register with a username that is already in the dbs
+            if user_form_errors.has_key("username") and \
+                user_form_errors['username'][0]['message'] == "User with this Username already exists.":
+                username_taken = True
             print user_form.errors, profile_form.errors
 
     else:
@@ -144,7 +160,8 @@ def register(request):
 
     return render(request,
             'fhs/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered,
+             'email_in_db':email_in_db, 'username_taken':username_taken})
 
 
 def user_login(request):
