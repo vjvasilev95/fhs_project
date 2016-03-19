@@ -256,11 +256,11 @@ def profile(request):
 def editprofile(request):
     user = User.objects.get(username=request.user)
     return render(request, 'fhs/editprofile.html', {"profileuser":user})
+
 def get_category_list(max_results=0, starts_with=''):
     cat_list = []
     if starts_with:
-        cat_list = Category.objects.filter(name__istartswith=starts_with)
-
+        cat_list = Category.objects.filter(name__istartswith=starts_with).exclude(shared=False)
     if max_results > 0:
         if cat_list.count() > max_results:
             cat_list = cat_list[:max_results]

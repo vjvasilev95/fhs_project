@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 
+<!--{% load pagination_tags %}-->
 
 {% block title %}Search{% endblock %}
 {% block css %} <link rel="stylesheet" href='{% static "css/search_page.css" %}'> {% endblock %}
@@ -80,6 +81,7 @@
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
                                     <div class="list-group">
+                                        <!--{% autopaginate results_mashup 5 %}-->
                                         {% for result in results_mashup %}
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
@@ -117,10 +119,12 @@
                                                 </form>
                                             </div>
                                         {% endfor %}
+                                        <!--{% paginate %}-->
                                     </div>
                                 </div>
                             </div>
                           </div>
+
                           <div id="medline" class="tab-pane fade">
                               <!--from here start results from Medline Plus-->
                               <div class="panel-heading">
@@ -194,7 +198,7 @@
                               <div class="panel-heading">
                             <!-- Display search results in an ordered list -->
                                 <div class="panel-body">
-                                    <div class="list-group">
+                                    <div alass="list-group">
                                         {% for result in results_from_bing %}
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
