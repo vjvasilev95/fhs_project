@@ -13,6 +13,22 @@ from save_page_helper import *
 from django.http import JsonResponse
 import merge_by_relevance
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
+def track_category(request):
+    cat_id = None
+    url = '/fhs/'
+    if request.method == 'GET':
+        if 'cat_id' in request.GET:
+            cat_id = request.GET['cat_id']
+            try:
+                category = Category.objects.get(id = cat_id)
+                category.views += 1
+                category.save()
+                url = '/fhs/category/{}'.format(category.slug)
+            except:
+                pass
+    return redirect(url)
 
 def add_category(request):
 
@@ -89,7 +105,10 @@ def user_logout(request):
     return HttpResponseRedirect('/fhs/')
 
 def index(request):
-    public_categories = Category.objects.filter(shared=True)
+    if request.user.is_authenticated():
+        public_categories = Category.objects.filter(shared=True).order_by('-views')
+    else :
+        public_categories = Category.objects.filter(shared=True).order_by('-views')[:5]
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
 def register(request):
