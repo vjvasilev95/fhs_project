@@ -120,9 +120,10 @@ def register(request):
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
-
             user = user_form.save()
-            user.set_password(user.password)
+            #we will log in the user with the non-hashed password
+            non_hashed_password = user.password
+            user.set_password(non_hashed_password)
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -131,6 +132,9 @@ def register(request):
                 profile.picture = request.FILES['picture']
             profile.save()
             registered = True
+            #In the end, log the user into the system
+            theUser = authenticate(username=user.username, password=non_hashed_password)
+            login(request, theUser)
         else:
             print user_form.errors, profile_form.errors
 
@@ -148,9 +152,7 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-
         user = authenticate(username=username, password=password)
-
 
         if user:
             # Is the account active? It could have been disabled.
@@ -198,7 +200,7 @@ def search(request):
             results_from_medline = medlinePlus.run_query(query)
 
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
-
+            print len(results_mashup)
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
