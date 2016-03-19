@@ -4,6 +4,14 @@
     color: crimson;
 }
 
+.save-msg-existent-url:hover {
+    color: darkred;
+}
+
+.save-msg-existent-url:visited {
+    color: darkred;
+}
+
 .save-msg-error {
     margin-left: 10px;
     font-weight: 600;

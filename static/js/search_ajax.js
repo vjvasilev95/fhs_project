@@ -21,12 +21,14 @@ $(document).ready(function(){
                     'category': category, 'source': source, csrfmiddlewaretoken: csrftoken},
                 function(data) {
                     button.next().remove();
-                    if (data == "Existent page") {
-                        button.after("<span class='save-msg-existent'>This page is already existent in this category.</span>");
-                    } else if (data == "Problem while fetching the resource") {
+                    var response = $.parseJSON(JSON.stringify(data));
+                    console.log(response);
+                    if (response['response'] == "Existent page") {
+                        button.after("<span class='save-msg-existent'>This page is already existent in category " + "<a class='save-msg-existent-url' href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
+                    } else if (response['response'] == "Problem while fetching the resource") {
                         button.after("<span class='save-msg-error'>There was a problem while fetching the resource. We are sorry for the inconvenience.</span>");
                     } else {
-                        button.after("<span class='save-msg-success'>Page is saved in category " + "<a href='#'>" + category +"</a>" + "</span>");
+                        button.after("<span class='save-msg-success'>Page is saved in category " + "<a href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
                     }
                 });
         } else {
