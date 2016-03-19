@@ -12,6 +12,7 @@ import healthfinder_search, medlinePlus
 from save_page_helper import *
 from django.http import JsonResponse
 import merge_by_relevance
+from django.contrib.auth.decorators import login_required
 
 def add_category(request):
 
@@ -150,7 +151,9 @@ def user_login(request):
 
         return render(request, 'fhs/login.html', {})
 
+@login_required
 def search(request):
+
 
     results_from_bing = []
     results_from_healthgov = []
@@ -248,6 +251,8 @@ def privacy(request):
 def terms(request):
     return render(request, 'fhs/terms.html', {})
 
+
+@login_required
 def profile(request):
     user = User.objects.get(username=request.user)
     public_categories = Category.objects.filter(user=request.user)
