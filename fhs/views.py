@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render
-from forms import UserProfileForm, UserForm, CategoryForm
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from forms import UserProfileForm, UserForm, CategoryForm, EmailForm
 from models import Category, Page
-from models import User
-
+from models import UserProfile
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
@@ -12,6 +14,7 @@ import healthfinder_search, medlinePlus
 from save_page_helper import *
 from random import shuffle
 import merge_by_relevance
+from django.contrib.auth import views
 
 def add_category(request):
 
@@ -247,13 +250,57 @@ def terms(request):
     return render(request, 'fhs/terms.html', {})
 
 def profile(request):
+    cat_list = get_category_list()
     user = User.objects.get(username=request.user)
+    context_dict = {'cat_list': cat_list}
     public_categories = Category.objects.filter(user=request.user)
-    return render(request, 'fhs/profile.html', {"profileuser":user, 'public_categories': public_categories})
+    try:
+        up = UserProfile.objects.get(user=user)
+    except:
+        up = None
+    context_dict['user'] = user
+    context_dict['userprofile'] = up
+    context_dict['public_categories']= public_categories
+
+    return render(request, 'fhs/profile.html', context_dict)
 
 def editprofile(request):
-    user = User.objects.get(username=request.user)
-    return render(request, 'fhs/editprofile.html', {"profileuser":user})
+    if request.method == "POST":
+        form = EmailForm(data=request.POST, instance=request.user)
+        picform = UserProfileForm(data=request.POST, instance=request.user)
+        try:
+            up = UserProfile.objects.get(user=request.user)
+        except:
+            up = None
+        if form.is_valid() and picform.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            if 'picture' in request.FILES:
+                up.picture = request.FILES['picture']
+                up.save()
+            return HttpResponseRedirect("")
+    else:
+        form = EmailForm(instance=request.user)
+        picform = UserProfileForm(instance=request.user)
+
+    return render(request,
+            'fhs/editprofile.html',
+            {'form': form, 'picform': UserProfileForm})
+# def email_change(request):
+#     form = Email_Change_Form()
+#     if request.method=='POST':
+#         form = Email_Change_Form(request.POST)
+#         if form.is_valid():
+#             if request.user.is_authenticated:
+#                 if form.cleaned_data['email1']  == form.cleaned_data['email2']:
+#                     user = request.user
+#                     u = User.objects.get(username=user)
+#                     # get the proper user
+#                     u.email = form.cleaned_data'email1']
+#                     u.save()
+#                     return HttpResponseRedirect("/accounts/profile/")
+#     else:
+#         return render_to_response("email_change.html", {'form':form}, context_instance=RequestContext(request))
 def get_category_list(max_results=0, starts_with=''):
     cat_list = []
     if starts_with:
@@ -280,3 +327,16 @@ def suggest_category(request):
         print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
+
+def change_password(request):
+    form = PasswordReset(user=request.user)
+
+    if request.method == 'POST':
+        form = forms.PasswordReset(request.user,request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+    return render(request, 'fhs/changepassword.html', {
+        'form': form,
+    })
