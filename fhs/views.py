@@ -241,7 +241,12 @@ def privacy(request):
 
 def terms(request):
     return render(request, 'fhs/terms.html', {})
+
 def profile(request):
     user = User.objects.get(username=request.user)
     public_categories = Category.objects.filter(user=request.user)
     return render(request, 'fhs/profile.html', {"profileuser":user, 'public_categories': public_categories})
+
+def editprofile(request):
+    user = User.objects.get(username=request.user)
+    return render(request, 'fhs/editprofile.html', {"profileuser":user})
