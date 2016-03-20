@@ -14,6 +14,7 @@ $(document).ready(function(){
             var title = info[1].value;
             var summary = info[2].value;
             var source = info[3].value;
+//            console.log(source);
             var category = $(this).siblings('.category-choice').find(":selected").text();
             var button = $(this);
 
