@@ -105,10 +105,10 @@
                                                             <form id="add_category" method="post" action="/fhs/add_category/"
                                                                                 enctype="multipart/form-data">
                                                                 {% csrf_token %}
-                                                                <input id="id_name" class="new-cat-info" maxlength="200" name="name" type="text">
-                                                                <input id="id_description" class="new-cat-info"  maxlength="500" name="description" type="text">
-                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
-                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <input id="id_name" class="new-cat-info" maxlength="200" name="name" type="text" />
+                                                                <input id="id_description" class="new-cat-info"  maxlength="500" name="description" type="text"/>
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox" />
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new"/>
                                                             </form>
                                                         </div>
                                                     {% endif %}

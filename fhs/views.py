@@ -129,10 +129,8 @@ def user_logout(request):
 def index(request):
 
     if request.user.is_authenticated():
-
         public_categories = Category.objects.filter(shared=True)
     else :
-
         public_categories = Category.objects.filter(shared=True)
 
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
@@ -217,8 +215,6 @@ def user_login(request):
 
 @login_required
 def search(request):
-
-
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
@@ -241,9 +237,7 @@ def search(request):
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
-
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
-            print len(results_mashup)
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -256,9 +250,6 @@ def search(request):
 
     return render(request, 'fhs/search.html', context_dict)
 
-    #         result_list = run_query(query)
-    #
-    # return render(request, 'fhs/search.html', {'result_list': result_list, 'categories': categories})
 
 def save_page(request):
     if request.method == 'POST':
