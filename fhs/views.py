@@ -199,7 +199,7 @@ def register(request):
             if user_form_errors.has_key("username") and \
                 user_form_errors['username'][0]['message'] == "User with this Username already exists.":
                 username_taken = True
-            print user_form.errors, profile_form.errors
+            #print user_form.errors, profile_form.errors
 
     else:
         user_form = UserForm()
@@ -247,7 +247,7 @@ def search(request):
     results_mashup = []
     categories = Category.objects.filter(user=request.user)
     public_categories = Category.objects.filter(shared=True)
-    print public_categories
+    #print public_categories
     query = None
     age = None
     gender = "male"
@@ -337,19 +337,19 @@ def terms(request):
 
 def profile(request, user):
     context_dict={}
-    print user
+    #print user
     try:
         cat_list = get_category_list()
         user_can_edit=False
         userp = User.objects.get(username=user)
-        print userp
+        #print userp
         context_dict = {'cat_list': cat_list}
 
         try:
             up = UserProfile.objects.get(user=userp)
         except:
             up = None
-            print up
+            #print up
         context_dict['user'] = userp
         context_dict['userprofile'] = up
 
@@ -372,7 +372,7 @@ def profile(request, user):
         context_dict['user_can_edit']=user_can_edit
         context_dict['categories']= categories
     except User.DoesNotExist:
-        print "ttt"
+        #print "ttt"
         pass
     return render(request, 'fhs/profile.html', context_dict)
 
@@ -421,7 +421,7 @@ def suggest_category(request):
     if request.GET['page'] == "search":
         return render(request, 'fhs/cats.html', {'cats': cat_list })
     else:
-        print "I am here"
+        #print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
 

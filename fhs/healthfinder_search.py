@@ -43,12 +43,13 @@ def run_query(search_terms, age, gender):
             #only a single dictionary is returned; while if there are more than one results per topics/tools
             #a list of results is returned
             if type(json_response['Result']['Topics']) == dict:
+
                 topic=json_response['Result']['Topics']
                 results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
             else:
                 for topic in json_response['Result']['Topics']:
                     results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
-            if type(json_response['Result']['Tools']):
+            if type(json_response['Result']['Tools']) == dict:
                 topic = json_response['Result']['Tools']
                 results.append({"title": topic['Title'], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
             else:

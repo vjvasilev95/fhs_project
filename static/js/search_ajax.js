@@ -1,10 +1,18 @@
 var suggestCallBack; // global var for autocomplete jsonp
 $(document).ready(function(){
     $('.fa-spinner').addClass('hidden');
+    $('.no-cats').hide();
 
     $('.category-choice').change(function() {
         var selection = $(this);
-        var wrapper = selection.parent().siblings('.create-new-category-wrapper');
+        var wrapper;
+
+        if (selection.siblings('.create-new-category-wrapper').length) {
+            wrapper = selection.siblings('.create-new-category-wrapper');
+        } else {
+            wrapper = selection.parent().siblings('.create-new-category-wrapper');
+        }
+
         var save_btn = selection.next();
         if (selection.find(":selected").attr('value') == "new-cat") {
             save_btn.prop('disabled', true);
@@ -18,8 +26,8 @@ $(document).ready(function(){
     $('.save-btn').click(function(e){
 
         e.preventDefault();
-
-        if ($(this).siblings('.category-choice').length) {
+        console.log($(this).siblings('.category-choice').hasClass("no-cats"));
+        if (!$(this).siblings('.category-choice').hasClass("no-cats")) {
             var csrftoken = Cookies.get('csrftoken');
 
             var info = $(this).siblings('.hidden-info');
@@ -50,7 +58,7 @@ $(document).ready(function(){
                     }
                 });
         } else {
-            $(this).siblings('.create-new-category-wrapper').show();
+            $(this).parent().siblings('.create-new-category-wrapper').show();
         }
     });
 
@@ -88,12 +96,19 @@ $(document).ready(function(){
                         }
 
                         // Append the success message
-                        save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category_url']+"'>" + name +"</a>" + " successfully created.</span");
+                        save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category']+"'>" + name +"</a>" + " successfully created.</span");
 
                         // Update the list of options
                         var select_tag = wrapper.siblings('.save_page_form').children('.category-choice');
                         select_tag.append($("<option></option>").val(name).text(name));
                         select_tag.val(name);
+                        $('.no-cats').show();
+                        //$('.no-cats').append($("<option></option>").val(name).text(name));
+                        //$('.no-cats').val(name);
+
+                        if ($('.category-choice').hasClass('no-cats')) {
+                            $('.category-choice').removeClass('no-cats');
+                        }
                         save_btn.prop('disabled', false);
 
                         $('.add_category').trigger("reset");

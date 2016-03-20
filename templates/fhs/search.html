@@ -112,11 +112,12 @@
                                                         <form class="add_category" method="post" action="/fhs/add_category/"
                                                                             enctype="multipart/form-data">
                                                             {% csrf_token %}
-                                                            <input id="id_name" class="new-cat-info" maxlength="200" name="name" type="text">
-                                                            <input id="id_description" class="new-cat-info"  maxlength="500" name="description" type="text">
-                                                            <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
-                                                            <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
-                                                            <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                             <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
                                                         </form>
                                                     </div>
                                                     {% else %}
@@ -126,8 +127,9 @@
                                                             <form class="add_category" method="post" action="/fhs/add_category/"
                                                                                 enctype="multipart/form-data">
                                                                 {% csrf_token %}
-                                                                <input id="id_name" class="new-cat-info" maxlength="200" name="name" type="text">
-                                                                <input id="id_description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                 <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
                                                                 <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
                                                                 <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
                                                                 <i class="fa fa-spinner faa-spin animated faa-slow"></i>
@@ -153,24 +155,54 @@
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
-                                                <form id="save_page_form" method="post" action="{% url 'save_page' %}">
+                                                <form class="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     {% if categories %}
                                                         <select name="category" class="category-choice" required>
 
                                                             {% for category in categories %}
                                                                 <option value={{ category.name }}>{{ category.name }}</option>
                                                             {% endfor %}
-
+                                                                <option value="new-cat">Create a new category</option>
                                                         </select>
-                                                    {% endif %}
-                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
-                                                    <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
                                                 </form>
+
+                                                    <div class="create-new-category-wrapper">
+                                                        <p class='create-new-category'>Create a category to save the page in.</p>
+                                                        <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                            enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                             <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        </form>
+                                                    </div>
+                                                    {% else %}
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <div class="create-new-category-wrapper">
+                                                            <p class='create-new-category'>Create a category to save the page in.</p>
+                                                            <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                                enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                 <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                            </form>
+                                                        </div>
+                                                    {% endif %}
+                                                <!--</form>-->
                                             </div>
                                         {% endfor %}
                                         {% else %}
@@ -192,24 +224,60 @@
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
-                                                <form id="save_page_form" method="post" action="{% url 'save_page' %}">
+                                                <form class="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     {% if categories %}
                                                         <select name="category" class="category-choice" required>
 
                                                             {% for category in categories %}
                                                                 <option value={{ category.name }}>{{ category.name }}</option>
                                                             {% endfor %}
-
+                                                                <option value="new-cat">Create a new category</option>
                                                         </select>
-                                                    {% endif %}
-                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
-                                                    <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
                                                 </form>
+
+                                                    <div class="create-new-category-wrapper">
+                                                        <p class='create-new-category'>Create a category to save the page in.</p>
+                                                        <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                            enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                             <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        </form>
+                                                    </div>
+                                                    {% else %}
+
+                                                        <select name="category" class="category-choice no-cats" required>
+                                                            <option value="new-cat">Create a new category</option>
+                                                        </select>
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                    </form>
+                                                        <div class="create-new-category-wrapper">
+                                                            <p class='create-new-category'>Create a category to save the page in.</p>
+                                                            <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                                enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                 <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                            </form>
+                                                        </div>
+                                                    {% endif %}
+                                                <!--</form>-->
                                             </div>
                                         {% endfor %}
                                         {% else %}
@@ -231,24 +299,54 @@
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
                                                 <p class="list-group-item-text">{{ result.summary }}</p>
-                                                <form id="save_page_form" method="post" action="{% url 'save_page' %}">
+                                                <form class="save_page_form" method="post" action="{% url 'save_page' %}">
                                                     {% csrf_token %}
                                                     <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
                                                     <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
-                                                    <input type="hidden" class="hidden-info" value="{{ results.source }}" name="source"/>
+                                                    <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
                                                     {% if categories %}
                                                         <select name="category" class="category-choice" required>
 
                                                             {% for category in categories %}
                                                                 <option value={{ category.name }}>{{ category.name }}</option>
                                                             {% endfor %}
-
+                                                                <option value="new-cat">Create a new category</option>
                                                         </select>
-                                                    {% endif %}
-                                                    <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
-                                                    <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
                                                 </form>
+
+                                                    <div class="create-new-category-wrapper">
+                                                        <p class='create-new-category'>Create a category to save the page in.</p>
+                                                        <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                            enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                             <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                        </form>
+                                                    </div>
+                                                    {% else %}
+                                                        <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <div class="create-new-category-wrapper">
+                                                            <p class='create-new-category'>Create a category to save the page in.</p>
+                                                            <form class="add_category" method="post" action="/fhs/add_category/"
+                                                                                enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
+                                                                Shared
+                                                                <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">
+                                                                <input type="submit" class="btn btn-primary submit-new" name="submit-new" value="Create Category" />
+                                                                <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                            </form>
+                                                        </div>
+                                                    {% endif %}
+                                                <!--</form>-->
                                             </div>
                                         {% endfor %}
                                         {% else %}

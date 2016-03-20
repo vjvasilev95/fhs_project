@@ -17,10 +17,9 @@ $(document).ready(function(){
          function(data){
                     var response = $.parseJSON(JSON.stringify(data));
                     if (response['response'] == 'Success'){
-                        theRow.remove();
-                        alert("You successfully deleted the category");
+                        theRow.fadeOut(1300, function(){ theRow.remove(); });
                     } else {
-                        alert("The was a problem with the server while trying to delete the category. Please try again");
+                        alert("The was a problem with the server while trying to delete the category.");
                     }
                 });
     });
