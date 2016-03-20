@@ -12,17 +12,16 @@ $(document).ready(function(){
 
         $.post('/fhs/delete-page/', {'cat_name': cat_name, 'page_title': page_title, csrfmiddlewaretoken: csrftoken},
          function(data){
-                    var response = $.parseJSON(JSON.stringify(data));
-                    if (response['response'] == 'Success'){
-                          if(response['pages_count'] == 0){
-                            $('#cat_views_paragraph').after("<strong>No pages currently in category.</strong>");
-                          }
-                        theRow.remove();
-                        alert("You successfully deleted the page");
-                    } else {
-                        alert("The was a problem with the server while trying to delete the page. Please try again");
-                    }
-                });
+            var response = $.parseJSON(JSON.stringify(data));
+            if (response['response'] == 'Success'){
+                  if(response['pages_count'] == 0){
+                    $('#cat_views_paragraph').after("<strong>No pages currently in category.</strong>");
+                  }
+                theRow.fadeOut(1300, function(){ theRow.remove(); });
+            } else {
+                alert("The was a problem with the server while trying to delete the page.");
+            }
+        });
     });
 
 });

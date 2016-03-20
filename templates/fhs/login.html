@@ -11,6 +11,9 @@
                     <form id="login_form" method="post" action="/fhs/login/">
                         <h1>Login</h1>
                         {% csrf_token %}
+                        {% if invalid %}
+                            <p class="reg-error" >Invalid login details</p>
+                        {% endif %}
                         <div class="form-group">
                             <input class="register-input" type="text" name="username" required autofocus value="" placeholder="Username"/>
                         </div>

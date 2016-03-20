@@ -14,7 +14,6 @@
                     {% if public_categories %}
                     <table class="table" valign="baseline">
                     <tbody>
-                        {% autopaginate public_categories 5 %}
                         {% for category in public_categories %}
                             <tr>
                             <td class="category-info">
@@ -33,7 +32,6 @@
                         {% endfor %}
                     </tbody>
                     </table>
-                        {% paginate %}
                     {% else %}
                         <strong>There are no public categories present.</strong>
                     {% endif %}
@@ -85,7 +83,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 public-cats">
                     <table class="table" valign="baseline">
                     <tbody>
-                        {% autopaginate public_categories 5 %}
+                        {% autopaginate public_categories 10 %}
                         {% for category in public_categories %}
                             <tr>
                             <td class="category-info">

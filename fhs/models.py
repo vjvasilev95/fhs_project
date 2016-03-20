@@ -19,6 +19,9 @@ class Category(models.Model):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
 
+    def clean(self):
+        self.name = self.name.capitalize()
+
     def __unicode__(self):
         return self.name
 
