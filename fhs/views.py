@@ -20,6 +20,22 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+
+def delete_page(request):
+    if request.is_ajax():
+        category_name = request.POST['cat_name']
+        page_title = request.POST['page_title']
+        try:
+            theCategory = Category.objects.get(name=category_name)
+            thePage = Page.objects.filter(title=page_title, category=theCategory)[0]
+            thePage.delete()
+            pages_count = len(Page.objects.filter(category=theCategory))
+            json_response = {"response": "Success", 'pages_count':pages_count}
+        except:
+            json_response = {"response": "Failure"}
+        return JsonResponse(json_response)
+
+
 def track_category(request):
     cat_id = None
     url = '/fhs/'
@@ -28,8 +44,10 @@ def track_category(request):
             cat_id = request.GET['cat_id']
             try:
                 category = Category.objects.get(id = cat_id)
-                category.views += 1
-                category.save()
+                user = UserProfile.user
+                if category.user != user:
+                    category.views += 1
+                    category.save()
                 url = '/fhs/category/{}'.format(category.slug)
             except:
                 pass

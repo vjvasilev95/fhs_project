@@ -3,53 +3,61 @@
 {% block title %}Profile{% endblock %}
 
 {% block body_block %}
-    {{ profileuser.picture.url }}
-<div class="container" xmlns="http://www.w3.org/1999/html">
-    <div class="span6 well well-lg">
-        <center>
-            {% if userprofile.picture %}
-        <img src="/fhs{{ userprofile.picture.url }}" name="aboutme" width="140" height="140" class="img-circle">
-            {% else %}
-           <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
-            {%  endif %}
-        <h3>{{ user.username }}</h3>
-        <em class="center-block">{{ user.email  }}</em>
+    <div class="container">
+        <div class="row">
+            <div class="span6 well well-lg text-center">
 
-		</center>
+                {% if userprofile.picture %}
+                    <img src="/fhs{{ userprofile.picture.url }}" name="aboutme" width="140" height="140" class="img-circle">
+                {% else %}
+                    <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
+                {% endif %}
+                <h3>{{ user.username }}</h3>
+                <em class="center-block">{{ user.email }}</em>
 
-    </div>
-    {% if user_can_edit %}
-        <a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a><br><br>
-        <form id="form" method="post" action="/fhs/profile/" enctype="multipart/form-data">
-            {% csrf_token %}
-                <table class="table" valign="baseline">
-                <tbody>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12"></div>
+
+            {% if user_can_edit %}
+
+                <a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a>
+                <a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit Profile</a>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <form id="form" method="post" action="/fhs/profile/" enctype="multipart/form-data">
+                <table class="table cats-table" valign="baseline">
+                    <tbody>
                         {% for category in categories %}
-                                <tr>
-                                <td><input name="dependable" value="{{ category.id }}" type="checkbox" onchange="document.getElementById('del').disabled = !this.checked;" ></td>
+                            <tr>
                                 <td class="category-info">
                                     <p class="category-name"><strong>{{ category.name }}</strong></p>
+                                </td>
+                                <td>
+                                    <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
                                 </td>
                                 <td class="category-sharer" valign="bottom" align="left">
                                     <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
-                                <td class="category-visibility" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Shared </strong>{{ category.shared }}</p>
-                                </td>
                                 <td class="text-right" valign="bottom">
-                                    <a href="{% url 'goto' %}?cat_id={{ category.id }}"> See more</a>
+                                    <a href="{% url 'category' category.slug %}"> See more</a>
                                 </td>
 
                                 <td>
                                     <a href="#"><span class="glyphicon glyphicon-bin"></span></a>
                                 </td>
+                                <td>
+                                    <button type="submit" id="del" class="btn btn-danger btn-deletenumber"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
                                 </tr>
                         {% endfor %}
-                </tbody>
+                    </tbody>
                 </table>
-        {% if categories %}
-            <button type="submit" id="del" class="btn btn-danger btn-deletenumber" disabled=""><span class="glyphicon glyphicon-trash"></span></button>
-        {% endif %}
+
         </form>
     {% else %}
         <table class="table" valign="baseline">
@@ -74,5 +82,8 @@
                 </tbody>
                 </table>
     {% endif %}
+            </div>
+        </div>
+
 </div>
 {% endblock %}

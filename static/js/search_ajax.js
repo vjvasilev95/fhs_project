@@ -1,6 +1,6 @@
 var suggestCallBack; // global var for autocomplete jsonp
 $(document).ready(function(){
-
+    $('.fa-spinner').addClass('hidden');
 
     $('.save-btn').click(function(e){
 
@@ -14,6 +14,7 @@ $(document).ready(function(){
             var title = info[1].value;
             var summary = info[2].value;
             var source = info[3].value;
+//            console.log(source);
             var category = $(this).siblings('.category-choice').find(":selected").text();
             var button = $(this);
 
@@ -116,4 +117,12 @@ $(document).ready(function(){
             };
         }
     });
-}); 
+});
+/* show spinner */
+$( document ).ajaxStart(function() {
+    $('.fa-spinner').removeClass('hidden');
+});
+/* hide spinner */
+$( document ).ajaxStop(function() {
+    $('.fa-spinner').addClass('hidden');
+});
