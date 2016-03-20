@@ -17,13 +17,13 @@
                             <h1>Register</h1>
                             {% csrf_token %}
                             <div class="form-group">
-                                <input class="register-input" id="id_username" maxlength="50" name="username" placeholder="Account name" type="text">
+                                <input class="register-input" id="id_username" required autofocus maxlength="50" name="username" placeholder="Account name" type="text">
                             </div>
                             <div class="form-group">
                                 <input class="register-input" id="id_email" maxlength="75" name="email" placeholder="Email" type="email">
                             </div>
                             <div class="form-group">
-                                <input class="register-input" id="id_password" name="password" maxlength="50" placeholder="Password" type="password">
+                                <input class="register-input" id="id_password" required name="password" maxlength="50" placeholder="Password" type="password">
                             </div>
                             <div class="form-group">
                                 <label id="pic-label" for="id_picture">Profile Picture</label>
