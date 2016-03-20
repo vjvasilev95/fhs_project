@@ -15,7 +15,7 @@ $(document).ready(function(){
                     var response = $.parseJSON(JSON.stringify(data));
                     if (response['response'] == 'Success'){
                           if(response['pages_count'] == 0){
-                            $('h1').after("<strong>No pages currently in category.</strong>");
+                            $('#cat_views_paragraph').after("<strong>No pages currently in category.</strong>");
                           }
                         theRow.remove();
                         alert("You successfully deleted the page");
