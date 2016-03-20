@@ -300,35 +300,51 @@ def terms(request):
     return render(request, 'fhs/terms.html', {})
 
 
-@login_required
-def profile(request):
-    cat_list = get_category_list()
-    user = User.objects.get(username=request.user)
-    context_dict = {'cat_list': cat_list}
-    public_categories = Category.objects.filter(user=request.user)
-    try:
-        up = UserProfile.objects.get(user=user)
-    except:
-        up = None
-    context_dict['user'] = user
-    context_dict['userprofile'] = up
-    context_dict['public_categories']= public_categories
-    deleted=False
-    if request.method == "POST":
-        some_var = request.POST.getlist('dependable')
 
-        for id in some_var:
-            try:
-                Category.objects.filter(id=id).delete()
-                deleted=True
-            except:
-                deleted=False
-    context_dict['deleted']= deleted
+def profile(request, user):
+    context_dict={}
+    print user
+    try:
+        cat_list = get_category_list()
+        user_can_edit=False
+        userp = User.objects.get(username=user)
+        print userp
+        context_dict = {'cat_list': cat_list}
+
+        try:
+            up = UserProfile.objects.get(user=userp)
+        except:
+            up = None
+            print up
+        context_dict['user'] = userp
+        context_dict['userprofile'] = up
+
+        if userp == User.objects.get(username=request.user):
+            categories = Category.objects.filter(user=userp)
+            deleted=False
+            user_can_edit=True
+            if request.method == "POST":
+                some_var = request.POST.getlist('dependable')
+
+                for id in some_var:
+                    try:
+                        Category.objects.filter(id=id).delete()
+                        deleted=True
+                    except:
+                        deleted=False
+            context_dict['deleted']= deleted
+        else:
+            categories = Category.objects.filter(user=userp,shared=True)
+        context_dict['user_can_edit']=user_can_edit
+        context_dict['categories']= categories
+    except User.DoesNotExist:
+        print "ttt"
+        pass
     return render(request, 'fhs/profile.html', context_dict)
 
 @login_required
 def editprofile(request):
-
+    user = User.objects.get(username=request.user)
     if request.method == "POST":
         email = request.POST['email']
         form = EmailForm(data=request.POST, instance=request.user)
@@ -344,7 +360,7 @@ def editprofile(request):
             if 'picture' in request.FILES:
                 up.picture = request.FILES['picture']
                 up.save()
-            return HttpResponseRedirect('/fhs/profile')
+            return HttpResponseRedirect('/fhs/profile/'+user.username)
     else:
         return render(request, 'fhs/editprofile.html',{})
 

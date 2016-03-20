@@ -16,13 +16,15 @@
         <em class="center-block">{{ user.email  }}</em>
 
 		</center>
-    </div><a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a><br><br>
-        <form id="form" method="post" action="/fhs/profile/"
-                            enctype="multipart/form-data">
+
+    </div>
+    {% if user_can_edit %}
+        <a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a><br><br>
+        <form id="form" method="post" action="/fhs/profile/" enctype="multipart/form-data">
             {% csrf_token %}
                 <table class="table" valign="baseline">
                 <tbody>
-                        {% for category in public_categories %}
+                        {% for category in categories %}
                                 <tr>
                                 <td><input name="dependable" value="{{ category.id }}" type="checkbox" onchange="document.getElementById('del').disabled = !this.checked;" ></td>
                                 <td class="category-info">
@@ -45,9 +47,32 @@
                         {% endfor %}
                 </tbody>
                 </table>
-        <button type="submit" id="del" class="btn btn-danger btn-deletenumber" disabled="">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
+        {% if categories %}
+            <button type="submit" id="del" class="btn btn-danger btn-deletenumber" disabled=""><span class="glyphicon glyphicon-trash"></span></button>
+        {% endif %}
         </form>
+    {% else %}
+        <table class="table" valign="baseline">
+                <tbody>
+                        {% for category in categories %}
+                                <tr>
+                                <td class="category-info">
+                                    <p class="category-name"><strong>{{ category.name }}</strong></p>
+                                </td>
+                                <td class="category-sharer" valign="bottom" align="left">
+                                    <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
+                                </td>
+                                <td class="text-right" valign="bottom">
+                                    <a href="{% url 'goto' %}?cat_id={{ category.id }}"> See more</a>
+                                </td>
+
+                                <td>
+                                    <a href="#"><span class="glyphicon glyphicon-bin"></span></a>
+                                </td>
+                                </tr>
+                        {% endfor %}
+                </tbody>
+                </table>
+    {% endif %}
 </div>
 {% endblock %}

@@ -4,25 +4,7 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block body_block %}
-<<<<<<< HEAD
-    <div class="formWrapper">
-                    <div class="col-xs-5 register-form">
 
-                        <form id="user_form" method="post" action=""
-                            enctype="multipart/form-data">
-                            <h1>Edit profile</h1>
-                                    {% csrf_token %}
-                            {{ form.as_p }}
-                            {{ picform.as_p }}
-                            {% if email_in_db %}
-                                <p class="reg-error" >Fail registration attempt: This email is already in the system. Please try again with a different email</p>
-                            {% endif %}
-                                <a href="{% url 'userauth_password_change' %}" >Change password</a><br>
-                                <input type="submit" name="submit" value="Save changes" />
-                            </form>
-                    </div>
-             </div>
-=======
     <div class="container">
         <div class="row">
             <div class="register-formWrapper">
@@ -48,7 +30,7 @@
                     </form>
                  </div>
             </div>
->>>>>>> 30d750ce74bd47a9bcb4cc69f42b1130e5aebebd
+
         </div>
     </div>
 
