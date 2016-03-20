@@ -4,23 +4,31 @@
 
 {% block body_block %}
     {{ profileuser.picture.url }}
-<div class="container">
-    <div class="span6 well well-lg">
-        <center>
-            {% if userprofile.picture %}
-        <img src="/fhs{{ userprofile.picture.url }}" name="aboutme" width="140" height="140" class="img-circle">
-            {% else %}
-           <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
-            {%  endif %}
-        <h3>{{ user.username }}</h3>
-        <em class="center-block">{{ user.email  }}</em>
+    <div class="container">
+        <div class="row">
+            <div class="span6 well well-lg text-center">
 
-		</center>
-    </div><a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a>
+                {% if userprofile.picture %}
+                    <img src="/fhs{{ userprofile.picture.url }}" name="aboutme" width="140" height="140" class="img-circle">
+                {% else %}
+                    <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
+                {% endif %}
+                <h3>{{ user.username }}</h3>
+                <em class="center-block">{{ user.email  }}</em>
 
+            </div>
+        </div>
 
-                <table class="table" valign="baseline">
-                <tbody>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a>
+                <a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit Profile</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <table class="table cats-table" valign="baseline">
+                    <tbody>
                         {% for category in public_categories %}
                                 <tr>
                                 <td class="category-info">
@@ -44,8 +52,10 @@
                                 </td>
                                 </tr>
                         {% endfor %}
-                </tbody>
+                    </tbody>
                 </table>
-    </li>
+            </div>
+        </div>
+
 </div>
 {% endblock %}
