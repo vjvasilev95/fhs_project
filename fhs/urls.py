@@ -23,4 +23,5 @@ urlpatterns = patterns('',
         url(r'^password-change-done/$', auth_views.password_change_done, {'template_name': 'fhs/changepassworddone.html'}, name='password_change_done'),
         url(r'^goto/$', views.track_category, name='goto'),
         url(r'^delete-page/$', views.delete_page, name="delete_page"),
+        url(r'^delete-category/$', views.delete_category, name="delete_category"),
         )

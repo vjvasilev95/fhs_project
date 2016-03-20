@@ -20,6 +20,16 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+def delete_category(request):
+    if request.is_ajax():
+        category_name = request.POST['cat_name']
+        try:
+            theCategory=Category.objects.get(name=category_name)
+            theCategory.delete()
+            json_response={ "response": "Success"}
+        except:
+            json_response={"response": "Failure"}
+    return JsonResponse(json_response)
 
 def delete_page(request):
     if request.is_ajax():
