@@ -32,11 +32,8 @@
                                 <td class="category-sharer" valign="bottom" align="left">
                                     <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
-                                <td class="category-visibility" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Shared </strong>{{ category.shared }}</p>
-                                </td>
                                 <td class="text-right" valign="bottom">
-                                    <a href="{% url 'goto' %}?cat_id={{ category.id }}"> See more</a>
+                                    <a href="{% url 'category' category.slug %}"> See more</a>
                                 </td>
 
                                 <td>

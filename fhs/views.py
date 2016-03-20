@@ -28,8 +28,10 @@ def track_category(request):
             cat_id = request.GET['cat_id']
             try:
                 category = Category.objects.get(id = cat_id)
-                category.views += 1
-                category.save()
+                user = UserProfile.user
+                if category.user != user:
+                    category.views += 1
+                    category.save()
                 url = '/fhs/category/{}'.format(category.slug)
             except:
                 pass
