@@ -8,7 +8,16 @@
         <div class="row">
             {% if registered %}
                 <h1>Thank you for registering!</h1>
-                <a href="{% url 'index' %}">Return to the homepage.</a><br />
+                <p></p><a href="{% url 'index' %}">Return to the homepage.</a><br/></p>
+                <p>The Federated Health Search Application provides a secure and quick way<br>for you to search for
+                different conditions, medicines, symptoms and treatments.<br></p>
+                <p>As a registered user you can:</p>
+                    <ul>
+                    <li>Choose between Bing, Medline Plus and healthfinder.gov.</li>
+                    <li>Create categories and save resources you find into them.</li>
+                    <li>Share these resources with other people.</li>
+                    <li>Maintain your public profile.</li>
+                    </ul>
             {% else %}
                 <div class="register-formWrapper">
                     <div class="col-xs-5 register-form register-formWrapper">

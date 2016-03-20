@@ -182,7 +182,7 @@ def user_login(request):
             if user.is_active:
 
                 login(request, user)
-                return HttpResponseRedirect('/fhs/')
+                return HttpResponseRedirect('/fhs/search/')
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your fhs account is disabled.")
