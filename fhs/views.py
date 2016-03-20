@@ -20,6 +20,16 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+def delete_category(request):
+    if request.is_ajax():
+        category_name = request.POST['cat_name']
+        try:
+            theCategory=Category.objects.get(name=category_name)
+            theCategory.delete()
+            json_response={ "response": "Success"}
+        except:
+            json_response={"response": "Failure"}
+    return JsonResponse(json_response)
 
 def delete_page(request):
     if request.is_ajax():
@@ -44,8 +54,10 @@ def track_category(request):
             cat_id = request.GET['cat_id']
             try:
                 category = Category.objects.get(id = cat_id)
-                category.views += 1
-                category.save()
+                user = UserProfile.user
+                if category.user != user:
+                    category.views += 1
+                    category.save()
                 url = '/fhs/category/{}'.format(category.slug)
             except:
                 pass
@@ -138,7 +150,6 @@ def user_logout(request):
 def index(request):
 
     if request.user.is_authenticated():
-
         public_categories = Category.objects.filter(shared=True)
     else :
         public_categories = Category.objects.filter(shared=True)[:5]
@@ -252,7 +263,6 @@ def search(request):
             results_from_bing = bing_search.run_query(query)
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
-
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
 
     context_dict['query'] = query
@@ -267,9 +277,6 @@ def search(request):
 
     return render(request, 'fhs/search.html', context_dict)
 
-    #         result_list = run_query(query)
-    #
-    # return render(request, 'fhs/search.html', {'result_list': result_list, 'categories': categories})
 
 def save_page(request):
     if request.method == 'POST':
@@ -327,35 +334,51 @@ def terms(request):
     return render(request, 'fhs/terms.html', {})
 
 
-@login_required
-def profile(request):
-    cat_list = get_category_list()
-    user = User.objects.get(username=request.user)
-    context_dict = {'cat_list': cat_list}
-    public_categories = Category.objects.filter(user=request.user)
-    try:
-        up = UserProfile.objects.get(user=user)
-    except:
-        up = None
-    context_dict['user'] = user
-    context_dict['userprofile'] = up
-    context_dict['public_categories']= public_categories
-    deleted=False
-    if request.method == "POST":
-        some_var = request.POST.getlist('dependable')
 
-        for id in some_var:
-            try:
-                Category.objects.filter(id=id).delete()
-                deleted=True
-            except:
-                deleted=False
-    context_dict['deleted']= deleted
+def profile(request, user):
+    context_dict={}
+    print user
+    try:
+        cat_list = get_category_list()
+        user_can_edit=False
+        userp = User.objects.get(username=user)
+        print userp
+        context_dict = {'cat_list': cat_list}
+
+        try:
+            up = UserProfile.objects.get(user=userp)
+        except:
+            up = None
+            print up
+        context_dict['user'] = userp
+        context_dict['userprofile'] = up
+
+        if userp == User.objects.get(username=request.user):
+            categories = Category.objects.filter(user=userp)
+            deleted=False
+            user_can_edit=True
+            if request.method == "POST":
+                some_var = request.POST.getlist('dependable')
+
+                for id in some_var:
+                    try:
+                        Category.objects.filter(id=id).delete()
+                        deleted=True
+                    except:
+                        deleted=False
+            context_dict['deleted']= deleted
+        else:
+            categories = Category.objects.filter(user=userp,shared=True)
+        context_dict['user_can_edit']=user_can_edit
+        context_dict['categories']= categories
+    except User.DoesNotExist:
+        print "ttt"
+        pass
     return render(request, 'fhs/profile.html', context_dict)
 
 @login_required
 def editprofile(request):
-
+    user = User.objects.get(username=request.user)
     if request.method == "POST":
         email = request.POST['email']
         form = EmailForm(data=request.POST, instance=request.user)
@@ -371,7 +394,7 @@ def editprofile(request):
             if 'picture' in request.FILES:
                 up.picture = request.FILES['picture']
                 up.save()
-            return HttpResponseRedirect('/fhs/profile')
+            return HttpResponseRedirect('/fhs/profile/'+user.username)
     else:
         return render(request, 'fhs/editprofile.html',{})
 
@@ -415,5 +438,3 @@ def change_password(request):
         'form': form,
     })
 
-def format_category_name(name):
-    pass

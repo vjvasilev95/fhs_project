@@ -20,7 +20,7 @@
                                 <p class="category-name"><strong>{{ category.name }}</strong></p>
                             </td>
                             <td>
-                                <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
+                                <span class="recipients-number"><strong>Shared by: </strong><a href="/fhs/profile/{{ category.user }}">{{ category.user }}</a></span>
                             </td>
                             <td class="category-sharer" valign="bottom" align="left">
                                 <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
@@ -90,13 +90,13 @@
                                 <p class="category-name"><strong>{{ category.name }}</strong></p>
                             </td>
                             <td>
-                                <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
+                                <span class="recipients-number"><strong>Shared by: </strong><a href="/fhs/profile/{{ category.user }}">{{ category.user }}</a></span>
                             </td>
                             <td class="category-sharer" valign="bottom" align="left">
                                 <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                             </td>
                             <td class="text-right" valign="bottom">
-                                <a href="{% url 'goto' %}?cat_id={{ category.id }}">See more</a>
+                                <a href="{% url 'category' category.slug %}"> See more</a>
                             </td>
                             </tr>
                         {% endfor %}

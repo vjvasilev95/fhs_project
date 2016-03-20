@@ -58,7 +58,7 @@ def add_cat(name):
     #picking a random user for the category
     users = User.objects.all()
     lengthOfList = len(users)
-    c = Category.objects.get_or_create(name=name, user = users[random.randint(0, lengthOfList - 1)])[0]
+    c = Category.objects.get_or_create(shared = True, name=name, user = users[random.randint(0, lengthOfList - 1)])[0]
     return c
 
 # Start execution here!

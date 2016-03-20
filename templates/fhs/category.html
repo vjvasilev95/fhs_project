@@ -14,7 +14,7 @@
 
                             <p>User: {{ category.user }}</p>
 
-                            <p>
+                            <p id="cat_views_paragraph">
                                 <b id="cat_views">{{ category.views }}</b>
                                  people have seen this category
                             </p>
@@ -45,9 +45,11 @@
                                     <td class="category-sharer" valign="bottom" align="left">
                                         <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
                                     </td>
+                                    {% if category.user == user %}
                                     <td>
                                         <input type="submit" class="btn btn-primary delete-btn btn-sm" value="Delete"/>
                                     </td>
+                                    {% endif %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>

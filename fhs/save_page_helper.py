@@ -29,6 +29,7 @@ def filter_content(source, url):
         html_file.close()
         soup = BeautifulSoup(html_doc, 'html.parser')
     except:
+        print url + " THis was problematic url"
         raise ValueError("Unable to load the page")
 
     if source == 'healthgov':

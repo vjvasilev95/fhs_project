@@ -117,7 +117,7 @@ STATICFILES_DIRS = (
 )
 
 #Session cookies will last for half an hour
-SESSION_COOKIE_AGE = 1800
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 
