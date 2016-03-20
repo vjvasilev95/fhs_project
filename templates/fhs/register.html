@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Register{% endblock %}
 
@@ -32,8 +33,12 @@
                                 <input class="register-input" id="id_password" required name="password" maxlength="50" placeholder="Password" type="password">
                             </div>
                             <div class="form-group">
-                                <label id="pic-label" for="id_picture">Profile Picture</label>
-                                <input id="id_picture" name="picture" type="file">
+                                <label id="pic-label" for="uploadFile">Profile Picture</label>
+                                <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+                                <div class="fileUpload btn btn-default" id="uploadBtn">
+                                    <span>Upload</span>
+                                    <input id="uploadBtn" name="picture" type="file" class="upload" />
+                                </div>
                             </div>
                             <div class="login"><input class="btn btn-primary sign-up-btn" type="submit" name="submit" value="Sign Up" /></div>
                         </form>
@@ -43,4 +48,5 @@
         </div>
     </div>
 
+    <script src="{% static "js/form_js.js" %}"></script>
 {% endblock %}
