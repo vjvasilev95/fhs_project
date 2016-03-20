@@ -55,6 +55,7 @@
     text-align: center;
 }
 
+
 #id_picture {
     display: inline-block;
 }
@@ -74,4 +75,8 @@
 
 .reg-error {
     color: red;
+}
+
+.navbar-brand {
+    padding: 5px 5px 5px 25px;
 }
