@@ -10,11 +10,9 @@ django.setup()
 from fhs.models import UserProfile
 from django.contrib.auth.models import User
 
-def populate_users():
+def populate_users_non_special():
     f1 = open("users.txt", "r")
-
     line = f1.readline()[: -1]
-
     while len(line) != 0:
         list = string.split(line, " ")
         family_name = list[0]
@@ -45,10 +43,29 @@ def populate_users():
         profile.save()
         line = f1.readline()[: -1]
 
+    #Also add the three users from the email
+
+def populate_users_special():
+    f1 = open("users_special(jil, bob, jen).txt")
+    line = f1.readline()[: -1]
+    while len(line) != 0:
+        theUser = User()
+        theUser.username = line
+        theUser.first_name = line
+        theUser.email = "{}@gmail.com".format(line)
+        theUser.password = line
+        theUser.set_password(theUser.password)
+        theUser.save()
+        profile = UserProfile()
+        profile.user = theUser
+        profile.save()
+        line = f1.readline()[: -1]
+
 
 if __name__ == '__main__':
     print "Starting FHS user population script..."
-    populate_users()
+    populate_users_non_special()
+    populate_users_special()
 
 
 
