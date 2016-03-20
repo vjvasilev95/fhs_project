@@ -17,8 +17,13 @@
                                     {% autopaginate pages 10 %}
                                     {% for page in pages %}
                                     <tr>
-                                    <td class="text-left" valign="bottom">
+                                    <td class="text-left page-info" valign="bottom">
                                         <a href="{{ page.url }}">{{ page.title }}</a>
+                                        <form id="delete-page-form" method="post" action="{% url 'delete_page' %}">
+                                           {% csrf_token %}
+                                            <input class="page-info" type="hidden" value="{{ page.title }}"/>
+                                           <input class="cat-info" type="hidden" value="{{ category_name }}" name="category-title" />
+                                        </form>
                                     </td>
                                     <td>
                                         <span class="recipients-number"><strong>Summary:</strong>{{ page.summary }}</span>
@@ -31,6 +36,9 @@
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
                                         <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
+                                    </td>
+                                    <td>
+                                        <input type="submit" class="btn btn-primary delete-btn btn-sm" value="Delete"/>
                                     </td>
                                     </tr>
                                     {% endfor %}
@@ -46,5 +54,7 @@
             </div>
         </div>
     </div>
+    <script src="{% static "js/js.cookie.js" %}"></script>
+    <script src="{% static "js/delete_page.js" %}"></script>
 
 {% endblock %}
