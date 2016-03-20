@@ -7,13 +7,9 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fhs', '0001_initial'),
+        ('fhs', '0002_auto_20160317_1328'),
+        ('fhs', '0002_auto_20160318_1513'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='category',
-            name='name',
-            field=models.CharField(unique=True, max_length=200),
-        ),
     ]

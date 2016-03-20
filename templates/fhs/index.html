@@ -27,7 +27,7 @@
                                 <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                             </td>
                             <td class="text-right" valign="bottom">
-                                <li><a href="/fhs/category/{{ category.slug }}">{{ category.name }}</a></li>
+                                <a href="/fhs/category/{{ category.slug }}">See more</a>
                             </td>
                             </tr>
                         {% endfor %}
@@ -98,7 +98,7 @@
                                 <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                             </td>
                             <td class="text-right" valign="bottom">
-                                <li><a href="{% url 'goto' %}?cat_id={{ category.id }}">{{ category.name }}</a></li>
+                                <a href="{% url 'goto' %}?cat_id={{ category.id }}">See more</a>
                             </td>
                             </tr>
                         {% endfor %}

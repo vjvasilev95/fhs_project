@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-
+import json
 from django.shortcuts import render
-from forms import UserProfileForm, UserForm, CategoryForm
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from forms import UserProfileForm, UserForm, CategoryForm, EmailForm
 from models import Category, Page
-from models import User
-
+from models import UserProfile
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import bing_search
@@ -12,6 +14,9 @@ import healthfinder_search, medlinePlus
 from save_page_helper import *
 from django.http import JsonResponse
 import merge_by_relevance
+
+from django.contrib.auth import views
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
@@ -29,6 +34,7 @@ def track_category(request):
             except:
                 pass
     return redirect(url)
+
 
 def add_category(request):
 
@@ -113,29 +119,45 @@ def index(request):
 
 def register(request):
 
+    email_in_db = False
     registered = False
+    username_taken = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            #we will log in the user with the non-hashed password
-            non_hashed_password = user.password
-            user.set_password(non_hashed_password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
+            user = user_form.save(commit=False)
+            #check if email is in the database
+            email_to_be_checked = user.email
+            #if no user has this email, the query will result in an error, then
+            #the except statement will be executed, resulting in a successful registration
+            try:
+                test_user = User.objects.get(email=email_to_be_checked)
+                email_in_db = True
+            except User.DoesNotExist:
+                #save user and user_profile, and sign in the user with the non-hashed password
+                non_hashed_password = user.password
+                user.set_password(non_hashed_password)
+                user.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
-            #In the end, log the user into the system
-            theUser = authenticate(username=user.username, password=non_hashed_password)
-            login(request, theUser)
+                if 'picture' in request.FILES:
+                    profile.picture = request.FILES['picture']
+                profile.save()
+                registered = True
+                #In the end, log the user into the system
+                theUser = authenticate(username=user.username, password=non_hashed_password)
+                login(request, theUser)
         else:
+            #convert the errors into a json format
+            user_form_errors = json.loads(user_form.errors.as_json())
+            #check if the user_form error was raised because someone tried to register with a username that is already in the dbs
+            if user_form_errors.has_key("username") and \
+                user_form_errors['username'][0]['message'] == "User with this Username already exists.":
+                username_taken = True
             print user_form.errors, profile_form.errors
 
     else:
@@ -144,7 +166,8 @@ def register(request):
 
     return render(request,
             'fhs/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered,
+             'email_in_db':email_in_db, 'username_taken':username_taken})
 
 
 def user_login(request):
@@ -275,13 +298,47 @@ def terms(request):
 
 @login_required
 def profile(request):
+    cat_list = get_category_list()
     user = User.objects.get(username=request.user)
+    context_dict = {'cat_list': cat_list}
     public_categories = Category.objects.filter(user=request.user)
-    return render(request, 'fhs/profile.html', {"profileuser":user, 'public_categories': public_categories})
+    try:
+        up = UserProfile.objects.get(user=user)
+    except:
+        up = None
+    context_dict['user'] = user
+    context_dict['userprofile'] = up
+    context_dict['public_categories']= public_categories
+
+    return render(request, 'fhs/profile.html', context_dict)
 
 def editprofile(request):
+
+    if request.method == "POST":
+        form = EmailForm(data=request.POST, instance=request.user)
+        picform = UserProfileForm(data=request.POST, instance=request.user)
+        try:
+            up = UserProfile.objects.get(user=request.user)
+        except:
+            up = None
+        if form.is_valid() and picform.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            if 'picture' in request.FILES:
+                up.picture = request.FILES['picture']
+                up.save()
+            return HttpResponseRedirect("")
+    else:
+        form = EmailForm(instance=request.user)
+        picform = UserProfileForm(instance=request.user)
+
+    return render(request,
+            'fhs/editprofile.html',
+            {'form': form, 'picform': UserProfileForm})
+
     user = User.objects.get(username=request.user)
     return render(request, 'fhs/editprofile.html', {"profileuser":user})
+
 
 def get_category_list(max_results=0, starts_with=''):
     cat_list = []
@@ -308,3 +365,16 @@ def suggest_category(request):
         print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
+
+def change_password(request):
+    form = PasswordReset(user=request.user)
+
+    if request.method == 'POST':
+        form = forms.PasswordReset(request.user,request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+    return render(request, 'fhs/changepassword.html', {
+        'form': form,
+    })

@@ -3,16 +3,17 @@
 {% block title %}Profile{% endblock %}
 
 {% block body_block %}
+    {{ profileuser.picture.url }}
 <div class="container">
     <div class="span6 well well-lg">
         <center>
-            {% if profieluser.picture %}
-        <img src="{{ profieluser.picture }}" name="aboutme" width="140" height="140" class="img-circle col-sm-2">
+            {% if userprofile.picture %}
+        <img src="/fhs{{ userprofile.picture.url }}" name="aboutme" width="140" height="140" class="img-circle">
             {% else %}
            <img src="{% static "images/profile generic.gif" %}" name="aboutme" width="140" height="140" class="img-circle">
             {%  endif %}
-        <h3>{{ profileuser.username }}</h3>
-        <em class="center-block">{{ profileuser.email  }}</em>
+        <h3>{{ user.username }}</h3>
+        <em class="center-block">{{ user.email  }}</em>
 
 		</center>
     </div><a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a><a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit</a>
@@ -26,16 +27,16 @@
                                     <p class="category-name"><strong>{{ category.name }}</strong></p>
                                 </td>
                                 <td>
-                                    <span class="recipients-number"><strong>Shared by:</strong>{{ category.user }}</span>
+                                    <span class="recipients-number"><strong>Shared by: </strong>{{ category.user }}</span>
                                 </td>
                                 <td class="category-sharer" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Description:</strong>{{ category.description }}</p>
+                                    <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
                                 <td class="category-visibility" valign="bottom" align="left">
-                                    <p class="cat-descr"><strong>Shared</strong>{{ category.shared }}</p>
+                                    <p class="cat-descr"><strong>Shared </strong>{{ category.shared }}</p>
                                 </td>
                                 <td class="text-right" valign="bottom">
-                                    <a>See more</a>
+                                    <a href="{% url 'goto' %}?cat_id={{ category.id }}"> See more</a>
                                 </td>
 
                                 <td>

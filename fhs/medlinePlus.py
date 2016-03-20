@@ -1,6 +1,6 @@
 from xml.dom.minidom import parseString
 import html_parser
-import  urllib2
+import urllib2
 
 
 def run_query(term):
@@ -30,13 +30,13 @@ def run_query(term):
                 title = html_parser.strip_tags(child.childNodes[0].data)
             elif child.getAttribute("name") == "snippet":
                 summary = html_parser.strip_tags(child.childNodes[0].data)
-                break
-        results.append({'url':document.getAttribute("url"),
-                        "title":title,
-                        "summary":summary,
+        results.append({'url': document.getAttribute("url"),
+                        "title": title,
+                        "summary": summary,
                         "source": "medline"})
 
     return results
+
 
 def main():
     # Query, get the results and create a variable to store rank.
