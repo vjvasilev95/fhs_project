@@ -20,6 +20,7 @@ def run_query(search_terms, age, gender):
         age,
         gender
     )
+    print search_url
     try:
         response = urllib2.urlopen(search_url).read()
         json_response = json.loads(response)
@@ -38,10 +39,21 @@ def run_query(search_terms, age, gender):
         #                 results.append({"title":rItems["Title"], "link":rItems["Url"], })
 
         if json_response['Result'].has_key('Topics'):
-            for topic in json_response['Result']['Topics']:
+            #the if/else statements are because when there is only one result per topics/tools
+            #only a single dictionary is returned; while if there are more than one results per topics/tools
+            #a list of results is returned
+            if type(json_response['Result']['Topics']) == dict:
+                topic=json_response['Result']['Topics']
                 results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
-            for topic in json_response['Result']['Tools']:
+            else:
+                for topic in json_response['Result']['Topics']:
+                    results.append({"title": topic["Title"], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
+            if type(json_response['Result']['Tools']):
+                topic = json_response['Result']['Tools']
                 results.append({"title": topic['Title'], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
+            else:
+                for topic in json_response['Result']['Tools']:
+                    results.append({"title": topic['Title'], "url": topic["AccessibleVersion"], "source": "healthgov", "summary": "There is description provided" })
 
 
     except urllib2.URLError as e:
