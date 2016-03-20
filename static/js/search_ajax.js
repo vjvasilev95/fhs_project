@@ -1,6 +1,6 @@
 var suggestCallBack; // global var for autocomplete jsonp
 $(document).ready(function(){
-
+    $('.fa-spinner').addClass('hidden');
 
     $('.save-btn').click(function(e){
 
@@ -117,4 +117,12 @@ $(document).ready(function(){
             };
         }
     });
-}); 
+});
+/* show spinner */
+$( document ).ajaxStart(function() {
+    $('.fa-spinner').removeClass('hidden');
+});
+/* hide spinner */
+$( document ).ajaxStop(function() {
+    $('.fa-spinner').addClass('hidden');
+});
