@@ -103,7 +103,7 @@ def add_category(request):
                 category.user = request.user
                 category.save()
 
-                return HttpResponseRedirect('/fhs/profile')
+                return HttpResponseRedirect('/fhs/profile/'+request.user.username)
             except:
                 return render(request, "fhs/add_category.html", {"existent": True})
         else:
