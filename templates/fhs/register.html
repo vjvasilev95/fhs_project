@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Register{% endblock %}
 
@@ -7,7 +8,16 @@
         <div class="row">
             {% if registered %}
                 <h1>Thank you for registering!</h1>
-                <a href="{% url 'index' %}">Return to the homepage.</a><br />
+                <p></p><a href="{% url 'index' %}">Return to the homepage.</a><br/></p>
+                <p>The Federated Health Search Application provides a secure and quick way<br>for you to search for
+                different conditions, medicines, symptoms and treatments.<br></p>
+                <p>As a registered user you can:</p>
+                    <ul>
+                    <li>Choose between Bing, Medline Plus and healthfinder.gov.</li>
+                    <li>Create categories and save resources you find into them.</li>
+                    <li>Share these resources with other people.</li>
+                    <li>Maintain your public profile.</li>
+                    </ul>
             {% else %}
                 <div class="register-formWrapper">
                     <div class="col-xs-5 register-form register-formWrapper">
@@ -20,7 +30,7 @@
                                 <p class="reg-error" >Fail registration attempt: This username is already in the system. Please try again with a different username</p>
                             {% endif %}
                             <div class="form-group">
-                                <input class="register-input" id="id_username" maxlength="50" name="username" placeholder="Account name" type="text">
+                                <input class="register-input" id="id_username" required autofocus maxlength="50" name="username" placeholder="Account name" type="text">
                             </div>
                             {% if email_in_db %}
                                 <p class="reg-error" >Fail registration attempt: This email is already in the system. Please try again with a different email</p>
@@ -29,11 +39,15 @@
                                 <input class="register-input" id="id_email" maxlength="75" name="email" placeholder="Email" type="email">
                             </div>
                             <div class="form-group">
-                                <input class="register-input" id="id_password" name="password" maxlength="50" placeholder="Password" type="password">
+                                <input class="register-input" id="id_password" required name="password" maxlength="50" placeholder="Password" type="password">
                             </div>
                             <div class="form-group">
-                                <label id="pic-label" for="id_picture">Profile Picture</label>
-                                <input id="id_picture" name="picture" type="file">
+                                <label id="pic-label" for="uploadFile">Profile Picture</label>
+                                <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+                                <div class="fileUpload btn btn-default" id="uploadBtn">
+                                    <span>Upload</span>
+                                    <input id="uploadBtn" name="picture" type="file" class="upload" />
+                                </div>
                             </div>
                             <div class="login"><input class="btn btn-primary sign-up-btn" type="submit" name="submit" value="Sign Up" /></div>
                         </form>
@@ -43,4 +57,5 @@
         </div>
     </div>
 
+    <script src="{% static "js/form_js.js" %}"></script>
 {% endblock %}

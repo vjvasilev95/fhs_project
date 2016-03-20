@@ -5,10 +5,31 @@
 {% block title %}Add Category{% endblock %}
 
 {% block body_block %}
-        <form id="add_category" method="post" action="/fhs/add_category/"
-                            enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ category_form.as_p }}
-            <input type="submit" name="submit" value="Add Category" />
-        </form>
+     <div class="container">
+        <div class="row">
+            <div class="register-formWrapper">
+                <div class="col-xs-5 register-form ">
+                    <form id="add_category" method="post" action="/fhs/add_category/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h1>Create a category</h1>
+
+                        <div class="form-group">
+                            <input class="register-input" id="id_name" maxlength="200" type="text" name="name" required autofocus value="" placeholder="Category name"/>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="register-input" id="id_description" maxlength="500" type="text" name="description"
+                                   autofocus value="" placeholder="Provide a short description of this category"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label id="cat-shared" for="id_shared">Do you want this to be a shared category?</label>
+                            <input id="id_shared" name="shared" type="checkbox">
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" name="submit" value="Add Category" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+     </div>
 {% endblock %}

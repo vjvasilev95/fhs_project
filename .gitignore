@@ -116,3 +116,8 @@ keys.py
 *.sqlite3
 entry_index.html
 entry_index_page.html
+
+fhs/migrations/*
+!fhs/migrations/__init__.py
+
+fhs/media/profile_images/*

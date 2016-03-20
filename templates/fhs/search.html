@@ -2,7 +2,6 @@
 
 {% load staticfiles %}
 
-
 {% block title %}Search{% endblock %}
 {% block css %} <link rel="stylesheet" href='{% static "css/search_page.css" %}'> {% endblock %}
 
@@ -26,24 +25,24 @@
                         {% if query %}
                             <div class="form-group">
                                  <label for="query">Your search</label>
-                                 <input class="form-control" type="text" name="query" value="{{ query }}" id="query" />
+                                 <input class="form-control" type="text" name="query" value="{{ query }}" id="query" required />
                             </div>
                         {% else %}
                             <div class="form-group">
                                  <label for="query">Your search</label>
-                                 <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" />
+                                 <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" required />
                             </div>
                         {% endif %}
 
                         {% if age %}
                             <div class="form-group">
                              <label for="age">Your age</label>
-                             <input class="form-control" type="text" name="age" value="{{ age }}" id="query" />
+                             <input class="form-control" type="text" name="age" value="{{ age }}" id="age" required />
                             </div>
                         {% else %}
                             <div class="form-group">
                              <label for="age">Your age</label>
-                             <input class="form-control" type="text" name="age" id="query" />
+                             <input class="form-control" type="text" name="age" id="age" required />
                             </div>
                         {% endif %}
 

@@ -12,10 +12,10 @@
                         <h1>Login</h1>
                         {% csrf_token %}
                         <div class="form-group">
-                            <input class="register-input" type="text" name="username" value="" placeholder="Username"/>
+                            <input class="register-input" type="text" name="username" required autofocus value="" placeholder="Username"/>
                         </div>
                         <div class="form-group">
-                            <input class="register-input" id="id_password" name="password" placeholder="Password" type="password" value="">
+                            <input class="register-input" id="id_password" required name="password" placeholder="Password" type="password" value="">
                         </div>
                         <div class="login"><input class="btn btn-primary sign-in-btn" type="submit" name="submit" value="Sign In" /></div>
                     </form>
