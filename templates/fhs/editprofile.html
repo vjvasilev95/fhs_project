@@ -12,6 +12,9 @@
                                     {% csrf_token %}
                             {{ form.as_p }}
                             {{ picform.as_p }}
+                            {% if email_in_db %}
+                                <p class="reg-error" >Fail registration attempt: This email is already in the system. Please try again with a different email</p>
+                            {% endif %}
                                 <a href="{% url 'userauth_password_change' %}" >Change password</a><br>
                                 <input type="submit" name="submit" value="Save changes" />
                             </form>

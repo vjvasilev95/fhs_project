@@ -111,10 +111,14 @@ def user_logout(request):
     return HttpResponseRedirect('/fhs/')
 
 def index(request):
+
     if request.user.is_authenticated():
-        public_categories = Category.objects.filter(shared=True).order_by('-views')
+
+        public_categories = Category.objects.filter(shared=True)
     else :
-        public_categories = Category.objects.filter(shared=True).order_by('-views')[:5]
+
+        public_categories = Category.objects.filter(shared=True)
+
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
 def register(request):
@@ -309,7 +313,17 @@ def profile(request):
     context_dict['user'] = user
     context_dict['userprofile'] = up
     context_dict['public_categories']= public_categories
+    deleted=False
+    if request.method == "POST":
+        some_var = request.POST.getlist('dependable')
 
+        for id in some_var:
+            try:
+                Category.objects.filter(id=id).delete()
+                deleted=True
+            except:
+                deleted=False
+    context_dict['deleted']= deleted
     return render(request, 'fhs/profile.html', context_dict)
 
 def editprofile(request):
