@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     #3rd Parties
-    'endless_pagination',
     'pagination_bootstrap',
 
     #MY APPS

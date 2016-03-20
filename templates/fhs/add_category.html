@@ -12,7 +12,12 @@
                     <form id="add_category" method="post" action="/fhs/add_category/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <h1>Create a category</h1>
-
+                        {% if existent %}
+                            <p class="reg-error" >A category with the specified name already exists.</p>
+                        {% endif %}
+                        {% if invalid %}
+                            <p class="reg-error" >This is an invalid name for a category.</p>
+                        {% endif %}
                         <div class="form-group">
                             <input class="register-input" id="id_name" maxlength="200" type="text" name="name" required autofocus value="" placeholder="Category name"/>
                         </div>

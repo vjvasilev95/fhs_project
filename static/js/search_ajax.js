@@ -2,6 +2,19 @@ var suggestCallBack; // global var for autocomplete jsonp
 $(document).ready(function(){
     $('.fa-spinner').addClass('hidden');
 
+    $('.category-choice').change(function() {
+        var selection = $(this);
+        var wrapper = selection.parent().siblings('.create-new-category-wrapper');
+        var save_btn = selection.next();
+        if (selection.find(":selected").attr('value') == "new-cat") {
+            save_btn.prop('disabled', true);
+            wrapper.show();
+        } else {
+            save_btn.prop('disabled', false);
+            wrapper.hide();
+        }
+    });
+
     $('.save-btn').click(function(e){
 
         e.preventDefault();
@@ -14,16 +27,20 @@ $(document).ready(function(){
             var title = info[1].value;
             var summary = info[2].value;
             var source = info[3].value;
-//            console.log(source);
             var category = $(this).siblings('.category-choice').find(":selected").text();
             var button = $(this);
+
 
             $.post('/fhs/save-page/', {'url': url, 'title': title, 'summary': summary,
                     'category': category, 'source': source, csrfmiddlewaretoken: csrftoken},
                 function(data) {
-                    button.next().remove();
+
+                    if (!button.next().hasClass('fa')){
+                            button.next().remove();
+                        }
+
                     var response = $.parseJSON(JSON.stringify(data));
-                    console.log(response);
+
                     if (response['response'] == "Existent page") {
                         button.after("<span class='save-msg-existent'>This page is already existent in category " + "<a class='save-msg-existent-url' href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
                     } else if (response['response'] == "Problem while fetching the resource") {
@@ -49,28 +66,37 @@ $(document).ready(function(){
         var description = info[1].value;
         var shared = $('.new-cat-info-btn').is(':checked');
         var button = $(this);
-        var wrapper = button.parent();
+        var wrapper = button.parent().parent();
 
         $.post('/fhs/add_category/', {'name': name, 'description': description, 'shared': shared,
                 csrfmiddlewaretoken: csrftoken},
 
                 function(data) {
+                    var response = $.parseJSON(JSON.stringify(data));
 
-                    if (data == "Success"){
+                    if (response['response'] == "Success"){
 
                         // Get the save page button element
-                        var save_btn = wrapper.siblings('.save-btn').first();
+                        var save_btn = wrapper.siblings('.save_page_form').children('.save-btn').first();
 
-                        // Remove all the forms
-                        $('.create-new-category-wrapper').remove();
+                        // Hide all the forms
+                        $('.create-new-category-wrapper').hide();
+
+                        // Remove previous messages
+                        if (!save_btn.next().hasClass('fa')){
+                            save_btn.next().remove();
+                        }
 
                         // Append the success message
-                        save_btn.after("<span class='save-msg-success'>Category successfully created.</span");
+                        save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category_url']+"'>" + name +"</a>" + " successfully created.</span");
 
-                        // Update the template to show the new category everywhere
-                        $('.save-btn').before("<select name='category' class='category-choice' required>"+
-                        "<option value=" + name + ">" + name + "</option>"+
-                        "</select>");
+                        // Update the list of options
+                        var select_tag = wrapper.siblings('.save_page_form').children('.category-choice');
+                        select_tag.append($("<option></option>").val(name).text(name));
+                        select_tag.val(name);
+                        save_btn.prop('disabled', false);
+
+                        $('.add_category').trigger("reset");
                     } else {
                         button.after("<span class='save-msg-error'>A category with that name already exists.</span");
                     }

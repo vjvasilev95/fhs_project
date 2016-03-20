@@ -67,7 +67,7 @@ def track_category(request):
 def add_category(request):
 
     if request.is_ajax():
-        name = request.POST['name']
+        name = request.POST['name'].strip()
         description = request.POST['description']
         shared = request.POST['shared']
         if (shared == "false"):
@@ -78,29 +78,38 @@ def add_category(request):
         existent_category = Category.objects.filter(name = name)
 
         if not existent_category:
-            #Create a new category
+            # Create a new category
             category = Category(user = request.user, name=name, description=description, shared=shared)
 
-            #Saves it
+            # Saves it
             category.save()
 
-            return HttpResponse("Success")
+            category_url = Category.objects.get(name = name).slug
+
+            return JsonResponse({"response":"Success", "category": category_url })
         else:
-            return HttpResponse("Existent category")
+            return JsonResponse({"response": "Existent category"})
 
     if request.method == "POST":
-        category_form = CategoryForm(data=request.POST)
-        if category_form.is_valid():
-            category = category_form.save(commit=False)
-            category.user = request.user
-            category.save()
-            return HttpResponseRedirect('/fhs/')
-        else:
-            print category_form.errors
+        category_data = request.POST
+        category_data['name'] = category_data['name'].strip()
+        if category_data['name'] == "":
+            return render(request, "fhs/add_category.html", {"invalid": True})
 
-    category_form = CategoryForm()
-    print "return that form"
-    return render(request, "fhs/add_category.html", {'category_form': category_form})
+        category_form = CategoryForm(data=category_data)
+        if category_form.is_valid():
+            try:
+                category = category_form.save(commit=False)
+                category.user = request.user
+                category.save()
+
+                return HttpResponseRedirect('/fhs/profile')
+            except:
+                return render(request, "fhs/add_category.html", {"existent": True})
+        else:
+            return render(request, "fhs/add_category.html", {"existent": True})
+
+    return render(request, "fhs/add_category.html", {})
 
 
 def category(request, category_name_slug):
@@ -143,7 +152,7 @@ def index(request):
     if request.user.is_authenticated():
         public_categories = Category.objects.filter(shared=True)
     else :
-        public_categories = Category.objects.filter(shared=True)
+        public_categories = Category.objects.filter(shared=True)[:5]
 
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
 
@@ -153,16 +162,18 @@ def register(request):
     registered = False
     username_taken = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
+        user_data = request.POST
+        user_data['username'] = user_data['username'].strip()
+        user_form = UserForm(data=user_data)
         profile_form = UserProfileForm(data=request.POST)
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
-            #check if email is in the database
+            #c heck if email is in the database
             email_to_be_checked = user.email
-            #if no user has this email, the query will result in an error, then
-            #the except statement will be executed, resulting in a successful registration
+            # if no user has this email, the query will result in an error, then
+            # the except statement will be executed, resulting in a successful registration
             try:
                 test_user = User.objects.get(email=email_to_be_checked)
                 email_in_db = True
@@ -178,13 +189,13 @@ def register(request):
                     profile.picture = request.FILES['picture']
                 profile.save()
                 registered = True
-                #In the end, log the user into the system
+                # In the end, log the user into the system
                 theUser = authenticate(username=user.username, password=non_hashed_password)
                 login(request, theUser)
         else:
-            #convert the errors into a json format
+            # convert the errors into a json format
             user_form_errors = json.loads(user_form.errors.as_json())
-            #check if the user_form error was raised because someone tried to register with a username that is already in the dbs
+            # check if the user_form error was raised because someone tried to register with a username that is already in the dbs
             if user_form_errors.has_key("username") and \
                 user_form_errors['username'][0]['message'] == "User with this Username already exists.":
                 username_taken = True
@@ -218,8 +229,9 @@ def user_login(request):
                 return HttpResponse("Your fhs account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            #print "Invalid login details: {0}, {1}".format(username, password)
+            #return HttpResponse("Invalid login details supplied.")
+            return render(request, 'fhs/login.html', {"invalid": True})
 
     else:
 
@@ -227,6 +239,7 @@ def user_login(request):
 
 @login_required
 def search(request):
+
     results_from_bing = []
     results_from_healthgov = []
     results_from_medline = []
@@ -234,6 +247,7 @@ def search(request):
     results_mashup = []
     categories = Category.objects.filter(user=request.user)
     public_categories = Category.objects.filter(shared=True)
+    print public_categories
     query = None
     age = None
     gender = "male"
@@ -250,6 +264,7 @@ def search(request):
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
+
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -422,3 +437,4 @@ def change_password(request):
     return render(request, 'fhs/changepassword.html', {
         'form': form,
     })
+
