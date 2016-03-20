@@ -186,7 +186,7 @@ def user_login(request):
             if user.is_active:
 
                 login(request, user)
-                return HttpResponseRedirect('/fhs/')
+                return HttpResponseRedirect('/fhs/search/')
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your fhs account is disabled.")
@@ -326,9 +326,11 @@ def profile(request):
     context_dict['deleted']= deleted
     return render(request, 'fhs/profile.html', context_dict)
 
+@login_required
 def editprofile(request):
 
     if request.method == "POST":
+        email = request.POST['email']
         form = EmailForm(data=request.POST, instance=request.user)
         picform = UserProfileForm(data=request.POST, instance=request.user)
         try:
@@ -336,22 +338,15 @@ def editprofile(request):
         except:
             up = None
         if form.is_valid() and picform.is_valid():
-            user = form.save(commit=False)
-            user.save()
+            if email:
+                user = form.save(commit=False)
+                user.save()
             if 'picture' in request.FILES:
                 up.picture = request.FILES['picture']
                 up.save()
-            return HttpResponseRedirect("")
+            return HttpResponseRedirect('/fhs/profile')
     else:
-        form = EmailForm(instance=request.user)
-        picform = UserProfileForm(instance=request.user)
-
-    return render(request,
-            'fhs/editprofile.html',
-            {'form': form, 'picform': UserProfileForm})
-
-    user = User.objects.get(username=request.user)
-    return render(request, 'fhs/editprofile.html', {"profileuser":user})
+        return render(request, 'fhs/editprofile.html',{})
 
 
 def get_category_list(max_results=0, starts_with=''):
