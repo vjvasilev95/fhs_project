@@ -7,50 +7,75 @@ django.setup()
 from fhs.models import Category, Page
 from django.contrib.auth.models import User
 import random
+from fhs.save_page_helper import *
 
 def populate():
     python_cat = add_cat('General Information')
 
     add_page(cat=python_cat,
-        title="NHS",
-        url="http://www.nhs.uk/pages/home.aspx")
+        title="Laboratory Tests ",
+        url="https://www.nlm.nih.gov/medlineplus/laboratorytests.html",
+        source="medline",
+        summary="No description provided")
 
     add_page(cat=python_cat,
-        title="South Glasgow Hospital",
-        url="http://www.nhsggc.org.uk/patients-and-visitors/main-hospital-sites/queen-elizabeth-university-hospital-campus/")
+        title="Get Tested for Breast Cancer",
+        url="http://healthfinder.gov/HealthTopics/Category/doctor-visits/screening-tests/get-tested-for-breast-cancer",
+        source="healthgov",
+        summary="No description provided")
 
     add_page(cat=python_cat,
         title="Association of UK Hospitals",
-        url="http://www.aukuh.org.uk/")
+        url="http://www.aukuh.org.uk/",
+        source="bing",
+        summary="No description provided")
 
     django_cat = add_cat("Mothers' stuff")
 
     add_page(cat=django_cat,
-        title="Kelly Mom: Breastfeeding and parenting",
-        url="http://kellymom.com/")
+        title="Get a Bone Density Test ",
+        url="http://healthfinder.gov/HealthTopics/Category/doctor-visits/screening-tests/get-a-bone-density-test",
+        source="healthgov",
+        summary="No description provided")
 
     add_page(cat=django_cat,
         title="Top 20 sites for pregnant mothers",
-        url="http://www.babble.com/pregnancy/20-web-sites-pregnant-women-should-know-and-love/")
+        url="http://www.babble.com/pregnancy/20-web-sites-pregnant-women-should-know-and-love/",
+        source="bing",
+        summary="No description provided")
 
     add_page(cat=django_cat,
         title="Modern Moms",
-        url="http://www.modernmom.com/")
+        url="http://www.modernmom.com/",
+        source="bing",
+        summary="No description provided")
 
     frame_cat = add_cat("Light conditions")
 
     add_page(cat=frame_cat,
-        title="10 reminders when you have a flu",
-        url="http://www.webmd.com/cold-and-flu/features/treating-flu-at-home")
+        title="Health Screening ",
+        url="https://www.nlm.nih.gov/medlineplus/healthscreening.html",
+        source="medline",
+        summary="No description provided")
 
     add_page(cat=frame_cat,
         title="The flu: what to do when you get sick",
-        url="http://www.cdc.gov/flu/takingcare.htm")
+        url="http://www.cdc.gov/flu/takingcare.htm",
+        source="bing",
+        summary="No description provided")
 
 
-def add_page(cat, title, url):
-    p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url=url
+def add_page(cat, title, url, source, summary):
+    try:
+        content = filter_content(source, url)
+    except ValueError as e:
+        content = ""
+    stats = calculate_stats(content)
+    p = Page.objects.get_or_create(category = cat, title = title, summary = summary, url = url, source = source,
+                    flesch_score = stats['flesh_score'], sentiment_score = stats['polarity'], subjectivity_score = stats['subjectivity'])[0]
+    #p = Page.objects.get_or_create(category=cat, title=title)[0]
+    #p.url=url
+
     p.save()
     return p
 
