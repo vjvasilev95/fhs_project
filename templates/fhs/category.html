@@ -41,16 +41,16 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <span class="recipients-number"><strong>Summary:</strong>{{ page.summary }}</span>
+                                        <span class="recipients-number"><strong>Summary: </strong>{{ page.summary }}</span>
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
-                                        <p class="cat-descr"><strong>Readability score:</strong>{{ page.flesch_score }}</p>
+                                        <p class="cat-descr"><strong>Readability score: </strong>{{ page.flesch_score }}</p>
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
-                                        <p class="cat-descr"><strong>Polarity score:</strong>{{ page.sentiment_score }}</p>
+                                        <p class="cat-descr"><strong>Polarity score: </strong>{{ page.sentiment_score }}</p>
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
-                                        <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
+                                        <p class="cat-descr"><strong>Subjectivity score: </strong>{{ page.subjectivity_score }}</p>
                                     </td>
                                     {% if category.user == user %}
                                     <td>
@@ -71,7 +71,7 @@
                         {% endif %}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <h3>Scores meaning</h3>
+                <h3>Page scores</h3>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <blockquote>
