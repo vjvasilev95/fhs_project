@@ -12,7 +12,7 @@
                         {% if category %}
                             <h1>{{ category_name }}</h1>
 
-                            <p>User: {{ category.user }}</p>
+                            <a href="fhs/profile/{{ category.user }}">User: {{ category.user }}</a>
 
                             <p id="cat_views_paragraph">
                                 This category has been viewed <b id="cat_views">{{ category.views }}</b>
