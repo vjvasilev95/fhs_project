@@ -3,7 +3,32 @@
 {% block title %}Terms of Use{% endblock %}
 
 {% block body_block %}
-    <a href="{% url 'index' %}">Go to home page</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 public-cats">
+                <h1>Terms of use</h1>
+                <h3>You can use this app for:</h3>
+                <p class="lead">
+
+                    <ul>
+                        <li>Searching for medical conditions, symptoms, treatments,
+                        through three different online resources - Bing, Medline Plus, HealthGov.</li>
+                    <li>Save different resources into categories, which can be either shared or private with other users.</li>
+                    <li>Maintain a profile containing a username, email and a profile picture.</li>
+                    <li>Browse through other people's shared categories and pages.</li>
+                    </ul>
+
+                </p>
+                <h3>Disclaimer</h3>
+                <p class="lead">
+                    This app was developed for a university project by students from the University of Glasgow.
+                    Users of this app are warned that there are inevitable risks in terms of bugs and faulty behaviour.
+                    <br/><br/>
+                    <a href="{% url 'index' %}">Go to home page</a>
+                </p>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

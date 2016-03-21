@@ -3,7 +3,30 @@
 {% block title %}About{% endblock %}
 
 {% block body_block %}
-    <a href="{% url 'index' %}">Go to home page</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 public-cats">
+                <h1>About the FHS Application</h1>
+                <p class="lead">The Federated Health Search Application provides a secure and quick way for you to search for
+                different conditions, medicines, symptoms and treatments.
+                Users can search in the general web - Bing, and two specialised medical websites - Medline Plus and healthfinder.gov.<br/><br/>
+                Registered users can create categories and save resources they find into them. Moreover, they can maintain their public profile
+                and choose whether to share their categories with other users of the website.
+                    The application should help the users understand if the information is easy to read,
+                    is loaded with sentiment and subjectivity.
+                Created by students at the University of Glasgow. For educational purposes only.
+                <br/><br/>
+                Andrey Georgiev, Georgi Koyrushki, Katya Bacheva, Veselin Vasilev.
+                <br/>
+                The Federated Health Search App © 2016
+                <br/><br/>
+                <a href="{% url 'index' %}">Go to home page</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 
 
 {% endblock %}

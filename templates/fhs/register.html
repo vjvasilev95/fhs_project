@@ -7,17 +7,20 @@
     <div class="container">
         <div class="row">
             {% if registered %}
-                <h1>Thank you for registering!</h1>
-                <p></p><a href="{% url 'index' %}">Return to the homepage.</a><br/></p>
-                <p>The Federated Health Search Application provides a secure and quick way<br>for you to search for
-                different conditions, medicines, symptoms and treatments.<br></p>
-                <p>As a registered user you can:</p>
-                    <ul>
-                    <li>Choose between Bing, Medline Plus and healthfinder.gov.</li>
-                    <li>Create categories and save resources you find into them.</li>
-                    <li>Share these resources with other people.</li>
-                    <li>Maintain your public profile.</li>
-                    </ul>
+                <h1>Thank you for registering</h1>
+                <p class="lead">The Federated Health Search Application provides a secure and quick way for you to search for
+                different conditions, medicines, symptoms and treatments.
+                Users can search in the general web - Bing, and two specialised medical websites - Medline Plus and healthfinder.gov.<br/><br/>
+                Registered users can create categories and save resources they find into them. Moreover, they can maintain their public profile
+                and choose whether to share their categories with other users of the website.
+                The application should help the users understand if the information is easy to read,
+                is loaded with sentiment and subjectivity.
+                Created by students at the University of Glasgow. For educational purposes only.
+                <br/><br/>
+                Andrey Georgiev, Georgi Koyrushki, Katya Bacheva, Veselin Vasilev.
+                <br/>
+                The Federated Health Search App © 2016</p>
+                <a href="{% url 'index' %}">Go to home page</a>
             {% else %}
                 <div class="register-formWrapper">
                     <div class="col-xs-5 register-form register-formWrapper">
