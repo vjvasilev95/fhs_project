@@ -121,7 +121,13 @@
                                                         </form>
                                                     </div>
                                                     {% else %}
+
+                                                        <select name="category" class="category-choice no-cats" required>
+                                                            <option value="new-cat">Create a new category</option>
+                                                        </select>
                                                         <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                    </form>
                                                         <div class="create-new-category-wrapper">
                                                             <p class='create-new-category'>Create a category to save the page in.</p>
                                                             <form class="add_category" method="post" action="/fhs/add_category/"
@@ -187,7 +193,13 @@
                                                         </form>
                                                     </div>
                                                     {% else %}
+
+                                                        <select name="category" class="category-choice no-cats" required>
+                                                            <option value="new-cat">Create a new category</option>
+                                                        </select>
                                                         <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                    </form>
                                                         <div class="create-new-category-wrapper">
                                                             <p class='create-new-category'>Create a category to save the page in.</p>
                                                             <form class="add_category" method="post" action="/fhs/add_category/"
@@ -331,13 +343,19 @@
                                                         </form>
                                                     </div>
                                                     {% else %}
+
+                                                        <select name="category" class="category-choice no-cats" required>
+                                                            <option value="new-cat">Create a new category</option>
+                                                        </select>
                                                         <input type="submit" class="btn btn-primary save-btn" value="Save page"/>
+                                                        <i class="fa fa-spinner faa-spin animated faa-slow"></i>
+                                                    </form>
                                                         <div class="create-new-category-wrapper">
                                                             <p class='create-new-category'>Create a category to save the page in.</p>
                                                             <form class="add_category" method="post" action="/fhs/add_category/"
                                                                                 enctype="multipart/form-data">
                                                                 {% csrf_token %}
-                                                                <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
+                                                                 <input id="id_name" placeholder="Category name" class="new-cat-info" maxlength="200" name="name" type="text">
                                                                 <input id="id_description" placeholder="Category description" class="new-cat-info"  maxlength="500" name="description" type="text">
                                                                 Shared
                                                                 <input id="id_shared" class="new-cat-info-btn"  name="shared" type="checkbox">

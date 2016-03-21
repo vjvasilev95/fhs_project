@@ -30,11 +30,12 @@ class Category(models.Model):
 class Page(models.Model):
     category=models.ForeignKey(Category)
     title = models.CharField(max_length=200)
-    summary=models.TextField(default="test")
+    summary=models.TextField(default="No description provided")
     flesch_score = models.FloatField(default=0)
     sentiment_score = models.FloatField(default=0)
     subjectivity_score = models.FloatField(default=0)
     url = models.URLField(default="http://medlineplus.com")
+    source = models.CharField(default="bing", max_length=30)
 
     def __unicode__(self):
         return self.title

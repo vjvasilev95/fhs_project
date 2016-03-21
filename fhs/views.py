@@ -63,7 +63,7 @@ def track_category(request):
                 pass
     return redirect(url)
 
-
+@login_required(login_url = '/fhs/login/')
 def add_category(request):
 
     if request.is_ajax():
@@ -242,7 +242,7 @@ def user_login(request):
 
         return render(request, 'fhs/login.html', {"name": name})
 
-@login_required
+@login_required(login_url = '/fhs/login/')
 def search(request):
 
     results_from_bing = []
@@ -290,7 +290,7 @@ def save_page(request):
         title = request.POST['title']
         summary = request.POST['summary']
         category = Category.objects.get(name=request.POST['category'])
-
+        source = request.POST['source']
         #Checks if we already have the same page in the category
         try:
             existent_page = Page.objects.filter(title=title, category=category)
@@ -301,7 +301,7 @@ def save_page(request):
 
             #Strips the page out of unnecessary html tags and content
             try:
-                content = filter_content(request.POST['source'], url)
+                content = filter_content(source, url)
             except ValueError as e:
                 json_response = {"response": "Problem while fetching the resource"}
                 return JsonResponse(json_response)
@@ -310,7 +310,7 @@ def save_page(request):
             stats = calculate_stats(content)
 
             #Creates a new page
-            page = Page(category = category, title = title, summary = summary, url = url,
+            page = Page(category = category, title = title, summary = summary, url = url, source = source,
                     flesch_score = stats['flesh_score'], sentiment_score = stats['polarity'], subjectivity_score = stats['subjectivity'])
 
             #Saves it
@@ -338,8 +338,7 @@ def privacy(request):
 def terms(request):
     return render(request, 'fhs/terms.html', {})
 
-
-
+@login_required(login_url = '/fhs/login/')
 def profile(request, user):
     context_dict={}
     #print user
@@ -381,7 +380,7 @@ def profile(request, user):
         pass
     return render(request, 'fhs/profile.html', context_dict)
 
-@login_required
+@login_required(login_url = '/fhs/login/')
 def editprofile(request):
     user = User.objects.get(username=request.user)
     if request.method == "POST":
@@ -437,7 +436,7 @@ def suggest_category(request):
         #print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
-
+@login_required(login_url = '/fhs/login/')
 def change_password(request):
     form = PasswordReset(user=request.user)
 

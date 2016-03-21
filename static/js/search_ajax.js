@@ -99,13 +99,14 @@ $(document).ready(function(){
                         save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category']+"'>" + name +"</a>" + " successfully created.</span");
 
                         // Update the list of options
-                        var select_tag = wrapper.siblings('.save_page_form').children('.category-choice');
+                        var select_tag_chosen = wrapper.siblings('.save_page_form').children('.category-choice');
+                        var select_tag = $('.category-choice');
                         select_tag.append($("<option></option>").val(name).text(name));
-                        select_tag.val(name);
+                        select_tag_chosen.val(name);
                         $('.no-cats').show();
 
-                        if ($('.category-choice').hasClass('no-cats')) {
-                            $('.category-choice').removeClass('no-cats');
+                        if (select_tag.hasClass('no-cats')) {
+                            select_tag.removeClass('no-cats');
                         }
                         save_btn.prop('disabled', false);
 
