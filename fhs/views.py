@@ -54,7 +54,7 @@ def track_category(request):
             cat_id = request.GET['cat_id']
             try:
                 category = Category.objects.get(id = cat_id)
-                user = UserProfile.user
+                user = request.user
                 if category.user != user:
                     category.views += 1
                     category.save()
