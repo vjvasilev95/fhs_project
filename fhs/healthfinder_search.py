@@ -1,9 +1,9 @@
-import key
+import keys
 
 import json
 import urllib, urllib2
 import string
-HEALHFINDER_API = key.HEALHFINDER_API
+HEALHFINDER_API = keys.HEALHFINDER_API
 
 #http://healthfinder.gov/developer/
 # Search.xml?api_key=demo_api_key&keyword=*&lang=es
