@@ -398,7 +398,7 @@
                  {% if public_categories %}
                     <ul class="nav nav-sidebar public-cats">
                     {% for c in public_categories %}
-                        <li><a href="{% url 'category' c.slug %}">{{ c.name }}</a></li>
+                        <li><a href="{% url 'goto' %}?cat_id={{ c.id }}">{{ c.name }}</a></li>
                     {% endfor %}
                     </ul>
                 {% else %}

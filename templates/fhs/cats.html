@@ -1,7 +1,7 @@
 {% if cats %}
     <ul class="nav nav-sidebar">
     {% for c in cats %}
-        <li><a href="{% url 'goto' %}?cat_id={{ c.id }}"> See more</a>/li>
+        <li><a href="{% url 'goto' %}?cat_id={{ c.id }}">{{ c.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
