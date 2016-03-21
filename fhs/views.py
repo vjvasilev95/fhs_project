@@ -125,7 +125,7 @@ def category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category)[::-1]
 
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
@@ -433,7 +433,6 @@ def suggest_category(request):
     if request.GET['page'] == "search":
         return render(request, 'fhs/cats.html', {'cats': cat_list })
     else:
-        #print "I am here"
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
 @login_required(login_url = '/fhs/login/')
