@@ -27,17 +27,30 @@
                             <h1>Register</h1>
                             {% csrf_token %}
                             {% if username_taken %}
-                                <p class="reg-error" >Fail registration attempt: This username is already in the system. Please try again with a different username</p>
+                                <p class="reg-error" >Fail registration attempt: This username is already in the system. Please try again with a different username.</p>
                             {% endif %}
+                            {% if name %}
+                            <div class="form-group">
+                                <input class="register-input" id="id_username" value="{{ name }}" required autofocus maxlength="50" name="username" placeholder="Account name" type="text">
+                            </div>
+                            {% else %}
                             <div class="form-group">
                                 <input class="register-input" id="id_username" required autofocus maxlength="50" name="username" placeholder="Account name" type="text">
                             </div>
+                            {% endif%}
                             {% if email_in_db %}
-                                <p class="reg-error" >Fail registration attempt: This email is already in the system. Please try again with a different email</p>
+                                <p class="reg-error">Fail registration attempt: This email is already in the system. Please try again with a different email.</p>
                             {% endif %}
+
+                            {% if email %}
+                            <div class="form-group">
+                                <input class="register-input" id="id_email" value="{{ email }}" maxlength="75" name="email" required placeholder="Email" type="email">
+                            </div>
+                            {% else %}
                             <div class="form-group">
                                 <input class="register-input" id="id_email" maxlength="75" name="email" required placeholder="Email" type="email">
                             </div>
+                            {% endif %}
                             <div class="form-group">
                                 <input class="register-input" id="id_password" required name="password" maxlength="50" placeholder="Password" type="password">
                             </div>

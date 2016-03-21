@@ -161,11 +161,16 @@ def register(request):
     email_in_db = False
     registered = False
     username_taken = False
+    name = None
+    email = None
+
     if request.method == 'POST':
         user_data = request.POST
         user_data['username'] = user_data['username'].strip()
         user_form = UserForm(data=user_data)
         profile_form = UserProfileForm(data=request.POST)
+        name = user_data['username']
+        email = user_data['email']
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
@@ -199,7 +204,6 @@ def register(request):
             if user_form_errors.has_key("username") and \
                 user_form_errors['username'][0]['message'] == "User with this Username already exists.":
                 username_taken = True
-            #print user_form.errors, profile_form.errors
 
     else:
         user_form = UserForm()
@@ -208,14 +212,15 @@ def register(request):
     return render(request,
             'fhs/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered,
-             'email_in_db':email_in_db, 'username_taken':username_taken})
+             'email_in_db':email_in_db, 'username_taken':username_taken, "name": name, "email": email})
 
 
 def user_login(request):
+    name = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        name = username
         user = authenticate(username=username, password=password)
 
         if user:
@@ -231,11 +236,11 @@ def user_login(request):
             # Bad login details were provided. So we can't log the user in.
             #print "Invalid login details: {0}, {1}".format(username, password)
             #return HttpResponse("Invalid login details supplied.")
-            return render(request, 'fhs/login.html', {"invalid": True})
+            return render(request, 'fhs/login.html', {"invalid": True, "name": name})
 
     else:
 
-        return render(request, 'fhs/login.html', {})
+        return render(request, 'fhs/login.html', {"name": name})
 
 @login_required
 def search(request):
@@ -381,6 +386,14 @@ def editprofile(request):
     user = User.objects.get(username=request.user)
     if request.method == "POST":
         email = request.POST['email']
+        try:
+            existent_email = User.objects.get(email=email)
+        except:
+            existent_email = None
+
+        if existent_email:
+            return render(request, 'fhs/editprofile.html',{"existent": True})
+
         form = EmailForm(data=request.POST, instance=request.user)
         picform = UserProfileForm(data=request.POST, instance=request.user)
         try:
@@ -431,8 +444,14 @@ def change_password(request):
     if request.method == 'POST':
         form = forms.PasswordReset(request.user,request.POST)
         if form.is_valid():
-            form.save()
+            the_form = form.save(commit=False)
             update_session_auth_hash(request, form.user)
+        else:
+
+            return render(request, 'fhs/changepassword.html', {
+        'form': form,
+        'error': True
+    })
 
     return render(request, 'fhs/changepassword.html', {
         'form': form,

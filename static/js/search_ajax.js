@@ -26,7 +26,6 @@ $(document).ready(function(){
     $('.save-btn').click(function(e){
 
         e.preventDefault();
-        console.log($(this).siblings('.category-choice').hasClass("no-cats"));
         if (!$(this).siblings('.category-choice').hasClass("no-cats")) {
             var csrftoken = Cookies.get('csrftoken');
 
@@ -94,6 +93,7 @@ $(document).ready(function(){
                         if (!save_btn.next().hasClass('fa')){
                             save_btn.next().remove();
                         }
+                        button.next().remove();
 
                         // Append the success message
                         save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category']+"'>" + name +"</a>" + " successfully created.</span");
@@ -103,8 +103,6 @@ $(document).ready(function(){
                         select_tag.append($("<option></option>").val(name).text(name));
                         select_tag.val(name);
                         $('.no-cats').show();
-                        //$('.no-cats').append($("<option></option>").val(name).text(name));
-                        //$('.no-cats').val(name);
 
                         if ($('.category-choice').hasClass('no-cats')) {
                             $('.category-choice').removeClass('no-cats');

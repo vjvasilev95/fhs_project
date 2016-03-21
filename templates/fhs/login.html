@@ -14,9 +14,15 @@
                         {% if invalid %}
                             <p class="reg-error" >Invalid login details</p>
                         {% endif %}
+                        {% if name %}
+                        <div class="form-group">
+                            <input class="register-input" value="{{ name }}" type="text" name="username" required autofocus value="" placeholder="Username"/>
+                        </div>
+                        {% else %}
                         <div class="form-group">
                             <input class="register-input" type="text" name="username" required autofocus value="" placeholder="Username"/>
                         </div>
+                        {% endif %}
                         <div class="form-group">
                             <input class="register-input" id="id_password" required name="password" placeholder="Password" type="password" value="">
                         </div>

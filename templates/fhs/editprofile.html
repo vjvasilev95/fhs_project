@@ -11,6 +11,9 @@
                 <div class="col-xs-5 register-form ">
                     <form id="user_form" method="post" action="" enctype="multipart/form-data">
                         <h1>Edit profile</h1>
+                        {% if existent %}
+                            <p class="reg-error" >Failed attempt: This email is already in the system. Please try again with a different email</p>
+                        {% endif %}
                         {% csrf_token %}
                         <div class="form-group">
                             <input class="register-input" id="id_email" maxlength="75" type="email" name="email" autofocus value="" placeholder="Your new email address"/>
