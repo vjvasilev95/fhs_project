@@ -22,7 +22,7 @@
                             {% if pages %}
                                 <table class="table" valign="baseline">
                                 <tbody>
-                                    {% autopaginate pages 10 %}
+                                    {% autopaginate pages 5 %}
                                     {% for page in pages %}
                                     <tr>
                                     <td class="text-left page-info" valign="bottom">
@@ -47,7 +47,7 @@
                                         <p class="cat-descr"><strong>Readability score:</strong>{{ page.flesch_score }}</p>
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
-                                        <p class="cat-descr"><strong>Sentiment score:</strong>{{ page.sentiment_score }}</p>
+                                        <p class="cat-descr"><strong>Polarity score:</strong>{{ page.sentiment_score }}</p>
                                     </td>
                                     <td class="category-sharer" valign="bottom" align="left">
                                         <p class="cat-descr"><strong>Subjectivity score:</strong>{{ page.subjectivity_score }}</p>
@@ -69,6 +69,40 @@
                         {% else %}
                             The specified category {{ category_name }} does not exist!
                         {% endif %}
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <h3>Scores meaning</h3>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <blockquote>
+                    <h4>Readability</h4>
+                    <p>This score calculates the readability of the webpage.
+                        Scale:</p>
+                    <ul>
+                        <li>90-100 : Very Easy</li>
+                        <li>80-89 : Easy</li>
+                        <li>70-79 : Fairly Easy</li>
+                        <li>60-69 : Standard</li>
+                        <li>50-59 : Fairly Difficult</li>
+                        <li>50-59 : Fairly Difficult</li>
+                        <li>0-29 : Very Confusing</li>
+                    </ul>
+                </blockquote>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <blockquote>
+                    <h4>Polarity</h4>
+                    <p>Describes the page's sentiment score, depending on how positive or negative it is.<br/>
+                    Scale: [-1.0, 1.0]</p>
+                </blockquote>
+                <blockquote>
+                    <h4>Subjectivity</h4>
+                    <p>Describes the subjectivity of the page.<br/>
+                    Scale: [0.0, 1.0]</p>
+                </blockquote>
+            </div>
+
+
             </div>
         </div>
     </div>
