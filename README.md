@@ -11,8 +11,6 @@ To clone the repository, use:
 https://github.com/vjvasilev95/fhs_project.git
 ```
 
-
-
 ### Prerequisities
 
 For your Python environment,  use the ```requirements.txt``` file to install the needed packages.
@@ -53,14 +51,13 @@ The technologies used for this project are as follows:
 * Bootstrap Switch - used to style some of the HTML input tags on the website. [Source](http://www.bootstrap-switch.org/)
 * Bootstrap Sticky Footer - used to style the footer of the website. [Source](http://getbootstrap.com/examples/sticky-footer/)
 * Google Autocomplete "API" - undocumented API used to provide suggestions to the user while they are typing their search query. To implement it, [this](http://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/) tutorial was followed.
-* 
 
 
 ## Authors
-[vjvasilev95](https://github.com/vjvasilev95): Veselin Vasilev 2132561v
-[andrey1995](https://github.com/andrey1995): Andrey Georgiev 2133919g
-[georgikoyrushki95](https://github.com/georgikoyrushki95): Georgi Koyrushki 2114429k
-[katya1995](https://github.com/katya1995): Katya Bacheva 2145759b
+* [vjvasilev95](https://github.com/vjvasilev95): Veselin Vasilev 2132561v
+* [andrey1995](https://github.com/andrey1995): Andrey Georgiev 2133919g
+* [georgikoyrushki95](https://github.com/georgikoyrushki95): Georgi Koyrushki 2114429k
+* [katya1995](https://github.com/katya1995): Katya Bacheva 2145759b
 
 
 ## Acknowledgments
