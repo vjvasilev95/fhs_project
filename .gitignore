@@ -119,4 +119,4 @@ entry_index_page.html
 fhs/migrations/*
 !fhs/migrations/__init__.py
 
-fhs/media/profile_images/*
+media/profile_images/*
