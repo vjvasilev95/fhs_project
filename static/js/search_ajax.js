@@ -34,11 +34,22 @@ $(document).ready(function(){
             var title = info[1].value;
             var summary = info[2].value;
             var source = info[3].value;
+            //////////
+            // NEW STUFF
+            //////////
+            var flesh_score = info[4].value;
+            var subjectivity = info[5].value;
+            var polarity = info[6].value;
+//            console.log(flesh_score);
+//            console.log(subjectivity);
+//            console.log(polarity);
+//            alert("we get here");
             var category = $(this).siblings('.category-choice').find(":selected").text();
             var button = $(this);
 
 
             $.post('/fhs/save-page/', {'url': url, 'title': title, 'summary': summary,
+                    'flesh_score':flesh_score, 'subjectivity': subjectivity, 'polarity':polarity,
                     'category': category, 'source': source, csrfmiddlewaretoken: csrftoken},
                 function(data) {
 
@@ -47,12 +58,16 @@ $(document).ready(function(){
                         }
 
                     var response = $.parseJSON(JSON.stringify(data));
-
+                    //
                     if (response['response'] == "Existent page") {
                         button.after("<span class='save-msg-existent'>This page is already existent in category " + "<a class='save-msg-existent-url' href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
-                    } else if (response['response'] == "Problem while fetching the resource") {
-                        button.after("<span class='save-msg-error'>There was a problem while fetching the resource. We are sorry for the inconvenience.</span>");
-                    } else {
+                    }
+                    //////////////////
+                    //// This whole else is not needed anymore
+                    /////////////////
+//                    } else if (response['response'] == "Problem while fetching the resource") {
+//                        button.after("<span class='save-msg-error'>There was a problem while fetching the resource. We are sorry for the inconvenience.</span>");
+                    else {
                         button.after("<span class='save-msg-success'>Page is saved in category " + "<a href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
                     }
                 });
