@@ -24,4 +24,5 @@ urlpatterns = patterns('',
         url(r'^goto/$', views.track_category, name='goto'),
         url(r'^delete-page/$', views.delete_page, name="delete_page"),
         url(r'^delete-category/$', views.delete_category, name="delete_category"),
+        url(r'^update-category-state/$', views.update_category_state, name="update_category_state"),
         )

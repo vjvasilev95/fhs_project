@@ -20,6 +20,7 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+
 def delete_category(request):
     if request.is_ajax():
         category_name = request.POST['cat_name']
@@ -30,6 +31,7 @@ def delete_category(request):
         except:
             json_response={"response": "Failure"}
     return JsonResponse(json_response)
+
 
 def delete_page(request):
     if request.is_ajax():
@@ -63,7 +65,8 @@ def track_category(request):
                 pass
     return redirect(url)
 
-@login_required(login_url = '/fhs/login/')
+
+@login_required(login_url='/fhs/login/')
 def add_category(request):
 
     if request.is_ajax():
@@ -140,6 +143,7 @@ def category(request, category_name_slug):
     # Go render the response and return it to the client.
     return render(request, 'fhs/category.html', context_dict)
 
+
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
@@ -147,14 +151,16 @@ def user_logout(request):
     # Take the user back to the homepage.
     return HttpResponseRedirect('/fhs/')
 
+
 def index(request):
 
     if request.user.is_authenticated():
         public_categories = Category.objects.filter(shared=True)
-    else :
+    else:
         public_categories = Category.objects.filter(shared=True)[:5]
 
     return render(request, 'fhs/index.html', {'public_categories': public_categories})
+
 
 def register(request):
 
@@ -175,7 +181,7 @@ def register(request):
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
-            #c heck if email is in the database
+            # c heck if email is in the database
             email_to_be_checked = user.email
             # if no user has this email, the query will result in an error, then
             # the except statement will be executed, resulting in a successful registration
@@ -183,7 +189,7 @@ def register(request):
                 test_user = User.objects.get(email=email_to_be_checked)
                 email_in_db = True
             except User.DoesNotExist:
-                #save user and user_profile, and sign in the user with the non-hashed password
+                # save user and user_profile, and sign in the user with the non-hashed password
                 non_hashed_password = user.password
                 user.set_password(non_hashed_password)
                 user.save()
@@ -234,15 +240,16 @@ def user_login(request):
                 return HttpResponse("Your fhs account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
-            #print "Invalid login details: {0}, {1}".format(username, password)
-            #return HttpResponse("Invalid login details supplied.")
+            # print "Invalid login details: {0}, {1}".format(username, password)
+            # return HttpResponse("Invalid login details supplied.")
             return render(request, 'fhs/login.html', {"invalid": True, "name": name})
 
     else:
 
         return render(request, 'fhs/login.html', {"name": name})
 
-@login_required(login_url = '/fhs/login/')
+
+@login_required(login_url='/fhs/login/')
 def search(request):
 
     results_from_bing = []
@@ -252,7 +259,7 @@ def search(request):
     results_mashup = []
     categories = Category.objects.filter(user=request.user)
     public_categories = Category.objects.filter(shared=True)
-    #print public_categories
+
     query = None
     age = None
     gender = "male"
@@ -332,28 +339,30 @@ def save_page(request):
 def about(request):
     return render(request, 'fhs/about.html', {})
 
+
 def privacy(request):
     return render(request, 'fhs/privacy.html', {})
+
 
 def terms(request):
     return render(request, 'fhs/terms.html', {})
 
-@login_required(login_url = '/fhs/login/')
+
+@login_required(login_url='/fhs/login/')
 def profile(request, user):
     context_dict={}
-    #print user
     try:
         cat_list = get_category_list()
         user_can_edit=False
         userp = User.objects.get(username=user)
-        #print userp
+
         context_dict = {'cat_list': cat_list}
 
         try:
             up = UserProfile.objects.get(user=userp)
         except:
             up = None
-            #print up
+
         context_dict['user'] = userp
         context_dict['userprofile'] = up
 
@@ -376,11 +385,11 @@ def profile(request, user):
         context_dict['user_can_edit']=user_can_edit
         context_dict['categories']= categories
     except User.DoesNotExist:
-        #print "ttt"
         pass
     return render(request, 'fhs/profile.html', context_dict)
 
-@login_required(login_url = '/fhs/login/')
+
+@login_required(login_url='/fhs/login/')
 def editprofile(request):
     user = User.objects.get(username=request.user)
     if request.method == "POST":
@@ -421,6 +430,7 @@ def get_category_list(max_results=0, starts_with=''):
 
     return cat_list
 
+
 def suggest_category(request):
 
     cat_list = []
@@ -435,7 +445,8 @@ def suggest_category(request):
     else:
         return render(request, 'fhs/index_cats.html', {'cats': cat_list })
 
-@login_required(login_url = '/fhs/login/')
+
+@login_required(login_url='/fhs/login/')
 def change_password(request):
     form = PasswordReset(user=request.user)
 
@@ -455,3 +466,21 @@ def change_password(request):
         'form': form,
     })
 
+
+def update_category_state(request):
+    if request.is_ajax():
+        id = request.POST['id']
+        if request.POST['state'] == "true":
+            state = True
+        else :
+            state = False
+
+        try:
+            category = Category.objects.get(id=id)
+            category.shared = state
+            category.save()
+            return HttpResponse("Success")
+        except:
+            return HttpResponse("Error")
+
+    return HttpResponseRedirect("/fhs/")

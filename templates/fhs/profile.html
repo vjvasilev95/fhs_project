@@ -20,15 +20,15 @@
 
             </div>
         </div>
+
+        {% if user_can_edit %}
+
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12"></div>
-
-            {% if user_can_edit %}
-
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <a href="{% url 'add_category' %}" class="btn btn-default" >Add Category</a>
                 <a href="{% url 'editprofile' %}" class="btn btn-default pull-right" >Edit Profile</a>
+            </div>
         </div>
-
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -48,6 +48,15 @@
                                 <td class="category-sharer" valign="bottom" align="left">
                                     <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
+
+                                <td class="category-sharer text-center" valign="bottom" >
+                                    {% if category.shared %}
+                                        <strong>Shared: </strong><input type="checkbox" name="shared-checkbox" data-id="{{ category.id }}" checked>
+                                    {% else %}
+                                        <strong>Shared: </strong><input type="checkbox" name="shared-checkbox" data-id="{{ category.id }}">
+                                    {% endif %}
+                                </td>
+
                                 <td class="text-right" valign="bottom">
                                     <a href="{% url 'category' category.slug %}"> See more</a>
                                 </td>
@@ -60,9 +69,13 @@
                     </tbody>
                 </table>
                 {% paginate %}
-        </form>
+                </form>
+            </div>
+        </div>
     {% else %}
-        <table class="table" valign="baseline">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <table class="table" valign="baseline">
                 <tbody>
                         {% autopaginate categories 5 %}
                         {% for category in categories %}
@@ -88,6 +101,9 @@
 
 </div>
 
-    <script src="{% static "js/js.cookie.js" %}"></script>
-    <script src="{% static "js/delete_category.js" %}"></script>
+<script src="{% static "js/js.cookie.js" %}"></script>
+<script src="{% static "js/delete_category.js" %}"></script>
+<script src="{% static "js/profile.js" %}"></script>
+
+
 {% endblock %}
