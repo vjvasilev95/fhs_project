@@ -239,9 +239,7 @@ def user_login(request):
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your fhs account is disabled.")
         else:
-            # Bad login details were provided. So we can't log the user in.
-            # print "Invalid login details: {0}, {1}".format(username, password)
-            # return HttpResponse("Invalid login details supplied.")
+
             return render(request, 'fhs/login.html', {"invalid": True, "name": name})
 
     else:
@@ -298,7 +296,7 @@ def save_page(request):
         summary = request.POST['summary']
         category = Category.objects.get(name=request.POST['category'])
         source = request.POST['source']
-        #Checks if we already have the same page in the category
+        # Checks if we already have the same page in the category
         try:
             existent_page = Page.objects.filter(title=title, category=category)
         except:
@@ -306,21 +304,22 @@ def save_page(request):
 
         if not existent_page:
 
-            #Strips the page out of unnecessary html tags and content
+            # Strips the page out of unnecessary html tags and content
             try:
                 content = filter_content(source, url)
             except ValueError as e:
                 json_response = {"response": "Problem while fetching the resource"}
                 return JsonResponse(json_response)
 
-            #Calculates the flesh score, sentiment score and subjectivity score of the content
+            # Calculates the flesh score, sentiment score and subjectivity score of the content
             stats = calculate_stats(content)
 
-            #Creates a new page
-            page = Page(category = category, title = title, summary = summary, url = url, source = source,
-                    flesch_score = stats['flesh_score'], sentiment_score = stats['polarity'], subjectivity_score = stats['subjectivity'])
+            # Creates a new page
+            page = Page(category=category, title=title, summary=summary, url=url, source=source,
+                    flesch_score=stats['flesh_score'], sentiment_score=stats['polarity'],
+                    subjectivity_score=stats['subjectivity'])
 
-            #Saves it
+            # Saves it
             page.save()
 
             json_response = {"response": "Success", "category": category.slug}
@@ -368,22 +367,22 @@ def profile(request, user):
 
         if userp == User.objects.get(username=request.user):
             categories = Category.objects.filter(user=userp)
-            deleted=False
-            user_can_edit=True
+            deleted = False
+            user_can_edit = True
             if request.method == "POST":
                 some_var = request.POST.getlist('dependable')
 
                 for id in some_var:
                     try:
                         Category.objects.filter(id=id).delete()
-                        deleted=True
+                        deleted = True
                     except:
-                        deleted=False
-            context_dict['deleted']= deleted
+                        deleted = False
+            context_dict['deleted'] = deleted
         else:
-            categories = Category.objects.filter(user=userp,shared=True)
-        context_dict['user_can_edit']=user_can_edit
-        context_dict['categories']= categories
+            categories = Category.objects.filter(user=userp, shared=True)
+        context_dict['user_can_edit'] =user_can_edit
+        context_dict['categories'] = categories
     except User.DoesNotExist:
         pass
     return render(request, 'fhs/profile.html', context_dict)

@@ -69,89 +69,11 @@
                         </div>
                     </form>
                 </div>
-                <div class="panel search-content">
-                    {% if results_from_bing or results_from_healthgov or results_from_medline %}
 
-                        <ul class="nav nav-tabs">
-                          <li class="active"><a data-toggle="tab" href="#all">All Results</a></li>
-                          <li><a data-toggle="tab" href="#medline">Medline Plus</a></li>
-                          <li><a data-toggle="tab" href="#healthgov">Healthgov</a></li>
-                          <li><a data-toggle="tab" href="#bing">Bing</a></li>
-                        </ul>
+                {# Include the results part of the page #}
+                {% include "fhs/search_results.html" %}
 
-                        <div class="tab-content">
-                          <div id="all" class="tab-pane fade in active">
-                            <div class="panel-heading">
-                            <!-- Display search results in an ordered list -->
-                                <div class="panel-body">
-                                    <div class="list-group">
-                                        {% for result in results_mashup %}
-                                            {% include "fhs/search_forms.html" %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
 
-                          <div id="medline" class="tab-pane fade">
-                              <!--from here start results from Medline Plus-->
-                              <div class="panel-heading">
-                            <!-- Display search results in an ordered list -->
-                                <div class="panel-body">
-                                    <div class="list-group">
-                                        {% if results_from_medline %}
-                                        {% for result in results_from_medline %}
-                                            {% include "fhs/search_forms.html" %}
-                                        {% endfor %}
-                                        {% else %}
-                                            <strong>No results match your search.</strong>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                            <!--Till here results from Medline Plus-->
-                          <div id="healthgov" class="tab-pane fade">
-                              <!--from here start results from healthgov-->
-                              <div class="panel-heading">
-                            <!-- Display search results in an ordered list -->
-                                <div class="panel-body">
-                                    <div class="list-group">
-                                        {% if results_from_healthgov %}
-                                        {% for result in results_from_healthgov %}
-                                            {% include "fhs/search_forms.html" %}
-                                        {% endfor %}
-                                        {% else %}
-                                            <strong>No results match your search.</strong>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                              <!--Till here results from healthgov-->
-                          </div>
-                          <div id="bing" class="tab-pane fade">
-                              <!--from here start results from Bing-->
-                              <div class="panel-heading">
-                            <!-- Display search results in an ordered list -->
-                                <div class="panel-body">
-                                    <div alass="list-group">
-                                        {% if results_from_bing %}
-                                        {% for result in results_from_bing %}
-                                            {% include "fhs/search_forms.html" %}
-                                        {% endfor %}
-                                        {% else %}
-                                            <strong>No results match your search.</strong>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                              <!--Till here results from Bing-->
-                          </div>
-                        </div>
-                    {% elif query %}
-                        <strong>No results match your search.</strong>
-                    {% endif %}
-                </div>
             </div>
 
             <div class="col-sm-2 col-md-2 sidebar">
