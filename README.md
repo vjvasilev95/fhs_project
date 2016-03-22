@@ -1,11 +1,3 @@
-# fhs_project
-
-#mapping of usernames to student numbers
-vjvasilev95: Veselin Vasilev 2132561v
-andrey1995: Andrey Georgiev 2133919g
-georgikoyrushki95: Georgi Koyrushki 2114429k
-katya1995: Katya Bacheva 2145759b
-
 # Federated Health Search Application
 
 The Federated Health Search Application provides a secure and quick way for you to search for different conditions, medicines, symptoms and treatments. Users can search in the general web - Bing, and two specialised medical websites - Medline Plus and healthfinder.gov.
@@ -65,15 +57,14 @@ The technologies used for this project are as follows:
 
 
 ## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+[vjvasilev95](https://github.com/vjvasilev95): Veselin Vasilev 2132561v
+[andrey1995](https://github.com/andrey1995): Andrey Georgiev 2133919g
+[georgikoyrushki95](https://github.com/georgikoyrushki95): Georgi Koyrushki 2114429k
+[katya1995](https://github.com/katya1995): Katya Bacheva 2145759b
 
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* [Tango With Django Book](http://www.tangowithdjango.com/) This was the most invaluable resource which helped the team learn about the Django web development framework. A lot of our work was based on the tutorial provided in this book.
+
 
