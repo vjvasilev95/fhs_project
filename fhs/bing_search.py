@@ -36,7 +36,7 @@ def run_query(search_terms):
     # The username MUST be a blank string, and put in your API key!
     username = ''
 
-    print search_url
+    # print search_url
     # Create a 'password manager' which handles authentication for us.
     password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
     password_mgr.add_password(None, search_url, username, BING_API_KEY)
@@ -58,6 +58,7 @@ def run_query(search_terms):
         # Loop through each page returned, populating out results list.
 
         for result in json_response['d']['results']:
+
             stats = calculate_stats(result['Description'])
             results.append({
             'title': result['Title'],
@@ -72,8 +73,8 @@ def run_query(search_terms):
     except urllib2.URLError as e:
         print "Error when querying the Bing API: ", e
 
-    for result in results:
-        print result['polarity'], result['subjectivity'], result['flesh_score']
+    # for result in results:
+    #     print result['polarity'], result['subjectivity'], result['flesh_score']
     return results
 
 

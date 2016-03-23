@@ -128,8 +128,7 @@ def category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category).reverse()
-
+        pages = Page.objects.filter(category=category)[::-1]
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
         # We also add the category object from the database to the context dictionary.
