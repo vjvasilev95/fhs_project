@@ -1,6 +1,7 @@
 import json
 import urllib, urllib2
 import keys
+from save_page_helper import calculate_stats
 
 # Add your BING_API_KEY
 
@@ -55,18 +56,22 @@ def run_query(search_terms):
         # Convert the string response to a Python dictionary object.
         json_response = json.loads(response)
         # Loop through each page returned, populating out results list.
+
         for result in json_response['d']['results']:
+            stats = calculate_stats(result['Description'])
             results.append({
             'title': result['Title'],
             'url': result['Url'],
             'summary': result['Description'],
-            'source': "bing"})
+            'source': "bing",
+            'polarity':stats['polarity'],
+            'subjectivity':stats['subjectivity'],
+            'flesh_score':stats['flesh_score']})
 
     # Catch a URLError exception - something went wrong when connecting!
     except urllib2.URLError as e:
         print "Error when querying the Bing API: ", e
 
-    # Return the list of results to the calling function.
     return results
 
 
