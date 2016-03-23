@@ -169,6 +169,8 @@ def register(request):
     username_taken = False
     name = None
     email = None
+    age = None
+    gender = None
 
     if request.method == 'POST':
         user_data = request.POST
@@ -177,6 +179,10 @@ def register(request):
         profile_form = UserProfileForm(data=request.POST)
         name = user_data['username']
         email = user_data['email']
+        age = user_data['age']
+        print age
+        gender = user_data['gender']
+        print gender
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
@@ -218,7 +224,7 @@ def register(request):
     return render(request,
             'fhs/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered,
-             'email_in_db':email_in_db, 'username_taken':username_taken, "name": name, "email": email})
+             'email_in_db':email_in_db, 'username_taken':username_taken, "name": name, "email": email, "age": age, "gender": gender})
 
 
 def user_login(request):

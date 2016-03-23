@@ -43,6 +43,8 @@ class Page(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=6)
 
     def __unicode__(self):
         return self.user.username
