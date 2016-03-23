@@ -60,7 +60,8 @@ def track_category(request):
                 if category.user != user:
                     category.views += 1
                     category.save()
-                url = '/fhs/category/{}'.format(category.slug)
+                url = '/fhs/category/{}/{}/'.format(category.slug, cat_id)
+
             except:
                 pass
     return redirect(url)
@@ -115,7 +116,8 @@ def add_category(request):
     return render(request, "fhs/add_category.html", {})
 
 
-def category(request, category_name_slug):
+def category(request, category_name_slug, id):
+
     # Create a context dictionary which we can pass to the template rendering engine.
     context_dict = {}
 
@@ -123,12 +125,12 @@ def category(request, category_name_slug):
         # Can we find a category name slug with the given name?
         # If we can't, the .get() method raises a DoesNotExist exception.
         # So the .get() method returns one model instance or raises an exception.
-        category = Category.objects.get(slug=category_name_slug)
+        category = Category.objects.get(slug=category_name_slug, id=id)
         context_dict['category_name'] = category.name
 
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category).reverse()
+        pages = Page.objects.filter(category=category)[::-1]
 
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
@@ -287,6 +289,7 @@ def search(request):
 
     return render(request, 'fhs/search.html', context_dict)
 
+
 #Newly written save_page view, below it, commented, is the old one
 def save_page(request):
     if request.method == 'POST':
@@ -307,14 +310,6 @@ def save_page(request):
 
         if not existent_page:
 
-            ###################
-            ##
-            ##DELETED THE CHECK FOR WHETHER THE PAGE IS SUCCESSFULLY OPENED
-            ##AS WE ARE NOT OPENING IT ANYMORE
-            ##
-            ###################
-            # Creates a new page
-            # print "lalalalallala"
             page = Page(category=category, title=title, summary=summary, url=url, source=source,
                     flesch_score=flesh_score, sentiment_score=polarity,
                     subjectivity_score=subjectivity)
@@ -329,56 +324,9 @@ def save_page(request):
             json_response = {"response": "Existent page", "category": category.slug}
             return JsonResponse(json_response)
 
-
     else:
         # If the request was not a POST, display the form to enter details.
-        return HttpResponseRedirect('/fhs/')
-
-# def save_page(request):
-#     if request.method == 'POST':
-#
-#         url = request.POST['url']
-#         title = request.POST['title']
-#         summary = request.POST['summary']
-#         category = Category.objects.get(name=request.POST['category'])
-#         source = request.POST['source']
-#         # Checks if we already have the same page in the category
-#         try:
-#             existent_page = Page.objects.filter(title=title, category=category)
-#         except:
-#             existent_page = None
-#
-#         if not existent_page:
-#
-#             # Strips the page out of unnecessary html tags and content
-#             try:
-#                 content = filter_content(source, url)
-#             except ValueError as e:
-#                 json_response = {"response": "Problem while fetching the resource"}
-#                 return JsonResponse(json_response)
-#
-#             # Calculates the flesh score, sentiment score and subjectivity score of the content
-#             stats = calculate_stats(content)
-#
-#             # Creates a new page
-#             page = Page(category=category, title=title, summary=summary, url=url, source=source,
-#                     flesch_score=stats['flesh_score'], sentiment_score=stats['polarity'],
-#                     subjectivity_score=stats['subjectivity'])
-#
-#             # Saves it
-#             page.save()
-#
-#             json_response = {"response": "Success", "category": category.slug}
-#             return JsonResponse(json_response)
-#
-#         else:
-#             json_response = {"response": "Existent page", "category": category.slug}
-#             return JsonResponse(json_response)
-#
-#
-#     else:
-#         # If the request was not a POST, display the form to enter details.
-#         return HttpResponseRedirect('/fhs/')
+        return HttpResponseRedirect('/fhs/search/')
 
 
 def about(request):
