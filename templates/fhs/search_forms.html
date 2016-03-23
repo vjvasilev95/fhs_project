@@ -1,12 +1,18 @@
 <div class="list-group-item">
     <h4 class="list-group-item-heading"><a href="{{ result.url }}">{{ result.title }}</a></h4>
     <p class="list-group-item-text">{{ result.summary }}</p>
+    <span>Readibility Score: </span> {{ result.flesh_score }}
+    <span>Subjectivity: </span> {{ result.subjectivity }}
+    <span>Polarity: </span> {{ result.polarity }}
     <form class="save_page_form" method="post" action="{% url 'save_page' %}">
         {% csrf_token %}
         <input type="hidden" class="hidden-info" value="{{ result.url }}" name="url"/>
         <input type="hidden" class="hidden-info" value="{{ result.title }}" name="title"/>
         <input type="hidden" class="hidden-info" value="{{ result.summary }}" name="summary"/>
         <input type="hidden" class="hidden-info" value="{{ result.source }}" name="source"/>
+        <input type="hidden" class="hidden-info" value="{{ result.flesh_score }}" name="flesh_score"/>
+        <input type="hidden" class="hidden-info" value="{{ result.subjectivity }}" name="subjectivity"/>
+        <input type="hidden" class="hidden-info" value="{{ result.polarity }}" name="polarity"/>
         {% if categories %}
             <select name="category" class="category-choice" required>
 
