@@ -58,6 +58,7 @@ def run_query(search_terms):
         # Loop through each page returned, populating out results list.
 
         for result in json_response['d']['results']:
+
             stats = calculate_stats(result['Description'])
             results.append({
             'title': result['Title'],

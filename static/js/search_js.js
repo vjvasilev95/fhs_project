@@ -40,10 +40,7 @@ $(document).ready(function(){
             var flesh_score = info[4].value;
             var subjectivity = info[5].value;
             var polarity = info[6].value;
-//            console.log(flesh_score);
-//            console.log(subjectivity);
-//            console.log(polarity);
-//            alert("we get here");
+
             var category = $(this).siblings('.category-choice').find(":selected").text();
             var button = $(this);
 
@@ -181,3 +178,6 @@ $( document ).ajaxStart(function() {
 $( document ).ajaxStop(function() {
     $('.fa-spinner').addClass('hidden');
 });
+
+
+
