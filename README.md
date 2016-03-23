@@ -17,10 +17,11 @@ For your Python environment,  use the ```requirements.txt``` file to install the
 
 List of application specific requirements:
 ```
-pip install django-pagination-bootstrap
-pip install Pillow
-pip install textblob
-pip install textstat
+beautifulsoup4
+django-pagination-bootstrap
+Pillow
+textblob
+textstat
 ```
 
 ## Running the population scripts
