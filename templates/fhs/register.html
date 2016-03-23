@@ -57,6 +57,28 @@
                             <div class="form-group">
                                 <input class="register-input" id="id_password" required name="password" maxlength="50" placeholder="Password" type="password">
                             </div>
+                            {% if age %}
+                            <div class="form-group">
+                                <input class="register-input" id="id_age" value="{{ age }}" maxlength="3" name="age" required placeholder="Age" type="text" />
+                            </div>
+                            {% else %}
+                            <div class="form-group">
+                                <input class="register-input" id="id_age" maxlength="3" name="age" required placeholder="Age" type="text" />
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                            <label for="gender">Your gender</label>
+                            <select name="gender" class="page-choice" required>
+                                <option value="">Select Gender</option>
+                                {% if gender == "male" %}
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                {% else %}
+                                    <option value="male">Male</option>
+                                    <option value="female" selected>Female</option>
+                                {% endif %}
+                            </select>
+                            </div>
                             <div class="form-group">
                                 <label id="pic-label" for="uploadFile">Profile Picture</label>
                                 <input id="uploadFile" placeholder="Choose File" disabled="disabled" />

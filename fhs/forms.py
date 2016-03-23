@@ -9,15 +9,17 @@ class CategoryForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    age = forms.IntegerField(help_text="Enter your age")
+    gender = forms.CharField()
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password', 'age', 'gender')
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('picture',)
+        fields = ('picture', 'age', 'gender')
 
 class PageForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the page.")

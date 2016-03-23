@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% url "" as url %}
 {% load pagination_tags %}
 
 {% block title %}Profile{% endblock %}
@@ -58,7 +58,7 @@
                                 </td>
 
                                 <td class="text-right" valign="bottom">
-                                    <a href="{% url 'category' category.slug %}"> See more</a>
+                                    <a href="/fhs/goto/?cat_id={{ category.id }}">See more</a>
                                 </td>
                                 <td class="text-right">
                                     <button type="submit" id="del" class="btn btn-danger btn-deletenumb delete-btn "><span class="glyphicon glyphicon-trash"></span></button>
@@ -86,7 +86,7 @@
                                 <td class="category-sharer" valign="bottom" align="left">
                                     <p class="cat-descr"><strong>Description: </strong>{{ category.description }}</p>
                                 </td>
-                                <td class="text-right" valign="bottom">
+                                <td class="text-right" valign="left">
                                     <a href="{% url 'goto' %}?cat_id={{ category.id }}"> See more</a>
                                 </td>
                                 </tr>

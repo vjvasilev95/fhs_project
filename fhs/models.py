@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(unique=True, max_length=200)
+    name = models.CharField(max_length=200)
     user = models.ForeignKey(User)
     description = models.CharField(max_length=500, null=True)
     shared = models.BooleanField(default=False)
@@ -19,8 +19,8 @@ class Category(models.Model):
             self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
 
-    def clean(self):
-        self.name = self.name.capitalize()
+    # def clean(self):
+    #     self.name = self.name.capitalize()
 
     def __unicode__(self):
         return self.name
@@ -43,6 +43,8 @@ class Page(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=6)
 
     def __unicode__(self):
         return self.user.username

@@ -39,7 +39,18 @@
                                  <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" required />
                             </div>
                         {% endif %}
-
+                         <div class="form-group">
+                            <label for="searching">Searching for someone else?</label>
+                            <select name="searching" class="page-choice" required>
+                                {% if searching == "no" %}
+                                    <option value="no" selected >No</option>
+                                    <option value="yes">Yes</option>
+                                {% else %}
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                {% endif %}
+                            </select>
+                            </div>
                         {% if age %}
                             <div class="form-group">
                              <label for="age">Your age</label>
