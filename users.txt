@@ -1,3 +1,4 @@
-jil
-bob
-jen
+jil female
+bob male
+jen female
+
