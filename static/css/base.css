@@ -110,3 +110,25 @@
 blockquote {
     font-size: 16px;
 }
+
+#info-search {
+    background-color: #337ab7;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+#info-search p {
+    margin-left: 5px;
+    color: white;
+
+}
+
+#info-trigger {
+    cursor: pointer;
+    color: #337ab7;
+    margin-left: 5px;
+}
+
+#search-data {
+    display: block;
+}

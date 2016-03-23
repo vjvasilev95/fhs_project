@@ -74,16 +74,16 @@ def add_category(request):
         name = request.POST['name'].strip()
         description = request.POST['description']
         shared = request.POST['shared']
-        if (shared == "false"):
+        if shared == "false":
             shared = False
         else:
             shared = True
 
-        existent_category = Category.objects.filter(name = name)
+        existent_category = Category.objects.filter(name=name)
 
         if not existent_category:
             # Create a new category
-            category = Category(user = request.user, name=name, description=description, shared=shared)
+            category = Category(user=request.user, name=name, description=description, shared=shared)
 
             # Saves it
             category.save()
@@ -131,10 +131,7 @@ def category(request, category_name_slug, id):
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
         pages = Page.objects.filter(category=category)[::-1]
-<<<<<<< HEAD
-=======
 
->>>>>>> 4fa8d9343280699864b3e4539d28324de3ad3d0a
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
         # We also add the category object from the database to the context dictionary.
@@ -185,9 +182,9 @@ def register(request):
         name = user_data['username']
         email = user_data['email']
         age = user_data['age']
-        print age
+
         gender = user_data['gender']
-        print gender
+
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
@@ -273,10 +270,20 @@ def search(request):
     age = None
     gender = "male"
 
+    display = True
+
     if request.method == 'POST':
+        checked_box = request.POST.get('search-target', None)
         query = request.POST['query'].strip()
-        age = request.POST['age']
-        gender = request.POST['gender']
+        # search for me
+        if checked_box == "on":
+            age = UserProfile.objects.get(user = request.user).age
+            gender = UserProfile.objects.get(user = request.user).gender
+            display=True
+        else:
+            age = request.POST['age']
+            gender = request.POST['gender']
+            display=False
 
         if query and age and gender:
             # Run our Bing function to get the results list!
@@ -285,7 +292,6 @@ def search(request):
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
-
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -295,11 +301,12 @@ def search(request):
     context_dict['categories'] = categories
     context_dict['public_categories'] = public_categories
     context_dict['results_mashup'] = results_mashup
+    context_dict['display'] = display
 
     return render(request, 'fhs/search.html', context_dict)
 
 
-#Newly written save_page view, below it, commented, is the old one
+# Newly written save_page view, below it, commented, is the old one
 def save_page(request):
     if request.method == 'POST':
 

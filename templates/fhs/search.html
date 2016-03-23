@@ -39,42 +39,60 @@
                                  <input class="form-control" type="text" name="query" placeholder="I am looking for..." id="query" required />
                             </div>
                         {% endif %}
-                         <div class="form-group">
-                            <label for="searching">Searching for someone else?</label>
-                            <select name="searching" class="page-choice" required>
-                                {% if searching == "no" %}
-                                    <option value="no" selected >No</option>
-                                    <option value="yes">Yes</option>
-                                {% else %}
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
-                                {% endif %}
-                            </select>
-                            </div>
-                        {% if age %}
-                            <div class="form-group">
-                             <label for="age">Your age</label>
-                             <input class="form-control" type="text" name="age" value="{{ age }}" id="age" required />
-                            </div>
-                        {% else %}
-                            <div class="form-group">
-                             <label for="age">Your age</label>
-                             <input class="form-control" type="text" name="age" id="age" required />
-                            </div>
-                        {% endif %}
-
-                        <div class="form-group">
-                            <label for="gender">Your gender</label>
-                            <select name="gender" class="page-choice" required>
-                                {% if gender == "male" %}
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                {% else %}
-                                    <option value="male">Male</option>
-                                    <option value="female" selected>Female</option>
-                                {% endif %}
-                            </select>
+                        <div id="info-search" hidden>
+                            <p>The engine will currently use your provided data for this search.</p>
+                            <p>If you want, you can specify other age and gender for your search.</p>
                         </div>
+                         <div class="form-group">
+
+                             <label for="search-data">Search for me?</label><span id="info-trigger">What does that mean?</span>
+                                <br />
+                             {% if display %}
+                                <input id="search-data" type="checkbox" name="search-target" checked/>
+                         </div>
+                                <div id="search-form-info" hidden>
+                                    <div class="form-group">
+                                     <label for="age">Age</label>
+                                     <input class="form-control" type="number" name="age" id="age" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select id="gender" name="gender" class="page-choice" required>
+                                            {% if gender == "male" %}
+                                                <option value="male" selected>Male</option>
+                                                <option value="female">Female</option>
+                                            {% else %}
+                                                <option value="male">Male</option>
+                                                <option value="female" selected>Female</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                 {% else %}
+                                    <input id="search-data"  type="checkbox" name="search-target" />
+                        </div>
+                                     <div id="search-form-info">
+                                          <div class="form-group">
+                                               <label for="age">Age</label>
+                                               <input class="form-control" type="text" name="age" value="{{ age }}" id="age" />
+                                          </div>
+
+                                          <div class="form-group">
+                                              <label for="gender">Gender</label>
+                                              <select id="gender" name="gender" class="page-choice">
+                                                  {% if gender == "male" %}
+                                                      <option value="male" selected>Male</option>
+                                                      <option value="female">Female</option>
+                                                  {% else %}
+                                                      <option value="male">Male</option>
+                                                      <option value="female" selected>Female</option>
+                                                  {% endif %}
+                                              </select>
+                                          </div>
+                                     </div>
+                                 {% endif %}
+
                         <div class="form-group">
                             <input class="btn btn-primary" type="submit" name="submit" value="Search" />
                         </div>
@@ -112,8 +130,8 @@
             </div>
         </div>
     </div>
-
-    <script src="{% static "js/search_ajax.js" %}"></script>
+    <script src="{% static "js/search_target.js" %}"></script>
+    <script src="{% static "js/search_js.js" %}"></script>
     <script src="{% static "js/js.cookie.js" %}"></script>
     <script src="{% static "js/category.js" %}"></script>
 {% endblock %}
