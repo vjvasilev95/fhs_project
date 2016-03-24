@@ -23,9 +23,10 @@ from django.shortcuts import redirect
 
 def delete_category(request):
     if request.is_ajax():
-        category_name = request.POST['cat_name']
+        category_id = request.POST['cat_id']
         try:
-            theCategory=Category.objects.get(name=category_name)
+            print "do we get here"
+            theCategory=Category.objects.get(id = category_id)
             theCategory.delete()
             json_response={ "response": "Success"}
         except:
@@ -384,9 +385,11 @@ def profile(request, user):
 
                 for id in some_var:
                     try:
-                        Category.objects.filter(id=id).delete()
+                        Category.objects.get(id=id).delete()
                         deleted = True
+                        print "hello"
                     except:
+                        print "here?"
                         deleted = False
             context_dict['deleted'] = deleted
         else:
