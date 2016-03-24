@@ -42,7 +42,7 @@
                                     <p class="category-name"><strong>{{ category.name }}</strong></p>
                                     <form id="delete-category-form" method="post" action="{% url 'delete_category' %}">
                                            {% csrf_token %}
-                                           <input class="cat-info" type="hidden" value="{{ category.name }}" name="category-title" />
+                                           <input class="cat-info" type="hidden" value="{{ category.id }}" name="category-title" />
                                     </form>
                                 </td>
                                 <td class="category-sharer" valign="bottom" align="left">

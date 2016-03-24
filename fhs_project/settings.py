@@ -25,7 +25,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-#ALLOWED_HOSTS = ['vjvasilev95.pythonanywhere.com']
+# ALLOWED_HOSTS = ['vjvasilev95.pythonanywhere.com']
+
+
 
 
 # Application definition

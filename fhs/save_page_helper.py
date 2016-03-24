@@ -2,7 +2,10 @@
 
 from textstat.textstat import textstat
 from textblob import TextBlob
-
+from bs4 import BeautifulSoup
+import urllib
+import urllib2
+import html_parser
 
 def calculate_stats(content):
 
