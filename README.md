@@ -45,7 +45,7 @@ This will create some categories, put some random pages in them, and assign them
 After the feedback received from the presentation, the following changes were added to the project:
 * The ability to change the category's shared state after its creation
 * The need to add your age and gender when registering
-* The option choose whether the engine will search using the user's data (gender and age), or another data, specified by the user
+* The option to choose whether the engine will search using the user's data (gender and age), or another data, specified by the user
 * Dynamically calculating all the pages' scores while fetching the results from the search.
 * The ability to create categories with the same name (added after Dr. Azzopardi's feedback on the matter)
 
@@ -60,6 +60,8 @@ The technologies used for this project are as follows:
 * Bootstrap Sticky Footer - used to style the footer of the website. [Source](http://getbootstrap.com/examples/sticky-footer/)
 * Google Autocomplete "API" - undocumented API used to provide suggestions to the user while they are typing their search query. To implement it, [this](http://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/) tutorial was followed.
 * Textstat and textblob - the two Python packages used to calculate the readability, polarity (sentiment) and subjectivity of the page.
+* Beutifulsoup - used to parse html documents.
+* django-pagination-bootstrap - used to paginate the category, profile and index pages.
 
 
 ## Authors
