@@ -29,25 +29,25 @@ $(document).ready(function(){
         if (!$(this).siblings('.category-choice').hasClass("no-cats")) {
             var csrftoken = Cookies.get('csrftoken');
 
+
             var info = $(this).siblings('.hidden-info');
             var url = info[0].value;
             var title = info[1].value;
             var summary = info[2].value;
             var source = info[3].value;
-            //////////
-            // NEW STUFF
-            //////////
+
             var flesh_score = info[4].value;
             var subjectivity = info[5].value;
             var polarity = info[6].value;
 
             var category = $(this).siblings('.category-choice').find(":selected").text();
+            var id = $(this).siblings('.category-choice').find(":selected").data('id');
             var button = $(this);
 
 
             $.post('/fhs/save-page/', {'url': url, 'title': title, 'summary': summary,
                     'flesh_score':flesh_score, 'subjectivity': subjectivity, 'polarity':polarity,
-                    'category': category, 'source': source, csrfmiddlewaretoken: csrftoken},
+                    'category': category, 'id': id, 'source': source, csrfmiddlewaretoken: csrftoken},
                 function(data) {
 
                     if (!button.next().hasClass('fa')){
@@ -55,17 +55,12 @@ $(document).ready(function(){
                         }
 
                     var response = $.parseJSON(JSON.stringify(data));
-                    //
+
                     if (response['response'] == "Existent page") {
-                        button.after("<span class='save-msg-existent'>This page is already existent in category " + "<a class='save-msg-existent-url' href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
+                        button.after("<span class='save-msg-existent'>This page is already existent in category " + "<a class='save-msg-existent-url' href='/fhs/goto?cat_id="+response['category_id']+"'>" + category +"</a>" + "</span>");
                     }
-                    //////////////////
-                    //// This whole else is not needed anymore
-                    /////////////////
-//                    } else if (response['response'] == "Problem while fetching the resource") {
-//                        button.after("<span class='save-msg-error'>There was a problem while fetching the resource. We are sorry for the inconvenience.</span>");
                     else {
-                        button.after("<span class='save-msg-success'>Page is saved in category " + "<a href='/fhs/category/"+response['category']+"'>" + category +"</a>" + "</span>");
+                        button.after("<span class='save-msg-success'>Page is saved in category " + "<a href='/fhs/goto?cat_id="+response['category_id']+"'>" + category +"</a>" + "</span>");
                     }
                 });
         } else {
@@ -108,12 +103,12 @@ $(document).ready(function(){
                         button.next().remove();
 
                         // Append the success message
-                        save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/category/"+response['category']+"'>" + name +"</a>" + " successfully created.</span");
+                        save_btn.after("<span class='save-msg-success'>Category " + "<a href='/fhs/goto?cat_id="+response['category_id']+"'>" + name +"</a>" + " successfully created.</span");
 
                         // Update the list of options
                         var select_tag_chosen = wrapper.siblings('.save_page_form').children('.category-choice');
                         var select_tag = $('.category-choice');
-                        select_tag.append($("<option></option>").val(name).text(name));
+                        select_tag.append($("<option data-id="+response['category_id']+"></option>").val(name).text(name));
                         select_tag_chosen.val(name);
                         $('.no-cats').show();
 
@@ -124,7 +119,7 @@ $(document).ready(function(){
 
                         $('.add_category').trigger("reset");
                     } else {
-                        button.after("<span class='save-msg-error'>A category with that name already exists.</span");
+                        button.after("<span class='save-msg-error'>There was an error while creating this category</span>");
                     }
 
                 });

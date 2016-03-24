@@ -35,7 +35,7 @@
                                         <form id="delete-page-form" method="post" action="{% url 'delete_page' %}">
                                            {% csrf_token %}
                                             <input class="page-info" type="hidden" value="{{ page.title }}"/>
-                                           <input class="cat-info" type="hidden" value="{{ category_name }}" name="category-title" />
+                                           <input class="cat-info" type="hidden" value="{{ category.id }}" name="category-title" />
                                         </form>
                                     </td>
                                     <td>

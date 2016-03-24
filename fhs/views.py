@@ -35,10 +35,10 @@ def delete_category(request):
 
 def delete_page(request):
     if request.is_ajax():
-        category_name = request.POST['cat_name']
+        category_id = request.POST['cat_id']
         page_title = request.POST['page_title']
         try:
-            theCategory = Category.objects.get(name=category_name)
+            theCategory = Category.objects.get(id=category_id)
             thePage = Page.objects.filter(title=page_title, category=theCategory)[0]
             thePage.delete()
             pages_count = len(Page.objects.filter(category=theCategory))
@@ -74,25 +74,23 @@ def add_category(request):
         name = request.POST['name'].strip()
         description = request.POST['description']
         shared = request.POST['shared']
+
         if shared == "false":
             shared = False
         else:
             shared = True
 
-        existent_category = Category.objects.filter(name=name)
+        category = Category(user=request.user, name=name, description=description, shared=shared)
 
-        if not existent_category:
-            # Create a new category
-            category = Category(user=request.user, name=name, description=description, shared=shared)
+        # Saves it
+        category.save()
 
-            # Saves it
-            category.save()
+        id = category.id
 
-            category_url = Category.objects.get(name = name).slug
+        category_url = Category.objects.get(id=id).slug
 
-            return JsonResponse({"response":"Success", "category": category_url })
-        else:
-            return JsonResponse({"response": "Existent category"})
+        return JsonResponse({"response":"Success", "category": category_url, "category_id": id })
+
 
     if request.method == "POST":
         category_data = request.POST
@@ -309,11 +307,14 @@ def search(request):
 # Newly written save_page view, below it, commented, is the old one
 def save_page(request):
     if request.method == 'POST':
-
+        print request.POST
         url = request.POST['url']
         title = request.POST['title']
         summary = request.POST['summary']
-        category = Category.objects.get(name=request.POST['category'])
+        id = request.POST['id']
+        print id
+        category = Category.objects.get(id=id)
+        print category
         source = request.POST['source']
         flesh_score = request.POST['flesh_score']
         polarity = request.POST['polarity']
@@ -333,11 +334,11 @@ def save_page(request):
             # Saves it
             page.save()
 
-            json_response = {"response": "Success", "category": category.slug}
+            json_response = {"response": "Success", "category_id": category.id, 'category': category.slug}
             return JsonResponse(json_response)
 
         else:
-            json_response = {"response": "Existent page", "category": category.slug}
+            json_response = {"response": "Existent page", "category": category.slug, "category_id": category.id}
             return JsonResponse(json_response)
 
     else:

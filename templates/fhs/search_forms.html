@@ -17,7 +17,7 @@
             <select name="category" class="category-choice" required>
 
                 {% for category in categories %}
-                    <option value={{ category.name }}>{{ category.name }}</option>
+                    <option data-id="{{ category.id }}" value={{ category.name }}>{{ category.name }}</option>
                 {% endfor %}
                     <option value="new-cat">Create a new category</option>
             </select>
