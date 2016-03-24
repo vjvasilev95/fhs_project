@@ -8,7 +8,6 @@ $(document).ready(function(){
         var theColumn = $(this).parent();
         var page_title = theColumn.siblings().find('.page-info').attr('value');
         var cat_id = theColumn.siblings().find('.cat-info').attr('value');
-        console.log(cat_id);
         var csrftoken = Cookies.get('csrftoken')
 
         $.post('/fhs/delete-page/', {'cat_id': cat_id, 'page_title': page_title, csrfmiddlewaretoken: csrftoken},

@@ -25,7 +25,6 @@ def delete_category(request):
     if request.is_ajax():
         category_id = request.POST['cat_id']
         try:
-            print "do we get here"
             theCategory=Category.objects.get(id = category_id)
             theCategory.delete()
             json_response={ "response": "Success"}
@@ -268,7 +267,6 @@ def search(request):
     query = None
     age = None
     gender = "male"
-
     display = True
 
     if request.method == 'POST':
@@ -291,6 +289,7 @@ def search(request):
             results_from_healthgov = healthfinder_search.run_query(query, age, gender)
             results_from_medline = medlinePlus.run_query(query)
             results_mashup = merge_by_relevance.merge(results_from_bing, results_from_medline, results_from_healthgov)
+
     context_dict['query'] = query
     context_dict['age'] = age
     context_dict['gender'] = gender
@@ -308,14 +307,11 @@ def search(request):
 # Newly written save_page view, below it, commented, is the old one
 def save_page(request):
     if request.method == 'POST':
-        print request.POST
         url = request.POST['url']
         title = request.POST['title']
         summary = request.POST['summary']
         id = request.POST['id']
-        print id
         category = Category.objects.get(id=id)
-        print category
         source = request.POST['source']
         flesh_score = request.POST['flesh_score']
         polarity = request.POST['polarity']
@@ -388,14 +384,12 @@ def profile(request, user):
                     try:
                         Category.objects.get(id=id).delete()
                         deleted = True
-                        print "hello"
                     except:
-                        print "here?"
                         deleted = False
             context_dict['deleted'] = deleted
         else:
             categories = Category.objects.filter(user=userp, shared=True)
-        context_dict['user_can_edit'] =user_can_edit
+        context_dict['user_can_edit'] = user_can_edit
         context_dict['categories'] = categories
     except User.DoesNotExist:
         pass
