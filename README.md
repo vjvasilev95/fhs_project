@@ -26,10 +26,14 @@ textstat
 
 ## Running the population scripts
 First, setup Database
+```
 python manage.py migrate
+```
 
 Whenever you make changes to the models, then you need to register them:
+```
 python manage.py makemigrations rango
+```
 
 When initially populating the database, first run
 ```
