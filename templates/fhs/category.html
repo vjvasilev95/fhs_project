@@ -24,7 +24,7 @@
                                     {% for page in pages %}
                                     <tr>
                                     <td class="text-left page-info" valign="bottom">
-                                        <a href="{{ page.url }}">{{ page.title }}</a>
+                                        <a href="{{ page.url }}" target="_blank">{{ page.title }}</a>
                                         {% if page.source == "bing" %}
                                         <p>Source: Bing</p>
                                         {% elif page.source == "medline" %}
